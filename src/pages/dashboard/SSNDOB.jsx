@@ -36,6 +36,13 @@ function SSNDOB() {
   const [country1, setCountry1] = useState("");
   const [cs, setCs] = useState("");
   const [name, setName] = useState("");
+  const [status, setStatus] = useState("");
+
+  const statusOptions = [
+    { label: "Enrolled", value: "Enrolled" },
+    { label: "Graduated", value: "Graduated" },
+    { label: "Withdrawn", value: "Withdrawn" },
+  ];
 
   // Slider State
   const [minValue, set_minValue] = useState(1910);
@@ -46,7 +53,7 @@ function SSNDOB() {
     return axios.get(
       `/ssn?page=${activePage}&perPage=${perPage}&base=${
         base?.id || ""
-      }&city=${city}&zip=${zip}&country=${country1}&dob=${minValue}&dobMax=${maxValue}&cs=${cs}&name=${name}&state=${state}`
+      }&city=${city}&zip=${zip}&country=${country1}&dob=${minValue}&dobMax=${maxValue}&cs=${cs}&name=${name}&state=${state}&fStatus=${status}`
     );
   };
 
@@ -77,8 +84,9 @@ function SSNDOB() {
     minValue,
     maxValue,
     name,
-    refetch,
+    status,
   ]);
+
 
   const getBases = () => axios.get(`/base`);
   const { data: basesData } = useQuery(["bases-"], getBases, {
@@ -173,6 +181,7 @@ function SSNDOB() {
     setName("");
     set_minValue(1910);
     set_maxValue(currentYear);
+    setStatus("");
   };
 
   const darkSelectStyles = {
@@ -223,6 +232,18 @@ function SSNDOB() {
                   value={base && { label: base.base, value: base }}
                   onChange={(opt) => setBase(opt?.value)}
                   placeholder="Select Base..."
+                />
+              </div>
+
+              {/* Status options filter */}
+              <div className="space-y-1">
+                <label className="text-xs text-slate-400">Status</label>
+                <Select
+                  options={statusOptions}
+                  value={status && { label: status, value: status }}
+                  onChange={(opt) => setStatus(opt?.value)}
+                  placeholder="Select Status..."
+                  styles={darkSelectStyles}
                 />
               </div>
 
