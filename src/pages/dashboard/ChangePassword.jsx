@@ -11,13 +11,13 @@ import PulseLoader from "react-spinners/PulseLoader";
 import { FaShieldAlt } from "react-icons/fa";
 
 function ChangePassword() {
+  // State for toggling password visibility
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
 
   const axios = useAxiosPrivate();
   const { auth } = useAuth();
 
-  // --- Logic remains unchanged ---
   const validationSchema = Yup.object().shape({
     password: Yup.string()
       .required("Password is required")
@@ -26,21 +26,35 @@ function ChangePassword() {
       .required("Confirm Password is required")
       .oneOf([Yup.ref("password")], "Passwords must match"),
   });
-  const formOptions = { resolver: yupResolver(validationSchema) };
+
+  // 1. ADDED: defaultValues ensures reset() knows exactly what to clear to
+  const formOptions = { 
+    resolver: yupResolver(validationSchema),
+    defaultValues: {
+      password: "",
+      confirmPassword: ""
+    }
+  };
 
   const { register, handleSubmit, reset, formState } = useForm(formOptions);
   const { errors } = formState;
 
   const changePassword = (data) => {
-    return axios.patch(`/users/${auth?.userId}`, data);
+    return axios.post(`/auth/change-password`, data);
   };
 
   const { mutate: changePassMutate, isLoading: loadingChangePass } =
     useMutation(changePassword, {
       onSuccess: (response) => {
+        // 2. LOGIC: This clears the input fields
+        reset(); 
+        
+        // 3. UX IMPROVEMENT: Reset the "show password" toggles back to hidden
+        setShowPassword(false);
+        setShowConfirmPassword(false);
+
         const text = response?.data?.message;
         toast.success(text);
-        reset();
       },
       onError: (err) => {
         const text = err?.response?.data?.message || "Something went wrong";
@@ -55,7 +69,6 @@ function ChangePassword() {
   return (
     <div className="min-h-[80vh] bg-slate-900 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        {/* Main Card */}
         <div className="bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl overflow-hidden">
           {/* Header */}
           <div className="bg-slate-950/50 px-8 py-8 border-b border-slate-700 text-center">
@@ -85,7 +98,6 @@ function ChangePassword() {
                   <input
                     type={showPassword ? "text" : "password"}
                     {...register("password")}
-                    name="password"
                     autoComplete="off"
                     placeholder="Enter new password"
                     className="w-full bg-slate-950 text-white pl-11 pr-12 py-3.5 rounded-xl border border-slate-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all placeholder-slate-600"
