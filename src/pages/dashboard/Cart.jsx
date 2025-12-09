@@ -1,5 +1,12 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useDisclosure } from "@mantine/hooks";
+import { Modal, Button, Text, Group } from "@mantine/core";
+import { toast } from "react-toastify";
+import PulseLoader from "react-spinners/PulseLoader";
+
+// Icons
 import { CgShoppingCart } from "react-icons/cg";
 import {
   FaTrashAlt,
@@ -8,194 +15,122 @@ import {
   FaArrowRight,
   FaExclamationTriangle,
 } from "react-icons/fa";
-import PulseLoader from "react-spinners/PulseLoader";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+
+// Hooks
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import useAuth from "../../hooks/useAuth";
-import { confirmAlert } from "react-confirm-alert";
-import "react-confirm-alert/src/react-confirm-alert.css";
-import { toast } from "react-toastify";
 
 function Cart() {
   const axiosPrivate = useAxiosPrivate();
   const { auth } = useAuth();
   const navigate = useNavigate();
-  const [productId, setDeleteId] = useState("");
   const queryClient = useQueryClient();
 
-  const productMap = {
-    gVoice: "Google Voice",
-    mail: "TextNow/Mail",
-    file: "Files / Logs",
-    dump: "Card Dumps",
-    card: "Credit Card",
-    account: "Account",
-    ssn: "Fullz / SSN",
-  };
+  // --- Modal State Management ---
+  // 1. Delete Single Item
+  const [deleteOpened, { open: openDelete, close: closeDelete }] =
+    useDisclosure(false);
+  const [itemToDelete, setItemToDelete] = useState(null);
 
-  // --- Data Fetching ---
-  const { isLoading: loadingCart, data: cartData } = useQuery(
-    [`shoppingCart-${auth?.userId}`],
-    async () => {
-      const { data } = await axiosPrivate.get(`/cart/${auth?.userId}`);
-      return data;
-    },
-    {
-      keepPreviousData: true,
-      refetchInterval: 5000,
-    }
-  );
+  // 2. Clear All Items
+  const [clearOpened, { open: openClear, close: closeClear }] =
+    useDisclosure(false);
 
-  const totalItems = cartData?.cart?.length || 0;
-  const totalPrice =
-    cartData?.cart?.reduce((acc, curr) => acc + parseFloat(curr.price), 0) || 0;
+  // 3. Checkout
+  const [checkoutOpened, { open: openCheckout, close: closeCheckout }] =
+    useDisclosure(false);
 
+  // --- Helpers ---
   const formatCurrency = (number) => {
     return Number.parseFloat(number)
       .toFixed(2)
       .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
-  // --- Delete Single Item ---
-  const { isLoading: isDeleting, mutate: deleteProductMutate } = useMutation(
-    () => axiosPrivate.delete(`/cart/${auth?.userId}/product/${productId}`),
+  // --- 1. Fetch Cart Data ---
+  const { isLoading: loadingCart, data: cartData } = useQuery(
+    [`shoppingCart-${auth?.userId}`],
+    async () => {
+      const { data } = await axiosPrivate.get(`/cart`);
+      return data;
+    },
     {
-      onSuccess: (res) => {
-        toast.success(res?.data.message || "Item removed");
-        queryClient.invalidateQueries([`shoppingCart-${auth?.userId}`]);
-      },
-      onError: (err) =>
-        toast.error(err?.response?.data?.message || "Failed to remove item"),
+      keepPreviousData: true,
+      refetchOnWindowFocus: true,
     }
   );
 
-  const confirmDelete = (id) => {
-    setDeleteId(id);
-    confirmAlert({
-      customUI: ({ onClose }) => (
-        <div className="bg-slate-800 border border-slate-700 p-6 rounded-xl shadow-2xl max-w-sm w-full">
-          <h1 className="font-bold text-xl text-white mb-2">Remove Item?</h1>
-          <p className="text-slate-400 text-sm mb-6">
-            Are you sure you want to remove this item from your cart?
-          </p>
-          <div className="flex gap-3">
-            <button
-              onClick={onClose}
-              className="flex-1 px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg text-sm font-medium transition-colors"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={() => {
-                deleteProductMutate();
-                onClose();
-              }}
-              className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg text-sm font-medium transition-colors"
-            >
-              Remove
-            </button>
-          </div>
-        </div>
-      ),
-    });
-  };
+  const cartItems = cartData?.cart?.items || [];
+  const totalItems = cartItems.length;
+  const totalPrice = cartItems.reduce(
+    (acc, curr) => acc + parseFloat(curr?.price?.price || 0),
+    0
+  );
 
-  // --- Clear Cart ---
-  const { mutate: clearCartMutate } = useMutation(
-    () => axiosPrivate.delete(`/cart/products/${auth?.userId}`),
+  // --- 2. Mutations ---
+
+  // Delete Single Item
+  const { isLoading: isDeleting, mutate: deleteProduct } = useMutation(
+    (id) => axiosPrivate.post(`/cart/remove`, { dobIds: [id] }),
     {
       onSuccess: (res) => {
-        toast.success(res?.data.message || "Cart cleared");
+        toast.success(res?.data?.message || "Item removed");
         queryClient.invalidateQueries([`shoppingCart-${auth?.userId}`]);
+        closeDelete();
       },
-      onError: (err) =>
-        toast.error(err?.response?.data?.message || "Failed to clear cart"),
+      onError: (err) => {
+        toast.error(err?.response?.data?.message || "Failed to remove item");
+        closeDelete();
+      },
     }
   );
 
-  const confirmClearCart = () => {
-    confirmAlert({
-      customUI: ({ onClose }) => (
-        <div className="bg-slate-800 border border-slate-700 p-6 rounded-xl shadow-2xl max-w-sm w-full">
-          <div className="flex items-center gap-2 text-amber-500 mb-2">
-            <FaExclamationTriangle />
-            <h1 className="font-bold text-xl text-white">Clear Cart?</h1>
-          </div>
-          <p className="text-slate-400 text-sm mb-6">
-            This will remove all {totalItems} items. This action cannot be
-            undone.
-          </p>
-          <div className="flex gap-3">
-            <button
-              onClick={onClose}
-              className="flex-1 px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg text-sm font-medium transition-colors"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={() => {
-                clearCartMutate();
-                onClose();
-              }}
-              className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg text-sm font-medium transition-colors"
-            >
-              Clear All
-            </button>
-          </div>
-        </div>
-      ),
-    });
-  };
-
-  // --- Checkout ---
-  const { isLoading: checkoutLoading, mutate: checkoutMutate } = useMutation(
-    () => axiosPrivate.post(`/orders/${auth?.userId}`),
+  // Clear Entire Cart
+  const { isLoading: isClearing, mutate: clearCart } = useMutation(
+    () => {
+      const allIds = cartItems?.map((item) => item._id) || [];
+      return axiosPrivate.post(`/cart/remove`, { dobIds: allIds });
+    },
     {
       onSuccess: (res) => {
-        toast.success(res?.data.message || "Order successful!");
+        toast.success(res?.data?.message || "Cart cleared");
         queryClient.invalidateQueries([`shoppingCart-${auth?.userId}`]);
-        navigate("/dash/my-orders"); // Redirect to orders page
+        closeClear();
       },
-      onError: (err) =>
-        toast.error(err?.response?.data?.message || "Checkout failed"),
+      onError: (err) => {
+        toast.error(
+          err?.response?.data?.message || err.message || "Failed to clear cart"
+        );
+        closeClear();
+      },
     }
   );
 
-  const confirmCheckout = () => {
-    confirmAlert({
-      customUI: ({ onClose }) => (
-        <div className="bg-slate-800 border border-slate-700 p-6 rounded-xl shadow-2xl max-w-sm w-full">
-          <h1 className="font-bold text-xl text-white mb-2">
-            Confirm Purchase
-          </h1>
-          <p className="text-slate-400 text-sm mb-6">
-            A total of{" "}
-            <span className="text-green-400 font-bold">
-              ${formatCurrency(totalPrice)}
-            </span>{" "}
-            will be deducted from your balance.
-          </p>
-          <div className="flex gap-3">
-            <button
-              onClick={onClose}
-              className="flex-1 px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg text-sm font-medium transition-colors"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={() => {
-                checkoutMutate();
-                onClose();
-              }}
-              className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm font-medium transition-colors"
-            >
-              Confirm Buy
-            </button>
-          </div>
-        </div>
-      ),
-    });
+  // Checkout
+  const { isLoading: checkoutLoading, mutate: checkout } = useMutation(
+    () => axiosPrivate.post(`/cart/checkout`),
+    {
+      onSuccess: (res) => {
+        toast.success(res?.data?.message || "Order successful!");
+        queryClient.invalidateQueries([`shoppingCart-${auth?.userId}`]);
+        queryClient.invalidateQueries([`profile-${auth?.userId}`]);
+        navigate("/dash/my-orders");
+        closeCheckout();
+      },
+      onError: (err) => {
+        toast.error(err?.response?.data?.message || "Checkout failed");
+        closeCheckout();
+      },
+    }
+  );
+
+  // --- Handlers ---
+  const handleDeleteClick = (id) => {
+    setItemToDelete(id);
+    openDelete();
   };
+
+  // --- Render ---
 
   if (loadingCart) {
     return (
@@ -206,10 +141,86 @@ function Cart() {
     );
   }
 
-  const isEmpty = !cartData?.cart || cartData.cart.length < 1;
+  const isEmpty = !cartItems || cartItems.length < 1;
 
   return (
     <div className="min-h-screen bg-slate-900 pb-20">
+      {/* --- MODALS --- */}
+
+      {/* 1. Delete Item Modal */}
+      <Modal
+        opened={deleteOpened}
+        onClose={closeDelete}
+        title="Remove Item"
+        centered
+      >
+        <Text size="sm" mb="lg">
+          Are you sure you want to remove this item from your cart?
+        </Text>
+        <Group position="right">
+          <Button variant="default" onClick={closeDelete}>
+            Cancel
+          </Button>
+          <Button
+            color="red"
+            onClick={() => deleteProduct(itemToDelete)}
+            loading={isDeleting}
+          >
+            Remove
+          </Button>
+        </Group>
+      </Modal>
+
+      {/* 2. Clear Cart Modal */}
+      <Modal
+        opened={clearOpened}
+        onClose={closeClear}
+        title="Clear Cart"
+        centered
+      >
+        <div className="flex items-center gap-2 text-amber-500 mb-2">
+          <FaExclamationTriangle />
+          <Text fw={700}>Warning</Text>
+        </div>
+        <Text size="sm" mb="lg">
+          This will remove all {totalItems} items. This action cannot be undone.
+        </Text>
+        <Group position="right">
+          <Button variant="default" onClick={closeClear}>
+            Cancel
+          </Button>
+          <Button color="red" onClick={() => clearCart()}>
+            Clear All
+          </Button>
+        </Group>
+      </Modal>
+
+      {/* 3. Checkout Modal */}
+      <Modal
+        opened={checkoutOpened}
+        onClose={closeCheckout}
+        title="Confirm Purchase"
+        centered
+      >
+        <Text size="sm" mb="lg">
+          A total of <strong>${formatCurrency(totalPrice)}</strong> will be
+          deducted from your balance.
+        </Text>
+        <Group position="right">
+          <Button variant="default" onClick={closeCheckout}>
+            Cancel
+          </Button>
+          <Button
+            color="blue"
+            onClick={() => checkout()}
+            loading={checkoutLoading}
+          >
+            Confirm Buy
+          </Button>
+        </Group>
+      </Modal>
+
+      {/* --- MAIN CONTENT --- */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <h1 className="text-3xl font-bold text-white mb-8 flex items-center gap-3">
           <div className="p-3 bg-blue-600/20 rounded-xl text-blue-500">
@@ -219,7 +230,7 @@ function Cart() {
         </h1>
 
         {isEmpty ? (
-          /* --- EMPTY STATE --- */
+          /* --- Empty State --- */
           <div className="flex flex-col items-center justify-center bg-slate-900 border border-dashed border-slate-700 rounded-2xl p-12 text-center">
             <div className="bg-slate-800 p-6 rounded-full mb-6">
               <FaShoppingBag className="text-slate-600 text-4xl" />
@@ -228,8 +239,7 @@ function Cart() {
               Your cart is empty
             </h2>
             <p className="text-slate-400 mb-8 max-w-md">
-              Looks like you haven't added any products yet. Explore our market
-              to find what you need.
+              Looks like you haven't added any products yet.
             </p>
             <Link
               to="/dash/ssn"
@@ -239,18 +249,16 @@ function Cart() {
             </Link>
           </div>
         ) : (
-          /* --- CART CONTENT --- */
+          /* --- Cart Grid --- */
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Left: Cart Items List */}
+            {/* Left Column: Items */}
             <div className="lg:col-span-2 space-y-4">
               <div className="bg-slate-900 border border-slate-800 rounded-xl shadow-lg overflow-hidden">
                 <div className="overflow-x-auto">
                   <table className="w-full text-left border-collapse">
                     <thead className="bg-slate-950 text-slate-400 uppercase text-xs">
                       <tr>
-                        <th className="p-4 border-b border-slate-800">
-                          Product Type
-                        </th>
+                        <th className="p-4 border-b border-slate-800">Type</th>
                         <th className="p-4 border-b border-slate-800">
                           Details
                         </th>
@@ -263,28 +271,27 @@ function Cart() {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-800">
-                      {cartData.cart.map((item, index) => (
+                      {cartItems.map((item, index) => (
                         <tr
                           key={item._id || index}
                           className="hover:bg-slate-800/50 transition-colors"
                         >
                           <td className="p-4">
                             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-900/30 text-blue-400 border border-blue-900/50">
-                              {productMap[item.category] || "Product"}
+                              {item.price?.base || "Unknown"}
                             </span>
                           </td>
                           <td className="p-4 text-sm text-slate-300">
-                            {/* You can add more specific details here if your API returns them (e.g., bin, state) */}
                             <span className="font-mono text-slate-500">
-                              ID: {item.productId.substring(0, 8)}...
+                              ID: {item._id?.substring(0, 8)}
                             </span>
                           </td>
                           <td className="p-4 text-right font-bold text-green-400">
-                            ${formatCurrency(item.price)}
+                            ${formatCurrency(item.price?.price)}
                           </td>
                           <td className="p-4 text-center">
                             <button
-                              onClick={() => confirmDelete(item.productId)}
+                              onClick={() => handleDeleteClick(item._id)}
                               disabled={isDeleting}
                               className="text-slate-500 hover:text-red-500 transition-colors p-2 rounded-lg hover:bg-red-500/10"
                               title="Remove Item"
@@ -299,10 +306,10 @@ function Cart() {
                 </div>
               </div>
 
-              {/* Clear Cart Button (Below Table) */}
+              {/* Clear All Button */}
               <div className="flex justify-end">
                 <button
-                  onClick={confirmClearCart}
+                  onClick={openClear}
                   className="text-sm text-red-400 hover:text-red-300 flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-red-500/10 transition-colors"
                 >
                   <FaTrashAlt size={12} /> Clear Entire Cart
@@ -310,7 +317,7 @@ function Cart() {
               </div>
             </div>
 
-            {/* Right: Order Summary */}
+            {/* Right Column: Summary */}
             <div className="lg:col-span-1">
               <div className="bg-slate-800 border border-slate-700 rounded-xl p-6 shadow-xl sticky top-24">
                 <h2 className="text-xl font-bold text-white mb-6">
@@ -346,7 +353,7 @@ function Cart() {
                   </button>
                 ) : (
                   <button
-                    onClick={confirmCheckout}
+                    onClick={openCheckout}
                     className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white py-3.5 rounded-lg font-bold shadow-lg shadow-blue-900/20 transition-all transform hover:scale-[1.02] flex items-center justify-center gap-2"
                   >
                     <FaCreditCard /> Checkout
@@ -356,7 +363,6 @@ function Cart() {
                 <div className="mt-4 text-center">
                   <p className="text-xs text-slate-500">
                     By clicking checkout, you agree to our terms of service.
-                    Funds will be deducted immediately.
                   </p>
                 </div>
               </div>

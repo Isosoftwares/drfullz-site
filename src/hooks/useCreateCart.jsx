@@ -16,13 +16,7 @@ export const useCreateCart = () => {
     onSuccess: (response) => {
       const text = response?.data.message
       toast.success(text);
-      queryClient.invalidateQueries([`shoppingCart-${auth?.userId}`])
-      queryClient.invalidateQueries([`shoppingCartac-${auth?.userId}`])
-      queryClient.invalidateQueries([`shoppingCartcard-${auth?.userId}`])
-      queryClient.invalidateQueries([`shoppingCartGvoice-${auth?.userId}`])
-      queryClient.invalidateQueries([`shoppingCartMail-${auth?.userId}`])
-      queryClient.invalidateQueries([`shoppingCartfiles-${auth?.userId}`])
-      queryClient.invalidateQueries([`shoppingCartDump-${auth?.userId}`])
+ 
     },
     onError: (err)=>{
       const text = err?.response.data.message

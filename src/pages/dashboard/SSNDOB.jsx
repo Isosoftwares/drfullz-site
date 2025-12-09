@@ -45,7 +45,7 @@ function SSNDOB() {
   const fetchFiles = () => {
     return axios.get(
       `/ssn?page=${activePage}&perPage=${perPage}&base=${
-        base?.base || ""
+        base?.id || ""
       }&city=${city}&zip=${zip}&country=${country1}&dob=${minValue}&dobMax=${maxValue}&cs=${cs}&name=${name}&state=${state}`
     );
   };
@@ -56,7 +56,7 @@ function SSNDOB() {
     refetch,
     isRefetching: refetchinSsn,
   } = useQuery(["ssns", activePage], fetchFiles, {
-    refetchOnWindowFocus: true,
+    refetchOnWindowFocus: false,
     keepPreviousData: true,
   });
 
@@ -80,7 +80,7 @@ function SSNDOB() {
     refetch,
   ]);
 
-  const getBases = () => axios.get(`/bases`);
+  const getBases = () => axios.get(`/base`);
   const { data: basesData } = useQuery(["bases-"], getBases, {
     refetchOnWindowFocus: false,
     keepPreviousData: true,
@@ -89,10 +89,10 @@ function SSNDOB() {
   const baseOptions =
     basesData?.data?.bases?.map((b) => ({
       label: b.base,
-      value: { base: b.base, showDescription: b.showDescription },
+      value: { base: b.base, showDescription: b.showDescription, id: b._id },
     })) || [];
 
-  const createCart = (cartData) => axios.post("/cart", cartData);
+  const createCart = (cartData) => axios.post("/cart/add", cartData);
 
   const { mutate: cartMutate, isLoading: loadingCart } = useMutation(
     createCart,
@@ -100,7 +100,6 @@ function SSNDOB() {
       onSuccess: (response) => {
         toast.success(response?.data?.message || "Added to cart");
         queryClient.invalidateQueries([`shoppingCart-${auth?.userId}`]);
-        queryClient.invalidateQueries([`shoppingCartsnn-${auth?.userId}`]);
       },
       onError: (err) => {
         toast.error(err?.response?.data?.message || "Failed to add to cart");
@@ -109,7 +108,11 @@ function SSNDOB() {
   );
 
   const onSubmitting = (productId) => {
-    cartMutate({ userId: auth?.userId, productId, productType: "ssn" });
+    cartMutate({
+      userId: auth?.userId,
+      dobIds: [productId],
+      productType: "ssn",
+    });
   };
 
   const handleBulkAdd = async () => {
@@ -117,15 +120,10 @@ function SSNDOB() {
     setIsBulkAdding(true);
 
     try {
-      const promises = selectedIds.map((id) =>
-        axios.post("/cart", {
-          userId: auth?.userId,
-          productId: id,
-          productType: "ssn",
-        })
-      );
-
-      await Promise.all(promises);
+      await axios.post("/cart/add", {
+        userId: auth?.userId,
+        dobIds: selectedIds,
+      });
       toast.success(`Successfully added ${selectedIds.length} items to cart`);
       queryClient.invalidateQueries([`shoppingCart-${auth?.userId}`]);
       setSelectedIds([]);
@@ -152,16 +150,16 @@ function SSNDOB() {
   };
 
   const { data: cartData } = useQuery(
-    [`shoppingCartsnn-${auth?.userId}`],
+    [`shoppingCart-${auth?.userId}`],
     async () => {
-      const { data } = await axios.get(`/cart/${auth?.userId}`);
+      const { data } = await axios.get(`/cart`);
       return data;
     },
-    { keepPreviousData: true, refetchInterval: 3000 }
+    { keepPreviousData: true }
   );
 
   const isProductInCart = (productId) => {
-    return cartData?.cart?.some((item) => item.productId === productId);
+    return cartData?.cart?.items?.some((item) => item._id === productId);
   };
 
   const resetFilters = () => {

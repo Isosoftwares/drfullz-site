@@ -173,7 +173,7 @@ function SsnOrders({ ssn = [], onOrdersDeleted }) {
             <table className="w-full text-sm text-left">
               <thead className="text-xs text-slate-400 uppercase bg-slate-950/50 border-b border-slate-800">
                 <tr>
-                  <th className="px-4 py-3 w-10">
+                  {/* <th className="px-4 py-3 w-10">
                     <input
                       type="checkbox"
                       className="rounded border-slate-700 bg-slate-800 text-blue-600 focus:ring-offset-slate-900"
@@ -182,7 +182,7 @@ function SsnOrders({ ssn = [], onOrdersDeleted }) {
                         handleSelectGroup(data, e.target.checked)
                       }
                     />
-                  </th>
+                  </th> */}
                   <th className="px-4 py-3">Identity</th>
                   <th className="px-4 py-3">Location</th>
                   <th className="px-4 py-3">Credentials</th>
@@ -199,14 +199,14 @@ function SsnOrders({ ssn = [], onOrdersDeleted }) {
                         isSelected ? "bg-blue-900/10" : ""
                       }`}
                     >
-                      <td className="px-4 py-3 align-top pt-4">
+                      {/* <td className="px-4 py-3 align-top pt-4">
                         <input
                           type="checkbox"
                           className="rounded border-slate-700 bg-slate-800 text-blue-600 focus:ring-offset-slate-900"
                           checked={isSelected}
                           onChange={() => handleOrderSelect(item._id)}
                         />
-                      </td>
+                      </td> */}
                       <td className="px-4 py-3 align-top">
                         <div className="font-bold text-white text-base">
                           {item.firstName} {item.lastName}
@@ -216,7 +216,7 @@ function SsnOrders({ ssn = [], onOrdersDeleted }) {
                           {item.ssn}
                           <span className="mx-2 text-slate-700">|</span>
                           <span className="text-slate-500">DOB:</span>{" "}
-                          {item.dobYear}
+                          {item.dob?.split("T")[0]}
                         </div>
                         <div className="text-xs text-blue-400 mt-1 font-medium bg-blue-900/20 inline-block px-1.5 py-0.5 rounded">
                           {item.base}

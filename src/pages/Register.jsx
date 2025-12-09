@@ -17,17 +17,21 @@ function Register() {
   const navigate = useNavigate();
   const [errMsg, setErrMsg] = useState("");
   const [visiblePassword, setVisiblePassword] = useState(false);
+  const [visibleConfirmPassword, setVisibleConfirmPassword] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
   } = useForm();
+
+  const password = watch("password");
 
   // Signup function
   const registerUser = (registerData) => {
-    return axios.post("/users", registerData);
+    return axios.post("/auth/register", registerData);
   };
 
   const { mutate: registerMutate, isLoading: registerLoading } = useMutation(
@@ -54,8 +58,6 @@ function Register() {
   );
 
   const onSubmitting = (data) => {
-    data.roles = "Buyer";
-    data.accountType = "rarevision";
     registerMutate(data);
   };
 
@@ -79,8 +81,7 @@ function Register() {
               Join the Community
             </h2>
             <p className="text-slate-400">
-              Create your account to access DrFullz
-              securely.
+              Create your account to access DrFullz securely.
             </p>
           </div>
         </div>
@@ -95,7 +96,7 @@ function Register() {
             className="absolute top-4 right-4 text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-2 text-sm font-medium"
           >
             <FaTelegramPlane size={18} />
-            <span className="hidden sm:inline">Support</span>
+            <span className="hidden sm:inline">Bot</span>
           </a>
 
           {/* Logo & Header */}
@@ -125,52 +126,66 @@ function Register() {
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-500 transition-colors">
                   <HiUser size={20} />
                 </div>
-                <input
-                  type="text"
-                  placeholder="Username "
-                  className="w-full bg-slate-800 text-white pl-10 pr-4 py-3 rounded-lg border border-slate-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all placeholder-slate-500"
-                  {...register("userName", { required: true })}
-                />
-              </div>
-              {errors.userName?.type === "required" && (
-                <span className="text-red-500 text-xs pl-1">
-                  Username is required
-                </span>
-              )}
-            </div>
 
-            {/* Jabber/Email Input */}
-            <div className="space-y-1">
-              <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-500 transition-colors">
-                  <MdEmail size={20} />
-                </div>
+                {/* 1. Add 'peer' and 'placeholder-transparent' */}
                 <input
+                  id="username"
                   type="text"
-                  placeholder="Email or Jabber ID"
-                  className="w-full bg-slate-800 text-white pl-10 pr-4 py-3 rounded-lg border border-slate-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all placeholder-slate-500"
-                  {...register("jabberId", { required: true })}
+                  placeholder=" "
+                  className="peer w-full bg-slate-800 text-white pl-10 pr-4 py-3 rounded-lg border border-slate-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all placeholder-transparent"
+                  {...register("username", {
+                    required: "Username is required",
+                    minLength: { value: 4, message: "Min length is 4" },
+                    maxLength: { value: 20, message: "Max length is 20" },
+                    pattern: {
+                      value: /^[a-zA-Z0-9_]+$/,
+                      message: "No special chars",
+                    },
+                  })}
                 />
+
+                {/* 2. The Floating Label */}
+                <label
+                  htmlFor="username"
+                  className="absolute left-10 -top-2.5 bg-slate-800 px-1 text-xs text-blue-500 transition-all 
+      peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-slate-500 peer-placeholder-shown:bg-transparent
+      peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-blue-500 peer-focus:bg-slate-800 cursor-text"
+                >
+                  Username
+                </label>
               </div>
-              {errors.jabberId?.type === "required" && (
+
+              {errors.username && (
                 <span className="text-red-500 text-xs pl-1">
-                  Jabber ID/Email is required
+                  {errors.username.message}
                 </span>
               )}
             </div>
 
             {/* Password Input */}
-            <div className="space-y-1">
+            <div className="space-y-1 mt-4">
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-500 transition-colors">
                   <RiLockPasswordFill size={20} />
                 </div>
+
                 <input
+                  id="password"
                   type={visiblePassword ? "text" : "password"}
-                  placeholder="Password"
-                  className="w-full bg-slate-800 text-white pl-10 pr-10 py-3 rounded-lg border border-slate-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all placeholder-slate-500"
+                  placeholder=" "
+                  className="peer w-full bg-slate-800 text-white pl-10 pr-10 py-3 rounded-lg border border-slate-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all placeholder-transparent"
                   {...register("password", { required: true })}
                 />
+
+                <label
+                  htmlFor="password"
+                  className="absolute left-10 -top-2.5 bg-slate-800 px-1 text-xs text-blue-500 transition-all 
+      peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-slate-500 peer-placeholder-shown:bg-transparent
+      peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-blue-500 peer-focus:bg-slate-800 cursor-text"
+                >
+                  Password
+                </label>
+
                 <div
                   className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-slate-400 hover:text-white transition-colors"
                   onClick={() => setVisiblePassword(!visiblePassword)}
@@ -185,6 +200,55 @@ function Register() {
               {errors.password?.type === "required" && (
                 <span className="text-red-500 text-xs pl-1">
                   Password is required
+                </span>
+              )}
+            </div>
+
+            {/* Confirm Password Input */}
+            <div className="space-y-1 mt-4">
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-500 transition-colors">
+                  <RiLockPasswordFill size={20} />
+                </div>
+
+                <input
+                  id="confirmPassword"
+                  type={visibleConfirmPassword ? "text" : "password"} // Ensure you use the specific state variable here
+                  placeholder=" "
+                  className="peer w-full bg-slate-800 text-white pl-10 pr-10 py-3 rounded-lg border border-slate-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all placeholder-transparent"
+                  {...register("confirmPassword", {
+                    required: "Please confirm your password",
+                    validate: (value) =>
+                      value === password || "The passwords do not match",
+                  })}
+                />
+
+                <label
+                  htmlFor="confirmPassword"
+                  className="absolute left-10 -top-2.5 bg-slate-800 px-1 text-xs text-blue-500 transition-all 
+      peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-slate-500 peer-placeholder-shown:bg-transparent
+      peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-blue-500 peer-focus:bg-slate-800 cursor-text"
+                >
+                  Confirm Password
+                </label>
+
+                <div
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-slate-400 hover:text-white transition-colors"
+                  onClick={() =>
+                    setVisibleConfirmPassword(!visibleConfirmPassword)
+                  }
+                >
+                  {visibleConfirmPassword ? (
+                    <AiOutlineEyeInvisible size={20} />
+                  ) : (
+                    <AiOutlineEye size={20} />
+                  )}
+                </div>
+              </div>
+
+              {errors.confirmPassword && (
+                <span className="text-red-500 text-xs pl-1">
+                  {errors.confirmPassword.message}
                 </span>
               )}
             </div>

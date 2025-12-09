@@ -27,8 +27,6 @@ function LoginPage() {
   const { setAuth } = useAuth();
   const location = useLocation();
   const toDash = location.state?.from?.pathname || "/dash";
-  const toSellerDash = location.state?.from?.pathname || "/seller-dash";
-  const toAdminDash = location.state?.from?.pathname || "/admin-dash";
   const [inActive, setInActive] = useState(false);
   const [captchaValue, setCaptchaValue] = useState("");
   const [visiblePassword, setVisiblePassword] = useState(false);
@@ -45,41 +43,31 @@ function LoginPage() {
   } = useForm();
 
   const login = (loginData) => {
-    return axios.post("/auth", loginData);
+    return axios.post("/auth/login", loginData, { withCredentials: true });
   };
 
   const { mutate: loginMutate, isLoading: loginLoading } = useMutation(login, {
     onSuccess: (response) => {
       reset();
-      const accessToken = response?.data?.accessToken;
-      const roles = response?.data?.roles;
-      const userId = response?.data?.user_Id;
-      const userName = response?.data?.userName;
-      const jabberId = response?.data?.jabberId;
-      const status = response?.data?.status;
-      const categories = response?.data?.categories || [];
+      const accessToken = response?.data?.data?.accessToken;
+      const roles = [response?.data?.data?.user?.role];
+      const userId = response?.data?.data?.user?._id;
+      const user = response?.data?.data?.user?.user;
+      const username = response?.data?.data?.user?.username;
 
-      const text = `Welcome back ${userName}` || "Welcome back";
-      if (roles?.includes("Buyer")) {
+      const text = `Welcome back ${username}` || "Welcome back";
+      if (roles?.includes("client")) {
         navigate(toDash, { replace: true });
-      } else if (roles?.includes("Seller")) {
-        navigate(toSellerDash, { replace: true });
-      } else if (roles?.includes("Admin") || roles?.includes("Manager")) {
-        navigate(toAdminDash, { replace: true });
       } else {
         navigate("/login");
         toast.success("Unauthorized");
       }
       toast.success(text);
-      localStorage.setItem("userId", JSON.stringify(userId));
       setAuth({
         roles,
         accessToken,
         userId,
-        userName,
-        jabberId,
-        status,
-        categories,
+        user,
       });
     },
     onError: (err) => {
@@ -99,14 +87,12 @@ function LoginPage() {
   });
 
   const onSubmitting = (data) => {
-    data.accountType = "rarevision";
-
-    if (validateCaptcha(captchaValue) === true) {
-      loginMutate(data);
-    } else {
-      toast.error("Captcha Does Not Match");
-      setCaptchaValue("");
-    }
+    loginMutate(data);
+    // if (validateCaptcha(captchaValue) === true) {
+    // } else {
+    //   toast.error("Captcha Does Not Match");
+    //   setCaptchaValue("");
+    // }
   };
 
   return (
@@ -121,7 +107,7 @@ function LoginPage() {
           variant="filled"
           radius="md"
         >
-          Contact admin to activate your account. Admin Jabber Id:
+          Contact admin to activate your account.
         </Alert>
       </div>
 
@@ -153,7 +139,7 @@ function LoginPage() {
             className="absolute top-4 right-4 text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-2 text-sm font-medium"
           >
             <FaTelegramPlane size={18} />
-            <span className="hidden sm:inline">Support</span>
+            <span className="hidden sm:inline">Bot</span>
           </a>
 
           {/* Logo & Header */}
@@ -183,14 +169,28 @@ function LoginPage() {
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-500 transition-colors">
                   <HiUser size={20} />
                 </div>
+
                 <input
+                  id="login_username"
                   type="text"
-                  placeholder="Username"
-                  className="w-full bg-slate-800 text-white pl-10 pr-4 py-3 rounded-lg border border-slate-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all placeholder-slate-500"
-                  {...register("userName", { required: true })}
+                  // Placeholder must be a single space for the CSS trick to work
+                  placeholder=" "
+                  className="peer w-full bg-slate-800 text-white pl-10 pr-4 py-3 rounded-lg border border-slate-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all placeholder-transparent"
+                  {...register("username", { required: true })}
                 />
+
+                {/* Floating Label */}
+                <label
+                  htmlFor="login_username"
+                  className="absolute left-10 -top-2.5 bg-slate-800 px-1 text-xs text-blue-500 transition-all 
+      peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-slate-500 peer-placeholder-shown:bg-transparent
+      peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-blue-500 peer-focus:bg-slate-800 cursor-text"
+                >
+                  Username
+                </label>
               </div>
-              {errors.userName?.type === "required" && (
+
+              {errors.username?.type === "required" && (
                 <span className="text-red-500 text-xs pl-1">
                   Username is required
                 </span>
@@ -198,17 +198,30 @@ function LoginPage() {
             </div>
 
             {/* Password Input */}
-            <div className="space-y-1">
+            <div className="space-y-1 mt-4">
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-500 transition-colors">
                   <RiLockPasswordFill size={20} />
                 </div>
+
                 <input
+                  id="login_password"
                   type={visiblePassword ? "text" : "password"}
-                  placeholder="Password"
-                  className="w-full bg-slate-800 text-white pl-10 pr-10 py-3 rounded-lg border border-slate-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all placeholder-slate-500"
+                  placeholder=" "
+                  className="peer w-full bg-slate-800 text-white pl-10 pr-10 py-3 rounded-lg border border-slate-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all placeholder-transparent"
                   {...register("password", { required: true })}
                 />
+
+                {/* Floating Label */}
+                <label
+                  htmlFor="login_password"
+                  className="absolute left-10 -top-2.5 bg-slate-800 px-1 text-xs text-blue-500 transition-all 
+      peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-slate-500 peer-placeholder-shown:bg-transparent
+      peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-blue-500 peer-focus:bg-slate-800 cursor-text"
+                >
+                  Password
+                </label>
+
                 <div
                   className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-slate-400 hover:text-white transition-colors"
                   onClick={() => setVisiblePassword(!visiblePassword)}
@@ -220,6 +233,7 @@ function LoginPage() {
                   )}
                 </div>
               </div>
+
               {errors.password?.type === "required" && (
                 <span className="text-red-500 text-xs pl-1">
                   Password is required
@@ -228,9 +242,8 @@ function LoginPage() {
             </div>
 
             {/* Captcha Section */}
-            <div className="bg-slate-800/50 p-4 rounded-lg border border-slate-700 space-y-3">
+            <div className="bg-slate-800/50 p-4 hidden rounded-lg border border-slate-700 space-y-3">
               <div className="flex justify-center bg-slate-700 py-2 rounded">
-                {/* Note: reloadColor handles the refresh icon color in react-simple-captcha */}
                 <LoadCanvasTemplate reloadColor="white" />
               </div>
 

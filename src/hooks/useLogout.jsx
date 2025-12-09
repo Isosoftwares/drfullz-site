@@ -6,17 +6,19 @@ const useLogout = () => {
 
     const logout = async () => {
         setAuth({});
-        localStorage.clear()
+        
         try {
-            await axios.post('auth/logout', {
+            // Call logout endpoint to clear httpOnly cookie on server
+            await axios.post('/auth/logout', {}, {
                 withCredentials: true
             });
-        } catch (err) {
+        } catch (error) {
+            console.error('Logout error:', error);
+            // Continue with logout even if server request fails
         }
-
-    }
+    };
 
     return logout;
-}
+};
 
-export default useLogout
+export default useLogout;

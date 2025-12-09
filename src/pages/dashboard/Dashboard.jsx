@@ -17,38 +17,31 @@ import useAuth from "../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { Indicator } from "@mantine/core";
+import { MdMessage } from "react-icons/md";
 
 function Dashboard() {
   const axiosPrivate = useAxiosPrivate();
   const { auth } = useAuth();
-  const userName = auth?.userName || "username";
+  const userName = auth?.user?.username || "username";
 
   // -- Queries (Cart, Payment, Messages) --
   // Cart Query
   const { data: cartData } = useQuery(
     [`shoppingCart-${auth?.userId}`],
     async () => {
-      const { data } = await axiosPrivate.get(`/cart/${auth?.userId}`);
+      const { data } = await axiosPrivate.get(`/cart`);
       return data;
     },
-    { keepPreviousData: true, refetchInterval: 5000 }
+    { keepPreviousData: true }
   );
-  const totalItems = cartData?.cart?.length || 0;
+  const totalItems = cartData?.cart?.items?.length || 0;
 
   // Payments Query
   const { data: paymentsData } = useQuery(
-    ["payments"],
-    () => axiosPrivate.get(`/payments/payment-history/${auth?.userId}`),
-    { enabled: !!auth?.userId, keepPreviousData: true }
+    [`profile-${auth?.userId}`],
+    () => axiosPrivate.get(`/users/profile/own`),
+    { keepPreviousData: true, retry: 0 }
   );
-
-  // Messages Query
-  const { data: conversationData } = useQuery(
-    [`message-count-${auth?.jabberId}`],
-    () => axiosPrivate.get(`/support/customer-unread/${auth?.jabberId}`),
-    { staleTime: 5000, refetchInterval: 5000 }
-  );
-  // -- End Queries --
 
   // -- UI State --
   const [isOpen, setIsOpen] = useState(true);
@@ -74,7 +67,7 @@ function Dashboard() {
   };
 
   const menuItem = [
-    { path: "news", name: "News", icon: <BiNews size={22} /> },
+    { path: "news", name: "Updates", icon: <BiNews size={22} /> },
     { path: "addfunds", name: "Add Funds", icon: <BiBitcoin size={22} /> },
     { path: "ssn", name: "SSN/DOB", icon: <AiFillCreditCard size={22} /> },
     {
@@ -82,7 +75,7 @@ function Dashboard() {
       name: "My Orders",
       icon: <FaCartArrowDown size={22} />,
     },
-    { path: "support", name: "Support", icon: <BiSupport size={22} /> },
+    { path: "support", name: "Contact", icon: <MdMessage size={22} /> },
   ];
 
   // CTA Button Component
@@ -187,19 +180,7 @@ function Dashboard() {
                 to="/dash/support"
                 className="p-2 text-slate-400 hover:text-blue-400 transition-colors relative"
               >
-                {conversationData?.data?.totalCustomerUnread > 0 ? (
-                  <Indicator
-                    inline
-                    label={conversationData?.data?.totalCustomerUnread}
-                    size={16}
-                    color="red"
-                    offset={4}
-                  >
-                    <TbMessageCircle size={24} />
-                  </Indicator>
-                ) : (
-                  <TbMessageCircle size={24} />
-                )}
+                <TbMessageCircle size={24} />
               </Link>
 
               <Link
@@ -227,7 +208,7 @@ function Dashboard() {
               >
                 <div className=" flex-col items-end hidden sm:flex">
                   <span className="text-sm font-bold text-green-400 font-mono">
-                    ${formatCurrency(paymentsData?.data?.balance)}
+                    ${formatCurrency(paymentsData?.data?.data?.balance)}
                   </span>
                 </div>
 

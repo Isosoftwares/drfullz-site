@@ -20,7 +20,7 @@ function AddFunds() {
   const [paymentData, setPaymentData] = useState({});
 
   // -- API Calls --
-  const getCurrencies = () => axios.get(`/payments/nowpayments/get-currencies`);
+  const getCurrencies = () => axios.get(`/payments/currencies`);
 
   const { isLoading: loadingCurrencies, data: currenciesData } = useQuery(
     ["currencies"],
@@ -28,7 +28,8 @@ function AddFunds() {
     { keepPreviousData: true }
   );
 
-  const formattedArray = currenciesData?.data?.selectedCurrencies.map(
+
+  const formattedArray = currenciesData?.data?.data?.selectedCurrencies.map(
     (currency) => {
       let label;
       switch (currency) {
@@ -52,7 +53,7 @@ function AddFunds() {
   );
 
   const getMinAmount = () =>
-    axios.get(`/payments/nowpayments/min-amount/${cryptoCurrency}`);
+    axios.get(`/payments/minimum/${cryptoCurrency}`);
 
   const { data: minAmountData, refetch: refetchMinAmount } = useQuery(
     ["min-amount"],
@@ -62,6 +63,7 @@ function AddFunds() {
       enabled: !!cryptoCurrency,
     }
   );
+
 
   useEffect(() => {
     if (cryptoCurrency) refetchMinAmount();
@@ -75,25 +77,25 @@ function AddFunds() {
   } = useForm();
 
   const createPaymentFnc = (payAddress) =>
-    axios.post("/payments/nowpayments/create-payment", payAddress);
+    axios.post("/payments/create", payAddress);
 
   const { mutate: createPaymentMutate, isLoading: loadingCreatePayment } =
     useMutation(createPaymentFnc, {
       onSuccess: (response) => {
         toast.success(response?.data?.message);
-        setPaymentData(response.data?.paymentData);
+        setPaymentData(response.data?.data?.paymentData);
       },
       onError: (err) => {
         toast.error(err?.response?.data?.message || "Something went wrong");
       },
     });
 
-  const fetchPayments = () => axios.get(`/payments/payment-history/${userId}`);
+  const fetchPayments = () => axios.get(`/payments/all-transactions`);
   const { isLoading: loadingPayments, data: paymentsData } = useQuery(
     ["payments"],
     fetchPayments,
     {
-      refetchOnWindowFocus: true,
+      refetchOnWindowFocus: false,
       keepPreviousData: true,
     }
   );
@@ -103,7 +105,7 @@ function AddFunds() {
       toast.error("Please select a cryptocurrency!");
       return;
     }
-    const minAmount = parseFloat(minAmountData?.data?.fiat_equivalent);
+    const minAmount = parseFloat(minAmountData?.data?.data?.fiat_equivalent);
     if (parseFloat(data.amount) < minAmount) {
       toast.error(`Minimum amount is $${Math.ceil(minAmount)}`);
       return;
@@ -111,6 +113,7 @@ function AddFunds() {
     data.userId = userId;
     data.userName = userName;
     data.cryptoCurrency = cryptoCurrency;
+    data.username = auth?.user?.username;
     createPaymentMutate(data);
   };
 
@@ -200,9 +203,9 @@ function AddFunds() {
             <div className="space-y-2">
               <label className="text-sm font-semibold text-slate-400">
                 Amount (USD)
-                {cryptoCurrency && minAmountData?.data && (
+                {cryptoCurrency && minAmountData?.data?.data && (
                   <span className="ml-2 text-xs text-blue-400 bg-blue-400/10 px-2 py-0.5 rounded-full">
-                    Min: ${Math.ceil(minAmountData.data.fiat_equivalent)}
+                    Min: ${Math.ceil(minAmountData.data?.data?.fiat_equivalent)}
                   </span>
                 )}
               </label>
@@ -222,7 +225,7 @@ function AddFunds() {
                     validate: (value) =>
                       !cryptoCurrency ||
                       parseFloat(value) >=
-                        parseFloat(minAmountData?.data?.fiat_equivalent),
+                        parseFloat(minAmountData?.data?.data?.fiat_equivalent),
                   })}
                 />
               </div>
@@ -232,7 +235,7 @@ function AddFunds() {
                   {errors.amount.type === "required"
                     ? "Amount is required"
                     : `Minimum amount is $${Math.ceil(
-                        minAmountData?.data?.fiat_equivalent
+                        minAmountData?.data?.data?.fiat_equivalent
                       )}`}
                 </p>
               )}
@@ -286,8 +289,8 @@ function AddFunds() {
                     <PulseLoader color="#3b82f6" size={10} />
                   </td>
                 </tr>
-              ) : !paymentsData?.data?.transaction ||
-                paymentsData?.data?.transaction?.length === 0 ? (
+              ) : !paymentsData?.data?.data?.transactions ||
+                paymentsData?.data?.data?.transactions?.length === 0 ? (
                 <tr>
                   <td
                     colSpan="6"
@@ -297,12 +300,12 @@ function AddFunds() {
                   </td>
                 </tr>
               ) : (
-                paymentsData.data.transaction.map((item, index) => (
+                paymentsData.data.data.transactions.map((item, index) => (
                   <tr
                     key={index}
                     className="hover:bg-slate-800/50 transition-colors"
                   >
-                    <td className="px-6 py-4 font-mono text-xs">{item.id}</td>
+                    <td className="px-6 py-4 font-mono text-xs">{item._id}</td>
                     <td className="px-6 py-4">
                       <span
                         className={`px-2 py-1 rounded-full text-xs font-bold ${
@@ -317,16 +320,16 @@ function AddFunds() {
                         {item.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4">{item.date?.substr(0, 10)}</td>
+                    <td className="px-6 py-4">{item.createdAt?.substr(0, 10)}</td>
                     <td
                       className="px-6 py-4 font-mono text-xs max-w-[150px] truncate"
-                      title={item.wallet}
+                      title={item.payAddress}
                     >
-                      {item.wallet}
+                      {item.payAddress}
                     </td>
-                    <td className="px-6 py-4 uppercase">{item.coin}</td>
+                    <td className="px-6 py-4 uppercase">{item.network}</td>
                     <td className="px-6 py-4 text-right font-medium text-white">
-                      ${item.amount}
+                      ${item.priceAmount}
                     </td>
                   </tr>
                 ))

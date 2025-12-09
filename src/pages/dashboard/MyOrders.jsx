@@ -9,10 +9,10 @@ import SsnOrders from "./orderpages/SsnOrders";
 function MyOrders(props) {
   const axios = useAxiosPrivate();
   const { auth } = useAuth();
-  const userId = auth?.roles?.includes("Admin") ? props?.buyerId : auth?.userId;
+  const userId =  auth?.userId;
 
   const fetchOrders = () => {
-    return axios.get(`/orders/${userId}`);
+    return axios.get(`/cart/orders`);
   };
 
   const { isLoading: loadingOrders, data: orders } = useQuery(
@@ -21,7 +21,8 @@ function MyOrders(props) {
     { keepPreviousData: true, retry: 1 }
   );
 
-  const ssnOrders = orders?.data?.ssn || [];
+
+  const ssnOrders = orders?.data?.orders || [];
 
   return (
     <div className="space-y-6 pb-20">
@@ -35,7 +36,8 @@ function MyOrders(props) {
           <p className="text-slate-400 text-sm">
             View and download your purchased Fullz/SSN records.
             <span className="text-amber-500 font-semibold ml-1 block sm:inline">
-              Note: Save data locally immediately.
+              Note: Save data locally immediately. Data is DELETED 72 hours after
+              purchase.
             </span>
           </p>
         </div>
