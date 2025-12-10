@@ -7,7 +7,6 @@ const PersistLogin = () => {
     const [isLoading, setIsLoading] = useState(true);
     const refresh = useRefreshToken();
     const { auth, persist } = useAuth();
-    const userId = useState(JSON.stringify(localStorage.getItem("userId")) || false);
 
 
 

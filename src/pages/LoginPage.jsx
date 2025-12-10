@@ -52,7 +52,7 @@ function LoginPage() {
       const accessToken = response?.data?.data?.accessToken;
       const roles = [response?.data?.data?.user?.role];
       const userId = response?.data?.data?.user?._id;
-      const user = response?.data?.data?.user?.user;
+      const user = response?.data?.data?.user;
       const username = response?.data?.data?.user?.username;
 
       const text = `Welcome back ${username}` || "Welcome back";

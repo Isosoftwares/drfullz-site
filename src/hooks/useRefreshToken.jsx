@@ -19,17 +19,22 @@ const useRefreshToken = () => {
         return null;
       }
 
-      setAuth((prev) => {
-        return {
-          ...prev,
-          roles: [response?.data?.data?.user?.role],
-          accessToken: response?.data?.data?.accessToken,
-          user: response?.data?.data?.user || {},
-          userId: response?.data?.data?.user?._id || {},
-        };
+      // Ensure we have valid user data before setting auth
+      if (!response?.data?.data?.user || !response?.data?.data?.accessToken) {
+        console.error("Invalid refresh response - missing user or token");
+        await logout();
+        return null;
+      }
+
+      // Set auth with fresh data from server
+      setAuth({
+        roles: [response.data.data.user.role],
+        accessToken: response.data.data.accessToken,
+        user: response.data.data.user,
+        userId: response.data.data.user._id,
       });
-      
-      return response?.data?.data?.accessToken;
+
+      return response.data.data.accessToken;
     } catch (error) {
       // Handle refresh token expired or invalid
       if (error?.response?.status === 401 || error?.response?.status === 403) {
@@ -37,8 +42,10 @@ const useRefreshToken = () => {
         await logout();
         return null;
       }
-      
+
       console.error("Refresh token error:", error);
+      // On any error, logout to be safe
+      await logout();
       return null;
     }
   };
