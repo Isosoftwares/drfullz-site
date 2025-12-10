@@ -67,9 +67,9 @@ function Dashboard() {
   };
 
   const menuItem = [
+    { path: "ssn", name: "SSN/DOB", icon: <AiFillCreditCard size={22} /> },
     { path: "news", name: "Updates", icon: <BiNews size={22} /> },
     { path: "addfunds", name: "Add Funds", icon: <BiBitcoin size={22} /> },
-    { path: "ssn", name: "SSN/DOB", icon: <AiFillCreditCard size={22} /> },
     {
       path: "my-orders",
       name: "My Orders",

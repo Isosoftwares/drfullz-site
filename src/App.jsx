@@ -21,6 +21,7 @@ import Missing from './pages/Missing'
 import RequireAuth from './components/RequireAuth'
 import RegisterSeller from './pages/RegisterSeller'
 import RefundRequestPage from './pages/dashboard/orderpages/RefundRequestPage'
+import AddDeficitFunds from './pages/dashboard/AddDeficitFunds'
 
 
 function App() {
@@ -62,6 +63,7 @@ function App() {
               >
                 <Route index element={<News />} />
                 <Route path="addfunds" element={<AddFunds />} />
+                <Route path="add-deficit-funds" element={<AddDeficitFunds />} />
                 <Route path="news" element={<News />} />
                 <Route path="ssn" element={<SSNDOB />} />
 

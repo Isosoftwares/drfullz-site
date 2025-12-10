@@ -61,6 +61,7 @@ function Cart() {
   );
 
   const cartItems = cartData?.cart?.items || [];
+  const userBalance = cartData?.cart?.userBalance || 0;
   const totalItems = cartItems.length;
   const totalPrice = cartItems.reduce(
     (acc, curr) => acc + parseFloat(curr?.price?.price || 0),
@@ -212,7 +213,14 @@ function Cart() {
           </Button>
           <Button
             color="blue"
-            onClick={() => checkout()}
+            onClick={() => {
+              if (userBalance < totalPrice) {
+                navigate(`/dash/add-deficit-funds?deficit=${(totalPrice - userBalance).toFixed(2)}`);
+                closeCheckout();
+              } else {
+                checkout();
+              }
+            }}
             loading={checkoutLoading}
           >
             Confirm Buy

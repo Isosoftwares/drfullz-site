@@ -26,7 +26,7 @@ function LoginPage() {
   const [errMsg, setErrMsg] = useState("");
   const { setAuth } = useAuth();
   const location = useLocation();
-  const toDash = location.state?.from?.pathname || "/dash";
+  const toDash = location.state?.from?.pathname || "/dash/ssn";
   const [inActive, setInActive] = useState(false);
   const [captchaValue, setCaptchaValue] = useState("");
   const [visiblePassword, setVisiblePassword] = useState(false);

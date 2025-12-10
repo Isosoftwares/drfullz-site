@@ -12,6 +12,7 @@ import { BiCartDownload } from "react-icons/bi";
 import useAuth from "../../hooks/useAuth";
 import { toast } from "react-toastify";
 import MultiRangeSlider from "multi-range-slider-react";
+import UserGuide from "./UserGuide";
 
 function SSNDOB() {
   const axios = useAxiosPrivate();
@@ -86,7 +87,6 @@ function SSNDOB() {
     name,
     status,
   ]);
-
 
   const getBases = () => axios.get(`/base`);
   const { data: basesData } = useQuery(["bases-"], getBases, {
@@ -213,6 +213,8 @@ function SSNDOB() {
               {ssnData?.data?.count || 0} Records
             </span>
           </div>
+
+
           <button
             onClick={() => setShowFilters(!showFilters)}
             className="flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 transition-colors"
@@ -220,6 +222,8 @@ function SSNDOB() {
             <FaFilter /> {showFilters ? "Hide Filters" : "Show Filters"}
           </button>
         </div>
+
+
 
         {showFilters && (
           <div className="p-6 bg-slate-900 animate-in slide-in-from-top-2 duration-200">
@@ -342,6 +346,9 @@ function SSNDOB() {
           </div>
         )}
       </div>
+
+                        <UserGuide />
+
 
       {/* TABLE CONTROLS */}
       <div className="flex flex-col md:flex-row justify-between items-center gap-4 bg-slate-900/50 p-4 rounded-xl border border-slate-800">

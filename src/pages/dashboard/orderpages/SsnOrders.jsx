@@ -142,7 +142,7 @@ function SsnOrders({ ssn = [], onOrdersDeleted }) {
 
     return (
       <div className="mb-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-        <div className="flex items-center justify-between mb-3 px-1">
+        <div className="flex flex-col gap-2 md:flex-row items-center justify-between mb-3 px-1">
           <div className="flex items-center gap-2 text-slate-300">
             <Icon className="text-blue-500" />
             <h3 className="font-bold text-lg">{title}</h3>
@@ -150,20 +150,22 @@ function SsnOrders({ ssn = [], onOrdersDeleted }) {
               {data.length}
             </span>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-col md:flex-row gap-2">
             <button
               onClick={() => handleDownloadTxt(data)}
-              className="p-2 bg-slate-800 hover:bg-slate-700 rounded text-slate-300 transition-colors"
+              className="p-2 bg-slate-800 hover:bg-slate-700 flex items-center gap-2 rounded text-slate-300 transition-colors"
               title="Download TXT"
             >
               <FaDownload size={12} />
+              <p>Download TXT</p>
             </button>
             <button
               onClick={() => handleDownloadCsv(data)}
-              className="p-2 bg-slate-800 hover:bg-slate-700 rounded text-slate-300 transition-colors"
+              className="p-2 bg-slate-800 hover:bg-slate-700 flex items-center gap-2 rounded text-slate-300 transition-colors"
               title="Download CSV"
             >
               <FaFileCsv size={12} />
+              <p>Download CSV</p>
             </button>
           </div>
         </div>
