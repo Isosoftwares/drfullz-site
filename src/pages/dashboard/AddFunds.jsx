@@ -25,9 +25,8 @@ function AddFunds() {
   const { isLoading: loadingCurrencies, data: currenciesData } = useQuery(
     ["currencies"],
     getCurrencies,
-    { keepPreviousData: true }
+    { keepPreviousData: true },
   );
-
 
   const formattedArray = currenciesData?.data?.data?.selectedCurrencies.map(
     (currency) => {
@@ -49,11 +48,10 @@ function AddFunds() {
           label = currency;
       }
       return { label, value: currency.toLowerCase() };
-    }
+    },
   );
 
-  const getMinAmount = () =>
-    axios.get(`/payments/minimum/${cryptoCurrency}`);
+  const getMinAmount = () => axios.get(`/payments/minimum/${cryptoCurrency}`);
 
   const { data: minAmountData, refetch: refetchMinAmount } = useQuery(
     ["min-amount"],
@@ -61,9 +59,8 @@ function AddFunds() {
     {
       keepPreviousData: true,
       enabled: !!cryptoCurrency,
-    }
+    },
   );
-
 
   useEffect(() => {
     if (cryptoCurrency) refetchMinAmount();
@@ -97,7 +94,7 @@ function AddFunds() {
     {
       refetchOnWindowFocus: false,
       keepPreviousData: true,
-    }
+    },
   );
 
   const submit = (data) => {
@@ -122,12 +119,12 @@ function AddFunds() {
     control: (base, state) => ({
       ...base,
       backgroundColor: "#1e293b", // slate-800
-      borderColor: state.isFocused ? "#3b82f6" : "#334155", // blue-500 : slate-700
+      borderColor: state.isFocused ? "#10b981" : "#334155", // emerald-500 : slate-700
       color: "white",
       padding: "2px",
       borderRadius: "0.5rem",
-      boxShadow: state.isFocused ? "0 0 0 1px #3b82f6" : "none",
-      "&:hover": { borderColor: "#3b82f6" },
+      boxShadow: state.isFocused ? "0 0 0 1px #10b981" : "none",
+      "&:hover": { borderColor: "#10b981" },
     }),
     menu: (base) => ({
       ...base,
@@ -138,10 +135,10 @@ function AddFunds() {
     option: (base, state) => ({
       ...base,
       backgroundColor: state.isSelected
-        ? "#3b82f6"
+        ? "#10b981"
         : state.isFocused
-        ? "#334155"
-        : "#1e293b",
+          ? "#334155"
+          : "#1e293b",
       color: "white",
       cursor: "pointer",
     }),
@@ -173,7 +170,7 @@ function AddFunds() {
         {/* Form Card */}
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
           <div className="flex items-center gap-3 border-b border-slate-800 pb-4 mb-6">
-            <div className="p-2 bg-blue-600/20 rounded-lg text-blue-500">
+            <div className="p-2 bg-emerald-600/20 rounded-lg text-emerald-500">
               <IconWallet size={24} />
             </div>
             <h1 className="text-xl font-bold text-white">Add Funds</h1>
@@ -187,7 +184,7 @@ function AddFunds() {
               </label>
               {loadingCurrencies ? (
                 <div className="flex justify-center py-2">
-                  <PulseLoader color="#3b82f6" size={8} />
+                  <PulseLoader color="#10b981" size={8} />
                 </div>
               ) : (
                 <Select
@@ -204,7 +201,7 @@ function AddFunds() {
               <label className="text-sm font-semibold text-slate-400">
                 Amount (USD)
                 {cryptoCurrency && minAmountData?.data?.data && (
-                  <span className="ml-2 text-xs text-blue-400 bg-blue-400/10 px-2 py-0.5 rounded-full">
+                  <span className="ml-2 text-xs text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full">
                     Min: ${Math.ceil(minAmountData.data?.data?.fiat_equivalent)}
                   </span>
                 )}
@@ -217,7 +214,7 @@ function AddFunds() {
                 <input
                   type="number"
                   disabled={!cryptoCurrency}
-                  className="w-full bg-slate-800 border border-slate-700 rounded-lg py-2.5 pl-8 pr-4 text-white placeholder-slate-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-slate-800 border border-slate-700 rounded-lg py-2.5 pl-8 pr-4 text-white placeholder-slate-500 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                   placeholder="0.00"
                   step="0.01"
                   {...register("amount", {
@@ -235,7 +232,7 @@ function AddFunds() {
                   {errors.amount.type === "required"
                     ? "Amount is required"
                     : `Minimum amount is $${Math.ceil(
-                        minAmountData?.data?.data?.fiat_equivalent
+                        minAmountData?.data?.data?.fiat_equivalent,
                       )}`}
                 </p>
               )}
@@ -245,7 +242,7 @@ function AddFunds() {
             <button
               type="submit"
               disabled={loadingCreatePayment || !!paymentData?.order_id}
-              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-700 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-lg transition-all shadow-lg shadow-blue-900/20 flex justify-center items-center gap-2"
+              className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-700 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-lg transition-all shadow-lg shadow-emerald-900/20 flex justify-center items-center gap-2"
             >
               {loadingCreatePayment ? (
                 <PulseLoader color="white" size={8} />
@@ -286,7 +283,7 @@ function AddFunds() {
               {loadingPayments ? (
                 <tr>
                   <td colSpan="6" className="px-6 py-8 text-center">
-                    <PulseLoader color="#3b82f6" size={10} />
+                    <PulseLoader color="#10b981" size={10} />
                   </td>
                 </tr>
               ) : !paymentsData?.data?.data?.transactions ||
@@ -313,14 +310,16 @@ function AddFunds() {
                           item.status === "Approved"
                             ? "bg-green-500/10 text-green-400"
                             : item.status?.toLowerCase() === "waiting"
-                            ? "bg-yellow-500/10 text-yellow-400"
-                            : "bg-red-500/10 text-red-400"
+                              ? "bg-yellow-500/10 text-yellow-400"
+                              : "bg-red-500/10 text-red-400"
                         }`}
                       >
                         {item.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4">{item.createdAt?.substr(0, 10)}</td>
+                    <td className="px-6 py-4">
+                      {item.createdAt?.substr(0, 10)}
+                    </td>
                     <td
                       className="px-6 py-4 font-mono text-xs max-w-[150px] truncate"
                       title={item.payAddress}

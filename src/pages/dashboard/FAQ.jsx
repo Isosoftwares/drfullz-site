@@ -3,24 +3,21 @@ import { BiPlus, BiMinus } from "react-icons/bi";
 
 const FAQ = ({ question, answer }) => {
   const [isOpen, setIsOpen] = useState(false);
- 
 
   return (
     <div className="mb-6 min-w-full">
-
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex justify-between min-w-full items-center py-[12px] pr-[24px] pl-[40px] bg-[#F3F3F3]  hover:border-l-4 border-primary "      >
-        <p className=" font-medium">{question}</p>
-        {isOpen ? (
-          <BiMinus className="w-6 h-6 text-dark rounded-full bg-primary" />
-        ) : (
-          <BiPlus className="w-6 h-6 text-dark rounded-full bg-primary" />
-        )}
+        className="flex justify-between w-full items-center py-4 px-6 bg-slate-800 hover:bg-slate-700 text-white rounded-lg transition-all border-l-4 border-emerald-500 shadow-lg"
+      >
+        <p className="font-semibold text-lg">{question}</p>
+        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-500 text-slate-900">
+          {isOpen ? <BiMinus size={20} /> : <BiPlus size={20} />}
+        </div>
       </button>
       {isOpen && (
-        <div className="ease-in-out duration-500 min-w-full p-4 b py-[24px] px-[40px]">
-          <p className="text-sm ">{answer}</p>
+        <div className="animate-in slide-in-from-top-2 duration-300 w-full p-6 mt-1 bg-slate-800/50 rounded-b-lg border border-slate-700/50">
+          <div className="text-slate-300 leading-relaxed">{answer}</div>
         </div>
       )}
     </div>

@@ -5,40 +5,44 @@ function News() {
     <div className="max-w-4xl mx-auto px-6 pt-[50px] pb-12">
       <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl shadow-2xl p-8 border border-gray-700">
         <div className="mb-8">
-          <h2 className="text-3xl font-bold text-light mb-2 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-            Instructions on How to Use DrFullz.com Matched Fullz
+          <h2 className="text-3xl font-bold text-light mb-2 bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
+            Instructions on How to Use Fullducks Matched Fullz
           </h2>
-          <div className="h-1 w-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+          <div className="h-1 w-24 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full"></div>
         </div>
 
         <section className="mb-8 bg-gray-800/50 rounded-xl p-6 border border-gray-700/50 hover:border-gray-600/50 transition-colors">
           <div className="flex items-center gap-3 mb-4">
-            <div className="flex items-center justify-center w-8 h-8 bg-blue-500 text-white rounded-full font-bold text-sm">
+            <div className="flex items-center justify-center w-8 h-8 bg-emerald-500 text-white rounded-full font-bold text-sm">
               1
             </div>
-            <h3 className="text-xl font-semibold text-light">
-              Login to FSAID
-            </h3>
+            <h3 className="text-xl font-semibold text-light">Login to FSAID</h3>
           </div>
           <ul className="space-y-3 ml-11">
             <li className="flex items-start gap-2 text-gray-300">
-              <span className="text-blue-400 mt-1">•</span>
+              <span className="text-emerald-400 mt-1">•</span>
               <span>
-                Go to the <span className="font-semibold text-blue-400">FSAID</span> website.
+                Go to the{" "}
+                <span className="font-semibold text-emerald-400">FSAID</span>{" "}
+                website.
               </span>
             </li>
             <li className="flex items-start gap-2 text-gray-300">
-              <span className="text-blue-400 mt-1">•</span>
+              <span className="text-emerald-400 mt-1">•</span>
               <span>
-                Enter the <span className="font-semibold text-blue-400">"Email"</span> as the
-                username on the login screen.
+                Enter the{" "}
+                <span className="font-semibold text-emerald-400">"Email"</span>{" "}
+                as the username on the login screen.
               </span>
             </li>
             <li className="flex items-start gap-2 text-gray-300">
-              <span className="text-blue-400 mt-1">•</span>
+              <span className="text-emerald-400 mt-1">•</span>
               <span>
-                Enter <span className="font-semibold text-blue-400">"FA Pass"</span> as the
-                password.
+                Enter{" "}
+                <span className="font-semibold text-emerald-400">
+                  "FA Pass"
+                </span>{" "}
+                as the password.
               </span>
             </li>
           </ul>
@@ -46,7 +50,7 @@ function News() {
 
         <section className="mb-8 bg-gray-800/50 rounded-xl p-6 border border-gray-700/50 hover:border-gray-600/50 transition-colors">
           <div className="flex items-center gap-3 mb-4">
-            <div className="flex items-center justify-center w-8 h-8 bg-purple-500 text-white rounded-full font-bold text-sm">
+            <div className="flex items-center justify-center w-8 h-8 bg-teal-500 text-white rounded-full font-bold text-sm">
               2A
             </div>
             <h3 className="text-xl font-semibold text-light">
@@ -55,27 +59,32 @@ function News() {
           </div>
           <ul className="space-y-3 ml-11">
             <li className="flex items-start gap-2 text-gray-300">
-              <span className="text-purple-400 mt-1">•</span>
+              <span className="text-teal-400 mt-1">•</span>
               <span>
-                Go to <span className="font-semibold text-purple-400">mail.tm</span> website.
+                Go to{" "}
+                <span className="font-semibold text-teal-400">mail.tm</span>{" "}
+                website.
               </span>
             </li>
             <li className="flex items-start gap-2 text-gray-300">
-              <span className="text-purple-400 mt-1">•</span>
+              <span className="text-teal-400 mt-1">•</span>
               <span>
-                Click on <span className="font-semibold text-purple-400">Profile</span> in the top
-                right corner and log in.
+                Click on{" "}
+                <span className="font-semibold text-teal-400">Profile</span> in
+                the top right corner and log in.
               </span>
             </li>
             <li className="flex items-start gap-2 text-gray-300">
-              <span className="text-purple-400 mt-1">•</span>
+              <span className="text-teal-400 mt-1">•</span>
               <span>
-                Enter the <span className="font-semibold text-purple-400">Email</span> and{" "}
-                <span className="font-semibold text-purple-400">Email Pass</span> to log in.
+                Enter the{" "}
+                <span className="font-semibold text-teal-400">Email</span> and{" "}
+                <span className="font-semibold text-teal-400">Email Pass</span>{" "}
+                to log in.
               </span>
             </li>
             <li className="flex items-start gap-2 text-gray-300">
-              <span className="text-purple-400 mt-1">•</span>
+              <span className="text-teal-400 mt-1">•</span>
               <span>Retrieve the verification code and proceed.</span>
             </li>
           </ul>
@@ -100,7 +109,9 @@ function News() {
               <span className="text-green-400 mt-1">•</span>
               <span>
                 Click on{" "}
-                <span className="font-semibold text-green-400">"Help me access my account"</span>{" "}
+                <span className="font-semibold text-green-400">
+                  "Help me access my account"
+                </span>{" "}
                 instead of "Send Code".
               </span>
             </li>
@@ -111,14 +122,19 @@ function News() {
                 <span className="font-semibold text-green-400">
                   "Backup Code & Challenge Questions"
                 </span>{" "}
-                and click <span className="font-semibold text-green-400">"Enter Code"</span>.
+                and click{" "}
+                <span className="font-semibold text-green-400">
+                  "Enter Code"
+                </span>
+                .
               </span>
             </li>
             <li className="flex items-start gap-2 text-gray-300">
               <span className="text-green-400 mt-1">•</span>
               <span>
                 Enter the Backup Code from the fullz and click{" "}
-                <span className="font-semibold text-green-400">"Continue"</span>.
+                <span className="font-semibold text-green-400">"Continue"</span>
+                .
               </span>
             </li>
             <li className="flex items-start gap-2 text-gray-300">
@@ -139,7 +155,9 @@ function News() {
             </div>
             <h3 className="text-xl font-semibold text-light">Final Steps</h3>
           </div>
-          <p className="text-gray-300 mb-3 ml-11 font-medium">Once logged in, remember to:</p>
+          <p className="text-gray-300 mb-3 ml-11 font-medium">
+            Once logged in, remember to:
+          </p>
           <ul className="space-y-3 ml-11">
             <li className="flex items-start gap-2 text-gray-300">
               <span className="text-orange-400 mt-1">•</span>

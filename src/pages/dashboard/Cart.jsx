@@ -57,7 +57,7 @@ function Cart() {
     {
       keepPreviousData: true,
       refetchOnWindowFocus: true,
-    }
+    },
   );
 
   const cartItems = cartData?.cart?.items || [];
@@ -65,7 +65,7 @@ function Cart() {
   const totalItems = cartItems.length;
   const totalPrice = cartItems.reduce(
     (acc, curr) => acc + parseFloat(curr?.price?.price || 0),
-    0
+    0,
   );
 
   // --- 2. Mutations ---
@@ -83,7 +83,7 @@ function Cart() {
         toast.error(err?.response?.data?.message || "Failed to remove item");
         closeDelete();
       },
-    }
+    },
   );
 
   // Clear Entire Cart
@@ -100,11 +100,11 @@ function Cart() {
       },
       onError: (err) => {
         toast.error(
-          err?.response?.data?.message || err.message || "Failed to clear cart"
+          err?.response?.data?.message || err.message || "Failed to clear cart",
         );
         closeClear();
       },
-    }
+    },
   );
 
   // Checkout
@@ -122,7 +122,7 @@ function Cart() {
         toast.error(err?.response?.data?.message || "Checkout failed");
         closeCheckout();
       },
-    }
+    },
   );
 
   // --- Handlers ---
@@ -136,7 +136,7 @@ function Cart() {
   if (loadingCart) {
     return (
       <div className="min-h-screen bg-slate-900 flex flex-col justify-center items-center">
-        <PulseLoader color="#3b82f6" size={15} />
+        <PulseLoader color="#10b981" size={15} />
         <p className="text-slate-500 mt-4 animate-pulse">Loading cart...</p>
       </div>
     );
@@ -212,10 +212,12 @@ function Cart() {
             Cancel
           </Button>
           <Button
-            color="blue"
+            color="emerald"
             onClick={() => {
               if (userBalance < totalPrice) {
-                navigate(`/dash/add-deficit-funds?deficit=${(totalPrice - userBalance).toFixed(2)}`);
+                navigate(
+                  `/dash/add-deficit-funds?deficit=${(totalPrice - userBalance).toFixed(2)}`,
+                );
                 closeCheckout();
               } else {
                 checkout();
@@ -231,7 +233,7 @@ function Cart() {
       {/* --- MAIN CONTENT --- */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <h1 className="text-3xl font-bold text-white mb-8 flex items-center gap-3">
-          <div className="p-3 bg-blue-600/20 rounded-xl text-blue-500">
+          <div className="p-3 bg-emerald-600/20 rounded-xl text-emerald-500">
             <CgShoppingCart />
           </div>
           Your Shopping Cart
@@ -251,7 +253,7 @@ function Cart() {
             </p>
             <Link
               to="/dash/ssn"
-              className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-lg font-medium transition-all shadow-lg shadow-blue-900/20 flex items-center gap-2"
+              className="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-3 rounded-lg font-medium transition-all shadow-lg shadow-emerald-900/20 flex items-center gap-2"
             >
               Start Shopping <FaArrowRight size={14} />
             </Link>
@@ -285,7 +287,7 @@ function Cart() {
                           className="hover:bg-slate-800/50 transition-colors"
                         >
                           <td className="p-4">
-                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-900/30 text-blue-400 border border-blue-900/50">
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-900/30 text-emerald-400 border border-emerald-900/50">
                               {item.price?.base || "Unknown"}
                             </span>
                           </td>
@@ -362,7 +364,7 @@ function Cart() {
                 ) : (
                   <button
                     onClick={openCheckout}
-                    className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white py-3.5 rounded-lg font-bold shadow-lg shadow-blue-900/20 transition-all transform hover:scale-[1.02] flex items-center justify-center gap-2"
+                    className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white py-3.5 rounded-lg font-bold shadow-lg shadow-emerald-900/20 transition-all transform hover:scale-[1.02] flex items-center justify-center gap-2"
                   >
                     <FaCreditCard /> Checkout
                   </button>

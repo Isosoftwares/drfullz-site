@@ -54,7 +54,7 @@ function SSNDOB() {
     return axios.get(
       `/ssn?page=${activePage}&perPage=${perPage}&base=${
         base?.id || ""
-      }&city=${city}&zip=${zip}&country=${country1}&dob=${minValue}&dobMax=${maxValue}&cs=${cs}&name=${name}&state=${state}&fStatus=${status}`
+      }&city=${city}&zip=${zip}&country=${country1}&dob=${minValue}&dobMax=${maxValue}&cs=${cs}&name=${name}&state=${state}&fStatus=${status}`,
     );
   };
 
@@ -112,7 +112,7 @@ function SSNDOB() {
       onError: (err) => {
         toast.error(err?.response?.data?.message || "Failed to add to cart");
       },
-    }
+    },
   );
 
   const onSubmitting = (productId) => {
@@ -153,7 +153,7 @@ function SSNDOB() {
 
   const handleSelectOne = (id) => {
     setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
     );
   };
 
@@ -163,7 +163,7 @@ function SSNDOB() {
       const { data } = await axios.get(`/cart`);
       return data;
     },
-    { keepPreviousData: true }
+    { keepPreviousData: true },
   );
 
   const isProductInCart = (productId) => {
@@ -209,21 +209,18 @@ function SSNDOB() {
         <div className="flex items-center justify-between px-6 py-4 bg-slate-950 border-b border-slate-800">
           <div className="flex items-center gap-2">
             <h2 className="text-xl font-bold text-white">Fullz / SSN</h2>
-            <span className="bg-blue-600/20 text-blue-400 text-xs px-2 py-0.5 rounded-full border border-blue-600/30">
+            <span className="bg-emerald-600/20 text-emerald-400 text-xs px-2 py-0.5 rounded-full border border-emerald-600/30">
               {ssnData?.data?.count || 0} Records
             </span>
           </div>
 
-
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 transition-colors"
+            className="flex items-center gap-2 text-sm text-emerald-400 hover:text-emerald-300 transition-colors"
           >
             <FaFilter /> {showFilters ? "Hide Filters" : "Show Filters"}
           </button>
         </div>
-
-
 
         {showFilters && (
           <div className="p-6 bg-slate-900 animate-in slide-in-from-top-2 duration-200">
@@ -319,11 +316,11 @@ function SSNDOB() {
                     step={1}
                     ruler={false}
                     label={false}
-                    barInnerColor="#3b82f6"
+                    barInnerColor="#10b981"
                     barLeftColor="#334155"
                     barRightColor="#334155"
-                    thumbLeftColor="#3b82f6"
-                    thumbRightColor="#3b82f6"
+                    thumbLeftColor="#10b981"
+                    thumbRightColor="#10b981"
                     minValue={minValue}
                     maxValue={maxValue}
                     onInput={(e) => {
@@ -347,15 +344,14 @@ function SSNDOB() {
         )}
       </div>
 
-                        <UserGuide />
-
+      <UserGuide />
 
       {/* TABLE CONTROLS */}
       <div className="flex flex-col md:flex-row justify-between items-center gap-4 bg-slate-900/50 p-4 rounded-xl border border-slate-800">
         <Pagination
           total={totalPages || 0}
           page={activePage}
-          color="blue"
+          color="emerald"
           onChange={setPage}
           size="sm"
         />
@@ -384,7 +380,7 @@ function SSNDOB() {
                 <th className="px-4 py-4 w-10">
                   <input
                     type="checkbox"
-                    className="rounded border-slate-700 bg-slate-800 text-blue-600 focus:ring-offset-slate-900"
+                    className="rounded border-slate-700 bg-slate-800 text-emerald-600 focus:ring-offset-slate-900"
                     onChange={handleSelectAll}
                     checked={
                       ssnData?.data?.ssns?.length > 0 &&
@@ -410,7 +406,7 @@ function SSNDOB() {
                   <td colSpan="100%" className="p-0 border-none">
                     <div className="flex flex-col items-center justify-center h-96 w-full bg-slate-900/40 backdrop-blur-sm">
                       <PulseLoader
-                        color="#3b82f6"
+                        color="#10b981"
                         size={15}
                         margin={4}
                         speedMultiplier={0.8}
@@ -430,13 +426,13 @@ function SSNDOB() {
                     <tr
                       key={idx}
                       className={`hover:bg-slate-800/50 transition-colors ${
-                        isSelected ? "bg-blue-900/10" : ""
+                        isSelected ? "bg-emerald-900/10" : ""
                       }`}
                     >
                       <td className="px-4 py-3">
                         <input
                           type="checkbox"
-                          className="rounded border-slate-700 bg-slate-800 text-blue-600 focus:ring-offset-slate-900"
+                          className="rounded border-slate-700 bg-slate-800 text-emerald-600 focus:ring-offset-slate-900"
                           checked={isSelected}
                           onChange={() => handleSelectOne(item._id)}
                           disabled={inCart}
@@ -479,7 +475,7 @@ function SSNDOB() {
                           <button
                             onClick={() => onSubmitting(item._id)}
                             disabled={loadingCart}
-                            className="p-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg shadow-lg shadow-blue-900/20 transition-all hover:scale-105"
+                            className="p-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg shadow-lg shadow-emerald-900/20 transition-all hover:scale-105"
                           >
                             <CgShoppingCart size={16} />
                           </button>
@@ -513,7 +509,7 @@ function SSNDOB() {
         }`}
       >
         <div className="flex items-center gap-2">
-          <span className="bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+          <span className="bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded-full">
             {selectedIds.length}
           </span>
           <span className="text-sm font-medium">Items Selected</span>
@@ -532,7 +528,7 @@ function SSNDOB() {
           <button
             onClick={handleBulkAdd}
             disabled={isBulkAdding}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg shadow-blue-900/20 transition-all hover:scale-105"
+            className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg shadow-emerald-900/20 transition-all hover:scale-105"
           >
             {isBulkAdding ? (
               <PulseLoader size={6} color="white" />

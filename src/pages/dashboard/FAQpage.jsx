@@ -3,106 +3,131 @@ import FAQ from "./FAQ";
 
 function FAQpage() {
   return (
-    <div className="bg-light min-h-screen">
-      <div className="text-gray-600 pt-10 text-center">
-        <p>
-          <span className="text-3xl">Faq </span> frequently asked questions
-        </p>
+    <div className="bg-slate-900 min-h-screen pb-12">
+      <div className="text-white pt-10 text-center mb-10">
+        <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
+          Frequently Asked Questions
+        </h1>
+        <div className="h-1 w-24 bg-emerald-500 rounded-full mx-auto"></div>
       </div>
-      <div className="min-w-full pt-14 px-2">
+      <div className="max-w-4xl mx-auto px-4">
         <FAQ
-          question="Rules"
+          question="General Rules"
           answer={[
-            "1. All your balance, replenished by any method, is a part of the DrFullz website and is non-refundable (non-returnable) outside DrFullz.",
-
+            "1. All your balance, replenished by any method, is a part of the Fullducks website and is non-refundable (non-returnable).",
             <br />,
             <br />,
-
             "2. We are not responsible for your links passability (negotiability).",
             <br />,
             <br />,
-
-            "3. Save all purchases to your device, we wipe sold tems data from time to time.",
+            "3. Save all purchases to your device, we wipe sold items data from time to time.",
             <br />,
             <br />,
-
-            "4. In case if insults or threats, your account will be blocked without refunds.",
+            "4. In case of insults or threats, your account will be blocked without refunds.",
             <br />,
             <br />,
-
-            "5. There is no moneyback out of DrFullz.",
+            "5. There is no moneyback out of Fullducks.",
           ]}
         />
 
         <FAQ
           question="Seller Rules"
           answer={[
-            <p className=" text-2xl md:text-4xl pb-4  ">
-              We think that it will be fair for you to open seller-2-buyer
-              disclosure terms via DrFullz.
+            <p className="text-2xl font-semibold mb-4 text-emerald-400">
+              Seller-to-Buyer Disclosure Terms
             </p>,
-            <hr />,
-            <br />,
-            <br />,
-            <p className="text-3xl">Rules for seller:</p>,
-            <div className="pl-6 pt-2">
-              1. All your balance, replenished by any method, is a part of the
-              DrFullz website and is non-refundable (non-returnable) outside
-              DrFullz.
-              <br />
-              <br />
-              2. We are not responsible for your links passability
-              (negotiability).
-              <br />
-              <br />
-              3. Save all purchases to your device, we wipe sold tems data from
-              time to time.
-              <br />
-              <br />
-              4. In case if insults or threats, your account will be blocked
-              without refunds.
-              <br />
-              <br />
-              5. There is no moneyback out of DrFullz.
+            <hr className="border-slate-700 mb-6" />,
+            <p className="text-xl font-bold text-white mb-3">
+              Rules for Sellers:
+            </p>,
+            <div className="space-y-3 text-slate-300">
+              <p>
+                1. All balance replenishments are part of the Fullducks
+                ecosystem and are non-refundable.
+              </p>
+              <p>
+                2. Link passability and negotiability are the user's
+                responsibility.
+              </p>
+              <p>
+                3. Always backup your purchases; sold data is cleared
+                periodically.
+              </p>
+              <p>
+                4. Professional conduct is required; insults or threats lead to
+                account termination.
+              </p>
+              <p>5. No external refunds or moneybacks are provided.</p>
             </div>,
           ]}
         />
         <FAQ
-          question="Purchase rules for SSN/DOB"
+          question="Purchase Rules for SSN/DOB"
           answer={[
-            <div>
-              <p className="text-3xl">
-                We are not responsible for your links passability
-                (negotiability) and successfull/unsuccessfull rate.
+            <div className="space-y-4">
+              <p className="text-xl font-medium text-emerald-400">
+                We are not responsible for link success rates or negotiability.
               </p>
 
-              <p className="text-xl pt-3">
-                Refund for SSN is performed only if you have reason like:
+              <p className="text-lg text-white">
+                Refunds for SSN are only considered for the following reasons:
               </p>
 
-              <div className="pl-4 pt-2">1. Holder died <br/> 2. PO Box <br/> 3. Incorrect main Fullz</div>
+              <ul className="list-disc pl-6 space-y-2 text-slate-300">
+                <li>Holder is deceased</li>
+                <li>PO Box address</li>
+                <li>Incorrect main Fullz data</li>
+              </ul>
             </div>,
           ]}
         />
-         <FAQ
-          question="Purchase rules for Google Voice, TextNow/Mail"
+        <FAQ
+          question="Purchase Rules for Google Voice, TextNow & Mail"
           answer={[
-            <div>
-              <div className="pl-4 pt-2">1. After the purchase you must change password to your own and setup recovery e-mail to your own. Do it at the first login! <br/> 2. We provide limited warranty — 24 hours since purchase!</div>
+            <div className="space-y-4">
+              <p className="text-slate-300">
+                1. After purchase, you{" "}
+                <span className="text-white font-bold underline">must</span>{" "}
+                change the password and set up a recovery email immediately upon
+                first login.
+              </p>
+              <p className="text-slate-300">
+                2. We provide a limited{" "}
+                <span className="text-emerald-400 font-bold">
+                  24-hour warranty
+                </span>{" "}
+                from the time of purchase.
+              </p>
             </div>,
           ]}
         />
-         <FAQ
-          question="Purchase rules for buying accounts (Account markrt):"
+        <FAQ
+          question="Purchase Rules for Accounts Market"
           answer={[
-            <div>
-              <div className="pl-4 pt-2">1. We provide limited warranty — 24 hours since purchase! <br/><br/> 2. Please use clean USA IP-address. Verify how clean it is by clicking "Check IP" tab. <br/><br/> 3. If you faced with some issues and want to claim a refund, you need to: <p className="pl-6">
-                1.provide a proof that you've used cookies (for example, upload screenshot to imgur.com) <br/> 2. provide IP-address that you used for login-purposes
-                </p> <br /> 4. You need to change the email password and account password immediately after the purchase. </div>
+            <div className="space-y-4 text-slate-300">
+              <p>
+                1. We provide a limited{" "}
+                <span className="text-emerald-400 font-bold">
+                  24-hour warranty
+                </span>{" "}
+                from the time of purchase.
+              </p>
+              <p>
+                2. Use a clean USA IP address. Verify its status via the "Check
+                IP" tab.
+              </p>
+              <p>3. For refund claims, you must provide:</p>
+              <ul className="list-disc pl-8 space-y-1">
+                <li>Proof of cookie usage (e.g., imgur.com screenshot)</li>
+                <li>The exact IP address used for login</li>
+              </ul>
+              <p>
+                4. Change all passwords (email and account) immediately after
+                purchase.
+              </p>
             </div>,
           ]}
         />
-
       </div>
     </div>
   );

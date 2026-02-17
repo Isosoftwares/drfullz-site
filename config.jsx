@@ -1,5 +1,5 @@
- const config  = {
-    API:'https://api.drfullz.com/api',
+const config  = {
+    API:'https://api.fullducks.com/api',
     // API:'http://localhost:3501/api'
 
 }

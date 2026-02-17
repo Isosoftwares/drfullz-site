@@ -32,7 +32,7 @@ function Dashboard() {
       const { data } = await axiosPrivate.get(`/cart`);
       return data;
     },
-    { keepPreviousData: true }
+    { keepPreviousData: true },
   );
   const totalItems = cartData?.cart?.items?.length || 0;
 
@@ -40,7 +40,7 @@ function Dashboard() {
   const { data: paymentsData } = useQuery(
     [`profile-${auth?.userId}`],
     () => axiosPrivate.get(`/users/profile/own`),
-    { keepPreviousData: true, retry: 0 }
+    { keepPreviousData: true, retry: 0 },
   );
 
   // -- UI State --
@@ -92,11 +92,11 @@ function Dashboard() {
 
     const variants = {
       primary:
-        "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-blue-500/20",
+        "bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white shadow-emerald-500/20",
       secondary:
         "bg-slate-700 hover:bg-slate-600 text-white border border-slate-600",
       telegram:
-        "bg-[#229ED9] hover:bg-[#1f8ubc] text-white shadow-[#229ED9]/20", // Official Telegram Color
+        "bg-[#229ED9] hover:bg-[#1f8abc] text-white shadow-[#229ED9]/20", // Official Telegram Color
     };
 
     const sizes = {
@@ -146,8 +146,8 @@ function Dashboard() {
                 alt="Logo"
                 className="w-9 h-9 rounded-lg shadow-sm"
               />
-              <span className="hidden sm:block text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400 tracking-tight group-hover:to-white transition-all">
-                DrFullz
+              <span className="hidden sm:block text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-emerald-600 tracking-tight group-hover:to-white transition-all">
+                Fullducks
               </span>
             </Link>
           </div>
@@ -156,13 +156,13 @@ function Dashboard() {
           <div className="flex items-center gap-3 sm:gap-6">
             {/* Desktop CTAs */}
             <div className="hidden md:flex items-center gap-3 mr-2">
-              <CTAButton
+              {/* <CTAButton
                 onClick={() => window.open("https://t.me/DrFullzBot", "_blank")}
                 icon={FaRobot}
                 label="Bot"
                 variant="primary"
                 size="small"
-              />
+              /> */}
               <CTAButton
                 onClick={() => window.open("https://t.me/dr_fullz", "_blank")}
                 icon={FaTelegramPlane}
@@ -178,21 +178,21 @@ function Dashboard() {
             <div className="flex items-center gap-2">
               <Link
                 to="/dash/support"
-                className="p-2 text-slate-400 hover:text-blue-400 transition-colors relative"
+                className="p-2 text-slate-400 hover:text-emerald-400 transition-colors relative"
               >
                 <TbMessageCircle size={24} />
               </Link>
 
               <Link
                 to="cart"
-                className="p-2 text-slate-400 hover:text-blue-400 transition-colors relative"
+                className="p-2 text-slate-400 hover:text-emerald-400 transition-colors relative"
               >
                 <Indicator
                   inline
                   disabled={!totalItems}
                   label={totalItems}
                   size={16}
-                  color="blue"
+                  color="emerald"
                   offset={4}
                 >
                   <CgShoppingCart size={24} />
@@ -213,7 +213,7 @@ function Dashboard() {
                 </div>
 
                 {/* Avatar Placeholder / Initial */}
-                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center text-white font-bold shadow-lg shadow-blue-900/20">
+                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-emerald-600 to-teal-700 flex items-center justify-center text-white font-bold shadow-lg shadow-emerald-900/20">
                   {userName.charAt(0).toUpperCase()}
                 </div>
 
@@ -263,7 +263,7 @@ function Dashboard() {
                    flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200 group relative overflow-hidden
                    ${
                      isActive
-                       ? "bg-blue-600 text-white shadow-lg shadow-blue-900/20"
+                       ? "bg-emerald-600 text-white shadow-lg shadow-emerald-900/40"
                        : "text-slate-400 hover:bg-slate-900 hover:text-white"
                    }
                    ${!isOpen && "justify-center"}
@@ -304,11 +304,19 @@ function Dashboard() {
           >
             <div className="bg-slate-900 rounded-xl p-4 border border-slate-800 text-center">
               <p className="text-xs text-slate-400 mb-2">Need Help?</p>
-              <CTAButton
+              {/* <CTAButton
                 onClick={() => window.open("https://t.me/DrFullzBot", "_blank")}
                 icon={FaRobot}
                 label="Telegram Bot"
                 variant="primary"
+                size="small"
+                className="w-full"
+              /> */}
+              <CTAButton
+                onClick={() => window.open("https://t.me/dr_fullz", "_blank")}
+                icon={FaTelegramPlane}
+                label="Join Channel"
+                variant="telegram"
                 size="small"
                 className="w-full"
               />
@@ -368,8 +376,8 @@ function Dashboard() {
             </div>
 
             <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-slate-800 bg-slate-900">
-              <div className="grid grid-cols-2 gap-2">
-                <CTAButton
+              <div className="grid grid-cols-1 gap-2">
+                {/* <CTAButton
                   onClick={() =>
                     window.open("https://t.me/DrFullzBot", "_blank")
                   }
@@ -378,11 +386,11 @@ function Dashboard() {
                   variant="primary"
                   size="small"
                   className="w-full"
-                />
+                /> */}
                 <CTAButton
                   onClick={() => window.open("https://t.me/dr_fullz", "_blank")}
                   icon={FaTelegramPlane}
-                  label="Join"
+                  label="Join Channel"
                   variant="telegram"
                   size="small"
                   className="w-full"

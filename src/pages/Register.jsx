@@ -54,7 +54,7 @@ function Register() {
           toast.error("Something went wrong");
         }
       },
-    }
+    },
   );
 
   const onSubmitting = (data) => {
@@ -71,7 +71,7 @@ function Register() {
           <img
             src={hacker}
             alt="Background"
-            className="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay"
+            className="absolute inset-0 w-full h-full object-contain opacity-60 mix-blend-overlay"
           />
           {/* Gradient Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-slate-900/50"></div>
@@ -81,7 +81,7 @@ function Register() {
               Join the Community
             </h2>
             <p className="text-slate-400">
-              Create your account to access DrFullz securely.
+              Create your account to access Fullducks securely.
             </p>
           </div>
         </div>
@@ -89,25 +89,25 @@ function Register() {
         {/* RIGHT SIDE: FORM */}
         <div className="w-full lg:w-1/2 p-8 md:p-12 flex flex-col justify-center relative">
           {/* Telegram Floating Button (Top Right) */}
-          <a
+          {/* <a
             href="https://t.me/DrFullzBot"
             target="_blank"
             rel="noreferrer"
-            className="absolute top-4 right-4 text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-2 text-sm font-medium"
+            className="absolute top-4 right-4 text-emerald-400 hover:text-emerald-300 transition-colors flex items-center gap-2 text-sm font-medium"
           >
             <FaTelegramPlane size={18} />
             <span className="hidden sm:inline">Bot</span>
-          </a>
+          </a> */}
 
           {/* Logo & Header */}
           <div className="flex flex-col items-center mb-6">
             <img
               src={logo}
               alt="Logo"
-              className="h-12 w-auto mb-3 rounded-md"
+              className="h-20 w-auto mb-3 rounded-md"
             />
             <h1 className="text-3xl font-bold text-white tracking-wide">
-              DrFullz
+              Fullducks
             </h1>
             <p className="text-slate-500 text-sm mt-1">Create a new account</p>
           </div>
@@ -127,7 +127,7 @@ function Register() {
                 our Telegram BOT
               </p>
               <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-500 transition-colors">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-emerald-500 transition-colors">
                   <HiUser size={20} />
                 </div>
 
@@ -136,7 +136,7 @@ function Register() {
                   id="username"
                   type="text"
                   placeholder=" "
-                  className="peer w-full bg-slate-800 text-white pl-10 pr-4 py-3 rounded-lg border border-slate-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all placeholder-transparent"
+                  className="peer w-full bg-slate-800 text-white pl-10 pr-4 py-3 rounded-lg border border-slate-700 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition-all placeholder-transparent"
                   {...register("username", {
                     required: "Username is required",
                     minLength: { value: 4, message: "Min length is 4" },
@@ -151,9 +151,9 @@ function Register() {
                 {/* 2. The Floating Label */}
                 <label
                   htmlFor="username"
-                  className="absolute left-10 -top-2.5 bg-slate-800 px-1 text-xs text-blue-500 transition-all 
+                  className="absolute left-10 -top-2.5 bg-slate-800 px-1 text-xs text-emerald-500 transition-all 
       peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-slate-500 peer-placeholder-shown:bg-transparent
-      peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-blue-500 peer-focus:bg-slate-800 cursor-text"
+      peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-emerald-500 peer-focus:bg-slate-800 cursor-text"
                 >
                   Username
                 </label>
@@ -169,7 +169,7 @@ function Register() {
             {/* Password Input */}
             <div className="space-y-1 mt-4">
               <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-500 transition-colors">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-emerald-500 transition-colors">
                   <RiLockPasswordFill size={20} />
                 </div>
 
@@ -183,9 +183,9 @@ function Register() {
 
                 <label
                   htmlFor="password"
-                  className="absolute left-10 -top-2.5 bg-slate-800 px-1 text-xs text-blue-500 transition-all 
+                  className="absolute left-10 -top-2.5 bg-slate-800 px-1 text-xs text-emerald-500 transition-all 
       peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-slate-500 peer-placeholder-shown:bg-transparent
-      peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-blue-500 peer-focus:bg-slate-800 cursor-text"
+      peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-emerald-500 peer-focus:bg-slate-800 cursor-text"
                 >
                   Password
                 </label>
@@ -211,7 +211,7 @@ function Register() {
             {/* Confirm Password Input */}
             <div className="space-y-1 mt-4">
               <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-500 transition-colors">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-emerald-500 transition-colors">
                   <RiLockPasswordFill size={20} />
                 </div>
 
@@ -229,9 +229,9 @@ function Register() {
 
                 <label
                   htmlFor="confirmPassword"
-                  className="absolute left-10 -top-2.5 bg-slate-800 px-1 text-xs text-blue-500 transition-all 
+                  className="absolute left-10 -top-2.5 bg-slate-800 px-1 text-xs text-emerald-500 transition-all 
       peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-slate-500 peer-placeholder-shown:bg-transparent
-      peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-blue-500 peer-focus:bg-slate-800 cursor-text"
+      peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-emerald-500 peer-focus:bg-slate-800 cursor-text"
                 >
                   Confirm Password
                 </label>
@@ -264,7 +264,7 @@ function Register() {
                   <PulseLoader color="#3b82f6" size={10} />
                 </div>
               ) : (
-                <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-[1.01] shadow-lg shadow-blue-900/20">
+                <button className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-[1.01] shadow-lg shadow-emerald-900/20">
                   Register
                 </button>
               )}
@@ -276,7 +276,7 @@ function Register() {
                 Already have an account?{" "}
                 <Link
                   to="/"
-                  className="text-blue-500 hover:text-blue-400 font-medium hover:underline"
+                  className="text-emerald-500 hover:text-emerald-400 font-medium hover:underline"
                 >
                   Back to Login
                 </Link>
@@ -287,14 +287,14 @@ function Register() {
       </div>
 
       {/* Mobile Telegram Footer (Visible only on small screens) */}
-      <a
+      {/* <a
         href="https://t.me/DrFullzBot"
         target="_blank"
-        className="mt-6 lg:hidden flex items-center gap-2 text-slate-400 hover:text-blue-400 transition-colors"
+        className="mt-6 lg:hidden flex items-center gap-2 text-slate-400 hover:text-emerald-400 transition-colors"
       >
         <FaTelegramPlane />
         <span>Join us on Telegram</span>
-      </a>
+      </a> */}
     </div>
   );
 }

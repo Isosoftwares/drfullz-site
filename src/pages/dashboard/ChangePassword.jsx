@@ -28,12 +28,12 @@ function ChangePassword() {
   });
 
   // 1. ADDED: defaultValues ensures reset() knows exactly what to clear to
-  const formOptions = { 
+  const formOptions = {
     resolver: yupResolver(validationSchema),
     defaultValues: {
       password: "",
-      confirmPassword: ""
-    }
+      confirmPassword: "",
+    },
   };
 
   const { register, handleSubmit, reset, formState } = useForm(formOptions);
@@ -47,8 +47,8 @@ function ChangePassword() {
     useMutation(changePassword, {
       onSuccess: (response) => {
         // 2. LOGIC: This clears the input fields
-        reset(); 
-        
+        reset();
+
         // 3. UX IMPROVEMENT: Reset the "show password" toggles back to hidden
         setShowPassword(false);
         setShowConfirmPassword(false);
@@ -72,8 +72,8 @@ function ChangePassword() {
         <div className="bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl overflow-hidden">
           {/* Header */}
           <div className="bg-slate-950/50 px-8 py-8 border-b border-slate-700 text-center">
-            <div className="inline-flex items-center justify-center p-4 bg-slate-800 rounded-full shadow-lg shadow-blue-900/20 mb-4 border border-slate-700">
-              <RiLockPasswordFill className="text-blue-500 text-3xl" />
+            <div className="inline-flex items-center justify-center p-4 bg-slate-800 rounded-full shadow-lg shadow-emerald-900/20 mb-4 border border-slate-700">
+              <RiLockPasswordFill className="text-emerald-500 text-3xl" />
             </div>
             <h1 className="text-2xl font-bold text-white tracking-tight">
               Change Password
@@ -93,19 +93,19 @@ function ChangePassword() {
                 </label>
                 <div className="relative group">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <RiLockPasswordFill className="text-slate-500 group-focus-within:text-blue-500 transition-colors" />
+                    <RiLockPasswordFill className="text-slate-500 group-focus-within:text-emerald-500 transition-colors" />
                   </div>
                   <input
                     type={showPassword ? "text" : "password"}
                     {...register("password")}
                     autoComplete="off"
                     placeholder="Enter new password"
-                    className="w-full bg-slate-950 text-white pl-11 pr-12 py-3.5 rounded-xl border border-slate-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all placeholder-slate-600"
+                    className="w-full bg-slate-950 text-white pl-11 pr-12 py-3.5 rounded-xl border border-slate-700 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition-all placeholder-slate-600"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-500 hover:text-blue-400 transition-colors cursor-pointer"
+                    className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-500 hover:text-emerald-400 transition-colors cursor-pointer"
                   >
                     {showPassword ? (
                       <RiEyeOffLine size={20} />
@@ -129,19 +129,19 @@ function ChangePassword() {
                 </label>
                 <div className="relative group">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <RiLockPasswordFill className="text-slate-500 group-focus-within:text-blue-500 transition-colors" />
+                    <RiLockPasswordFill className="text-slate-500 group-focus-within:text-emerald-500 transition-colors" />
                   </div>
                   <input
                     type={showConfirmPassword ? "text" : "password"}
                     {...register("confirmPassword")}
                     autoComplete="off"
                     placeholder="Confirm new password"
-                    className="w-full bg-slate-950 text-white pl-11 pr-12 py-3.5 rounded-xl border border-slate-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all placeholder-slate-600"
+                    className="w-full bg-slate-950 text-white pl-11 pr-12 py-3.5 rounded-xl border border-slate-700 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition-all placeholder-slate-600"
                   />
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-500 hover:text-blue-400 transition-colors cursor-pointer"
+                    className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-500 hover:text-emerald-400 transition-colors cursor-pointer"
                   >
                     {showConfirmPassword ? (
                       <RiEyeOffLine size={20} />
@@ -167,7 +167,7 @@ function ChangePassword() {
                 ) : (
                   <button
                     onClick={handleSubmit(handlePasswordChange)}
-                    className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold py-3.5 rounded-xl transition-all duration-200 transform hover:scale-[1.02] shadow-lg shadow-blue-900/20 active:scale-[0.98]"
+                    className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold py-3.5 rounded-xl transition-all duration-200 transform hover:scale-[1.02] shadow-lg shadow-emerald-900/20 active:scale-[0.98]"
                   >
                     Update Password
                   </button>

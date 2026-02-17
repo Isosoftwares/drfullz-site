@@ -1,53 +1,38 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import {  MdArrowBack } from "react-icons/md";
-
+import { MdArrowBack } from "react-icons/md";
 
 function RegisterSeller() {
-  
-
   return (
-    <div className="bg-loginBg flex flex-col justify-center items-center min-h-[100vh] bg-cover bg-center bg-no-repeat bg-blend-overlay  bg-[#404740]   ">
-      <h1 className="text-lg font-bold text-gray-800 p-3">Rare Vision</h1>
-      {/* Login form  */}
-      <div className="min-h-[300px] w-[93%] md:w-[400px]  bg-light bg-opacity-80 text-start rounded-md">
-        <form
-          className="px-2 md:px-4 py-2 text-darktext "
-        >
-          <h1 className=" text-2xl  font-semibold my-4 ">Sign Up (Seller)</h1>
+    <div className="bg-slate-950 flex flex-col justify-center items-center min-h-screen bg-cover bg-center bg-no-repeat">
+      <div className="w-[93%] md:w-[450px] bg-slate-900 border border-slate-800 text-start rounded-2xl shadow-2xl p-8 border-t-4 border-t-emerald-500">
+        <h1 className="text-3xl font-bold text-white mb-6">Sign Up (Seller)</h1>
 
-          <div className="bg-primary text-white py-2 px-4 flex flex-col gap-4 rounded-md items-center">
-            <p className="text-sm font-medium">
-              Ready to start selling your products on DrFullz?
-            </p>
-            <p
-              className="text-sm font-bold text-center ml-4 py-2 px-3 rounded-lg bg-white text-blue-500"
-            >
-              Contact us today on!
-              <br />
-              JabberId: rarevision@yax.im
+        <div className="bg-emerald-600/10 border border-emerald-600/20 text-emerald-400 p-6 flex flex-col gap-4 rounded-xl items-center">
+          <p className="text-base font-medium text-center">
+            Ready to start selling your products on Fullducks?
+          </p>
+          <div className="bg-slate-800 p-4 rounded-lg border border-slate-700 w-full text-center">
+            <p className="text-sm text-slate-400 mb-1">Contact us today at:</p>
+            <p className="text-lg font-bold text-white selection:bg-emerald-500 selection:text-slate-900">
+              JabberID: rarevision@yax.im
             </p>
           </div>
+        </div>
 
-          <div className="my-10 flex justify-between ">
-            <div className=" ">
-              <Link
-                to="/"
-                className="flex items-center gap-1 bg-slate-700 text-light py-2 px-4"
-              >
-                <span className="">
-                  <MdArrowBack />
-                </span>
-                <h1>Back</h1>
-              </Link>
-            </div>
-          </div>
-        </form>
+        <div className="mt-8 flex justify-between">
+          <Link
+            to="/"
+            className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white py-2.5 px-6 rounded-lg transition-all border border-slate-700"
+          >
+            <MdArrowBack />
+            <span>Back</span>
+          </Link>
+        </div>
       </div>
     </div>
   );
 }
 
 export default RegisterSeller;
-
