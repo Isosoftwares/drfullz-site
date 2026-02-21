@@ -393,7 +393,7 @@ function SSNDOB() {
                 <th className="px-4 py-4">Year</th>
                 <th className="px-4 py-4">Loc (State/City/Zip)</th>
                 <th className="px-4 py-4 text-center">SSN</th>
-                <th className="px-4 py-4 text-center">DL</th>
+                <th className="px-4 py-4 text-center">Address</th>
                 <th className="px-4 py-4 text-center">Email</th>
                 <th className="px-4 py-4">Price</th>
                 <th className="px-4 py-4 text-center">Action</th>
@@ -442,24 +442,24 @@ function SSNDOB() {
                         {item?.price?.base}
                       </td>
                       <td className="px-4 py-3 text-white">
-                        {item?.firstName}
+                        {item?.FName}
                       </td>
                       <td className="px-4 py-3 text-slate-400">
                         {item?.dobYear}
                       </td>
                       <td className="px-4 py-3 text-slate-400">
-                        {item?.state}, {item?.city}{" "}
-                        <span className="text-slate-500">({item?.zip})</span>
+                        {item?.State}, {item?.City}{" "}
+                        <span className="text-slate-500">({item?.Zip})</span>
                       </td>
 
                       <td className="px-4 py-3 text-center">
-                        <StatusBadge status={item?.ssn} />
+                        <StatusBadge status={item?.SSN} />
                       </td>
                       <td className="px-4 py-3 text-center">
-                        <StatusBadge status={item?.dl || item?.address} />
+                        <StatusBadge status={item?.DL || item?.Address} />
                       </td>
                       <td className="px-4 py-3 text-center">
-                        <StatusBadge status={item?.email} />
+                        <StatusBadge status={item?.Email} />
                       </td>
 
                       <td className="px-4 py-3 text-green-400 font-bold">

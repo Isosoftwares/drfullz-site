@@ -214,14 +214,14 @@ function Cart() {
           <Button
             color="green"
             onClick={() => {
-              if (userBalance < totalPrice) {
-                navigate(
-                  `/dash/add-deficit-funds?deficit=${(totalPrice - userBalance).toFixed(2)}`,
-                );
-                closeCheckout();
-              } else {
-                checkout();
-              }
+              // if (userBalance < totalPrice) {
+              //   navigate(
+              //     `/dash/add-deficit-funds?deficit=${(totalPrice - userBalance).toFixed(2)}`,
+              //   );
+              //   closeCheckout();
+              // } else {
+              // }
+              checkout();
             }}
             loading={checkoutLoading}
           >
@@ -269,9 +269,7 @@ function Cart() {
                     <thead className="bg-slate-950 text-slate-400 uppercase text-xs">
                       <tr>
                         <th className="p-4 border-b border-slate-800">Type</th>
-                        <th className="p-4 border-b border-slate-800">
-                          Details
-                        </th>
+
                         <th className="p-4 border-b border-slate-800 text-right">
                           Price
                         </th>
@@ -291,11 +289,7 @@ function Cart() {
                               {item.price?.base || "Unknown"}
                             </span>
                           </td>
-                          <td className="p-4 text-sm text-slate-300">
-                            <span className="font-mono text-slate-500">
-                              ID: {item._id?.substring(0, 8)}
-                            </span>
-                          </td>
+
                           <td className="p-4 text-right font-bold text-green-400">
                             ${formatCurrency(item.price?.price)}
                           </td>

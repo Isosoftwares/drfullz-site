@@ -90,20 +90,23 @@ function SsnOrders({ ssn = [], onOrdersDeleted }) {
   };
 
   // --- Download Helpers ---
-  const instructions = `INSTRUCTIONS:\n1. Go to FSAID Website\n2. User: Email | Pass: FA Pass\n(See Fullz description for detailed login methods)`;
+  const instructions = ``;
 
   const generateTxtContent = (orders) => {
     let content = "SSN/DOB Orders Export\n\n" + instructions + "\n\n";
     orders.forEach((o, i) => {
       content += `[Order #${i + 1}] --------------------------------\n`;
-      content += `Name: ${o.firstName} ${o.lastName}\nSSN: ${o.ssn}\nDOB: ${
-        o.dob?.split("T")[0]
-      }\n`;
-      content += `Addr: ${o.address}, ${o.city}, ${o.state} ${o.zip}\n`;
-      content += `Email: ${o.email} | Pass: ${o.emailPass}\n`;
-      content += `FA: ${o.faUname} | Pass: ${o.faPass}\n`;
-      content += `Backup Code: ${o.backupCode}\nQ&A: ${o.securityQa}\n`;
-      content += `Purchased: ${o.purchaseDate}\n\n`;
+      content += `Name:              ${o.FName} ${o.LName}\n`;
+      content += `SSN:               ${o.SSN}\n`;
+      content += `DOB:               ${o.DOB ? new Date(o.DOB).toLocaleDateString() : "N/A"}\n`;
+      content += `Address:           ${o.Address}, ${o.City}, ${o.State || ""} ${o.Zip || ""}\n`;
+      content += `Username:          ${o.Username}\n`;
+      content += `Password:          ${o.Password}\n`;
+      content += `Backup Code:       ${o.BackupCode}\n`;
+      content += `Description:       ${o.Description || "N/A"}\n`;
+      content += `Enrollment Detail: ${o.EnrollmentDetails || "N/A"}\n`;
+      content += `Enrollment Status: ${o.EnrollmentStatus || "N/A"}\n`;
+      content += `Purchased:         ${o.purchaseDate ? new Date(o.purchaseDate).toLocaleString() : "N/A"}\n\n`;
     });
     return content;
   };
@@ -122,9 +125,29 @@ function SsnOrders({ ssn = [], onOrdersDeleted }) {
 
   const handleDownloadCsv = (orders) => {
     if (!orders.length) return;
-    const headers = Object.keys(orders[0]).filter(
-      (k) => !["_id", "__v", "isDeleted"].includes(k),
-    );
+
+    // Explicit ordered headers matching new SsnDob schema
+    const headers = [
+      "FName",
+      "LName",
+      "DOB",
+      "SSN",
+      "Address",
+      "City",
+      "State",
+      "Zip",
+      "Username",
+      "Password",
+      "BackupCode",
+      "Description",
+      "EnrollmentDetails",
+      "EnrollmentStatus",
+      "status",
+      "isPaid",
+      "purchaseDate",
+      "base",
+    ];
+
     let csv = headers.join(",") + "\n";
     orders.forEach((o) => {
       const row = headers
@@ -132,7 +155,7 @@ function SsnOrders({ ssn = [], onOrdersDeleted }) {
         .join(",");
       csv += row + "\n";
     });
-    downloadFile(csv, "text/csv;charset=utf-8;", "orders.csv");
+    downloadFile(csv, "text/csv;charset=utf-8;", "ssn_orders.csv");
   };
 
   // --- Render Table Component ---
@@ -211,14 +234,16 @@ function SsnOrders({ ssn = [], onOrdersDeleted }) {
                       </td> */}
                       <td className="px-4 py-3 align-top">
                         <div className="font-bold text-white text-base">
-                          {item.firstName} {item.lastName}
+                          {item.FName} {item.LName}
                         </div>
                         <div className="text-xs text-slate-400 font-mono mt-1">
                           <span className="text-slate-500">SSN:</span>{" "}
-                          {item.ssn}
+                          {item.SSN}
                           <span className="mx-2 text-slate-700">|</span>
                           <span className="text-slate-500">DOB:</span>{" "}
-                          {item.dob?.split("T")[0]}
+                          {item.DOB
+                            ? new Date(item.DOB).toLocaleDateString()
+                            : "N/A"}
                         </div>
                         <div className="text-xs text-green-400 mt-1 font-medium bg-green-900/20 inline-block px-1.5 py-0.5 rounded">
                           {item.base}
@@ -226,40 +251,48 @@ function SsnOrders({ ssn = [], onOrdersDeleted }) {
                       </td>
                       <td className="px-4 py-3 align-top text-slate-300">
                         <div>
-                          {item.city}, {item.state}
+                          {item.City}, {item.State || "—"}
                         </div>
                         <div className="text-xs text-slate-500 mt-1 font-mono">
-                          {item.zip}
+                          {item.Zip || "—"}
                         </div>
                         <div
                           className="text-xs text-slate-500 mt-1 truncate max-w-[150px]"
-                          title={item.address}
+                          title={item.Address}
                         >
-                          {item.address}
+                          {item.Address}
                         </div>
                       </td>
                       <td className="px-4 py-3 align-top text-xs font-mono text-slate-400 space-y-1">
                         <div className="flex gap-2">
-                          <span className="text-slate-600 w-10">Email:</span>
-                          <span
-                            className="text-white truncate max-w-[140px]"
-                            title={item.email}
-                          >
-                            {item.email}
+                          <span className="text-slate-600 w-16">Username:</span>
+                          <span className="truncate max-w-[140px]">
+                            {item.Username}
                           </span>
                         </div>
                         <div className="flex gap-2">
-                          <span className="text-slate-600 w-10">Pass:</span>
+                          <span className="text-slate-600 w-16">Password:</span>
                           <span className="truncate max-w-[140px]">
-                            {item.emailPass}
+                            {item.Password}
                           </span>
                         </div>
                         <div className="flex gap-2">
-                          <span className="text-slate-600 w-10">FA:</span>
-                          <span className="truncate max-w-[140px]">
-                            {item.faUname} : {item.faPass}
+                          <span className="text-slate-600 w-16">Backup:</span>
+                          <span className="truncate max-w-[140px] text-yellow-400">
+                            {item.BackupCode}
                           </span>
                         </div>
+                        {item.EnrollmentStatus &&
+                          item.EnrollmentStatus !== "N/A" && (
+                            <div className="flex gap-2">
+                              <span className="text-slate-600 w-16">
+                                Enroll:
+                              </span>
+                              <span className="truncate max-w-[140px] text-blue-400">
+                                {item.EnrollmentStatus}
+                              </span>
+                            </div>
+                          )}
                       </td>
                       <td className="px-4 py-3 align-top text-right text-slate-500 text-xs">
                         <div className="font-medium text-slate-400">
