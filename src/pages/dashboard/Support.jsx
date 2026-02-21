@@ -20,7 +20,7 @@ function Support() {
       description:
         "Join our community for daily restock updates, news, and maintenance alerts.",
       icon: <FaTelegramPlane size={40} />,
-      link: "https://t.me/dr_fullz",
+      link: "https://t.me/fullzducks",
       color: "from-sky-500 to-blue-600",
       btnText: "Join Channel",
     },
@@ -64,7 +64,7 @@ function Support() {
         </a> */}
 
         <a
-          href="https://t.me/dr_fullz"
+          href="https://t.me/fullzducks"
           target="_blank"
           rel="noopener noreferrer"
           className="group relative bg-slate-900 border border-slate-800 hover:border-green-500/50 rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-green-500/10 flex flex-col items-center text-center overflow-hidden"

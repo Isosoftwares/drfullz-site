@@ -127,15 +127,15 @@ function LoginPage() {
         {/* RIGHT SIDE: FORM */}
         <div className="w-full lg:w-1/2 p-8 md:p-12 flex flex-col justify-center relative">
           {/* Telegram Floating Button (Top Right) */}
-          {/* <a
-            href="https://t.me/DrFullzBot"
+          <a
+            href="https://t.me/fullzducks"
             target="_blank"
             rel="noreferrer"
             className="absolute top-4 right-4 text-green-400 hover:text-green-300 transition-colors flex items-center gap-2 text-sm font-medium"
           >
             <FaTelegramPlane size={18} />
-            <span className="hidden sm:inline">Bot</span>
-          </a> */}
+            <span className="hidden sm:inline">Telegram</span>
+          </a>
 
           {/* Logo & Header */}
           <div className="flex flex-col items-center mb-8">

@@ -164,7 +164,7 @@ function Dashboard() {
                 size="small"
               /> */}
               <CTAButton
-                onClick={() => window.open("https://t.me/dr_fullz", "_blank")}
+                onClick={() => window.open("https://t.me/fullzducks", "_blank")}
                 icon={FaTelegramPlane}
                 label="Channel"
                 variant="telegram"
@@ -313,7 +313,7 @@ function Dashboard() {
                 className="w-full"
               /> */}
               <CTAButton
-                onClick={() => window.open("https://t.me/dr_fullz", "_blank")}
+                onClick={() => window.open("https://t.me/fullzducks", "_blank")}
                 icon={FaTelegramPlane}
                 label="Join Channel"
                 variant="telegram"
@@ -388,7 +388,9 @@ function Dashboard() {
                   className="w-full"
                 /> */}
                 <CTAButton
-                  onClick={() => window.open("https://t.me/dr_fullz", "_blank")}
+                  onClick={() =>
+                    window.open("https://t.me/fullzducks", "_blank")
+                  }
                   icon={FaTelegramPlane}
                   label="Join Channel"
                   variant="telegram"
