@@ -8,10 +8,10 @@ const FAQ = ({ question, answer }) => {
     <div className="mb-6 min-w-full">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex justify-between w-full items-center py-4 px-6 bg-slate-800 hover:bg-slate-700 text-white rounded-lg transition-all border-l-4 border-emerald-500 shadow-lg"
+        className="flex justify-between w-full items-center py-4 px-6 bg-slate-800 hover:bg-slate-700 text-white rounded-lg transition-all border-l-4 border-green-500 shadow-lg"
       >
         <p className="font-semibold text-lg">{question}</p>
-        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-500 text-slate-900">
+        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-green-500 text-slate-900">
           {isOpen ? <BiMinus size={20} /> : <BiPlus size={20} />}
         </div>
       </button>

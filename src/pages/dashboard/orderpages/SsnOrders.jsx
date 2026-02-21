@@ -144,7 +144,7 @@ function SsnOrders({ ssn = [], onOrdersDeleted }) {
       <div className="mb-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
         <div className="flex flex-col gap-2 md:flex-row items-center justify-between mb-3 px-1">
           <div className="flex items-center gap-2 text-slate-300">
-            <Icon className="text-emerald-500" />
+            <Icon className="text-green-500" />
             <h3 className="font-bold text-lg">{title}</h3>
             <span className="bg-slate-800 text-xs px-2 py-0.5 rounded-full border border-slate-700 text-slate-400">
               {data.length}
@@ -198,7 +198,7 @@ function SsnOrders({ ssn = [], onOrdersDeleted }) {
                     <tr
                       key={item._id}
                       className={`hover:bg-slate-800/50 transition-colors ${
-                        isSelected ? "bg-emerald-900/10" : ""
+                        isSelected ? "bg-green-900/10" : ""
                       }`}
                     >
                       {/* <td className="px-4 py-3 align-top pt-4">
@@ -220,7 +220,7 @@ function SsnOrders({ ssn = [], onOrdersDeleted }) {
                           <span className="text-slate-500">DOB:</span>{" "}
                           {item.dob?.split("T")[0]}
                         </div>
-                        <div className="text-xs text-emerald-400 mt-1 font-medium bg-emerald-900/20 inline-block px-1.5 py-0.5 rounded">
+                        <div className="text-xs text-green-400 mt-1 font-medium bg-green-900/20 inline-block px-1.5 py-0.5 rounded">
                           {item.base}
                         </div>
                       </td>
@@ -323,7 +323,7 @@ function SsnOrders({ ssn = [], onOrdersDeleted }) {
         }`}
       >
         <div className="flex items-center gap-2">
-          <span className="bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+          <span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
             {selectedOrders.size}
           </span>
           <span className="text-sm font-medium">Selected</span>

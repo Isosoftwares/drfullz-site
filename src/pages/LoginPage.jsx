@@ -122,7 +122,6 @@ function LoginPage() {
           />
           {/* Gradient Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-slate-900/50"></div>
-
         </div>
 
         {/* RIGHT SIDE: FORM */}
@@ -132,7 +131,7 @@ function LoginPage() {
             href="https://t.me/DrFullzBot"
             target="_blank"
             rel="noreferrer"
-            className="absolute top-4 right-4 text-emerald-400 hover:text-emerald-300 transition-colors flex items-center gap-2 text-sm font-medium"
+            className="absolute top-4 right-4 text-green-400 hover:text-green-300 transition-colors flex items-center gap-2 text-sm font-medium"
           >
             <FaTelegramPlane size={18} />
             <span className="hidden sm:inline">Bot</span>
@@ -162,7 +161,7 @@ function LoginPage() {
             {/* Username Input */}
             <div className="space-y-1">
               <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-emerald-500 transition-colors">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-green-500 transition-colors">
                   <HiUser size={20} />
                 </div>
 
@@ -171,16 +170,16 @@ function LoginPage() {
                   type="text"
                   // Placeholder must be a single space for the CSS trick to work
                   placeholder=" "
-                  className="peer w-full bg-slate-800 text-white pl-10 pr-4 py-3 rounded-lg border border-slate-700 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition-all placeholder-transparent"
+                  className="peer w-full bg-slate-800 text-white pl-10 pr-4 py-3 rounded-lg border border-slate-700 focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none transition-all placeholder-transparent"
                   {...register("username", { required: true })}
                 />
 
                 {/* Floating Label */}
                 <label
                   htmlFor="login_username"
-                  className="absolute left-10 -top-2.5 bg-slate-800 px-1 text-xs text-emerald-500 transition-all 
+                  className="absolute left-10 -top-2.5 bg-slate-800 px-1 text-xs text-green-500 transition-all 
       peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-slate-500 peer-placeholder-shown:bg-transparent
-      peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-emerald-500 peer-focus:bg-slate-800 cursor-text"
+      peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-green-500 peer-focus:bg-slate-800 cursor-text"
                 >
                   Username
                 </label>
@@ -196,7 +195,7 @@ function LoginPage() {
             {/* Password Input */}
             <div className="space-y-1 mt-4">
               <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-emerald-500 transition-colors">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-green-500 transition-colors">
                   <RiLockPasswordFill size={20} />
                 </div>
 
@@ -204,16 +203,16 @@ function LoginPage() {
                   id="login_password"
                   type={visiblePassword ? "text" : "password"}
                   placeholder=" "
-                  className="peer w-full bg-slate-800 text-white pl-10 pr-10 py-3 rounded-lg border border-slate-700 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition-all placeholder-transparent"
+                  className="peer w-full bg-slate-800 text-white pl-10 pr-10 py-3 rounded-lg border border-slate-700 focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none transition-all placeholder-transparent"
                   {...register("password", { required: true })}
                 />
 
                 {/* Floating Label */}
                 <label
                   htmlFor="login_password"
-                  className="absolute left-10 -top-2.5 bg-slate-800 px-1 text-xs text-emerald-500 transition-all 
+                  className="absolute left-10 -top-2.5 bg-slate-800 px-1 text-xs text-green-500 transition-all 
       peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-slate-500 peer-placeholder-shown:bg-transparent
-      peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-emerald-500 peer-focus:bg-slate-800 cursor-text"
+      peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-green-500 peer-focus:bg-slate-800 cursor-text"
                 >
                   Password
                 </label>
@@ -250,7 +249,7 @@ function LoginPage() {
                 <input
                   type="text"
                   placeholder="Enter Captcha"
-                  className="w-full bg-slate-900 text-white pl-10 pr-4 py-2 rounded border border-slate-600 focus:border-emerald-500 outline-none text-sm placeholder-slate-500"
+                  className="w-full bg-slate-900 text-white pl-10 pr-4 py-2 rounded border border-slate-600 focus:border-green-500 outline-none text-sm placeholder-slate-500"
                   value={captchaValue}
                   onChange={(e) => setCaptchaValue(e.target.value)}
                 />
@@ -264,7 +263,7 @@ function LoginPage() {
                   <PulseLoader color="#3b82f6" size={10} />
                 </div>
               ) : (
-                <button className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-[1.01] shadow-lg shadow-emerald-900/20">
+                <button className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-[1.01] shadow-lg shadow-green-900/20">
                   Login
                 </button>
               )}
@@ -276,7 +275,7 @@ function LoginPage() {
                 Don't have an account?{" "}
                 <Link
                   to="/register"
-                  className="text-emerald-500 hover:text-emerald-400 font-medium hover:underline"
+                  className="text-green-500 hover:text-green-400 font-medium hover:underline"
                 >
                   Create one here
                 </Link>
@@ -290,7 +289,7 @@ function LoginPage() {
       {/* <a
         href="https://t.me/DrFullzBot"
         target="_blank"
-        className="mt-6 lg:hidden flex items-center gap-2 text-slate-400 hover:text-emerald-400 transition-colors"
+        className="mt-6 lg:hidden flex items-center gap-2 text-slate-400 hover:text-green-400 transition-colors"
       >
         <FaTelegramPlane />
         <span>Join us on Telegram</span>

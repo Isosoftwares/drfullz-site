@@ -209,14 +209,14 @@ function SSNDOB() {
         <div className="flex items-center justify-between px-6 py-4 bg-slate-950 border-b border-slate-800">
           <div className="flex items-center gap-2">
             <h2 className="text-xl font-bold text-white">Fullz / SSN</h2>
-            <span className="bg-emerald-600/20 text-emerald-400 text-xs px-2 py-0.5 rounded-full border border-emerald-600/30">
+            <span className="bg-green-600/20 text-green-400 text-xs px-2 py-0.5 rounded-full border border-green-600/30">
               {ssnData?.data?.count || 0} Records
             </span>
           </div>
 
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="flex items-center gap-2 text-sm text-emerald-400 hover:text-emerald-300 transition-colors"
+            className="flex items-center gap-2 text-sm text-green-400 hover:text-green-300 transition-colors"
           >
             <FaFilter /> {showFilters ? "Hide Filters" : "Show Filters"}
           </button>
@@ -351,7 +351,7 @@ function SSNDOB() {
         <Pagination
           total={totalPages || 0}
           page={activePage}
-          color="emerald"
+          color="green"
           onChange={setPage}
           size="sm"
         />
@@ -380,7 +380,7 @@ function SSNDOB() {
                 <th className="px-4 py-4 w-10">
                   <input
                     type="checkbox"
-                    className="rounded border-slate-700 bg-slate-800 text-emerald-600 focus:ring-offset-slate-900"
+                    className="rounded border-slate-700 bg-slate-800 text-green-600 focus:ring-offset-slate-900"
                     onChange={handleSelectAll}
                     checked={
                       ssnData?.data?.ssns?.length > 0 &&
@@ -426,13 +426,13 @@ function SSNDOB() {
                     <tr
                       key={idx}
                       className={`hover:bg-slate-800/50 transition-colors ${
-                        isSelected ? "bg-emerald-900/10" : ""
+                        isSelected ? "bg-green-900/10" : ""
                       }`}
                     >
                       <td className="px-4 py-3">
                         <input
                           type="checkbox"
-                          className="rounded border-slate-700 bg-slate-800 text-emerald-600 focus:ring-offset-slate-900"
+                          className="rounded border-slate-700 bg-slate-800 text-green-600 focus:ring-offset-slate-900"
                           checked={isSelected}
                           onChange={() => handleSelectOne(item._id)}
                           disabled={inCart}
@@ -475,7 +475,7 @@ function SSNDOB() {
                           <button
                             onClick={() => onSubmitting(item._id)}
                             disabled={loadingCart}
-                            className="p-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg shadow-lg shadow-emerald-900/20 transition-all hover:scale-105"
+                            className="p-2 bg-green-600 hover:bg-green-500 text-white rounded-lg shadow-lg shadow-green-900/20 transition-all hover:scale-105"
                           >
                             <CgShoppingCart size={16} />
                           </button>
@@ -509,7 +509,7 @@ function SSNDOB() {
         }`}
       >
         <div className="flex items-center gap-2">
-          <span className="bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+          <span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
             {selectedIds.length}
           </span>
           <span className="text-sm font-medium">Items Selected</span>
@@ -528,7 +528,7 @@ function SSNDOB() {
           <button
             onClick={handleBulkAdd}
             disabled={isBulkAdding}
-            className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg shadow-emerald-900/20 transition-all hover:scale-105"
+            className="flex items-center gap-2 bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg shadow-green-900/20 transition-all hover:scale-105"
           >
             {isBulkAdding ? (
               <PulseLoader size={6} color="white" />

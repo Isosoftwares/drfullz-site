@@ -30,8 +30,8 @@ function Support() {
     <div className="min-h-[80vh] flex flex-col items-center justify-center p-4 animate-in fade-in zoom-in duration-500">
       {/* Header Section */}
       <div className="text-center mb-12 max-w-2xl">
-        <div className="inline-flex justify-center items-center p-4 bg-slate-800 rounded-full mb-6 shadow-xl shadow-emerald-900/10">
-          <BiSupport size={40} className="text-emerald-500" />
+        <div className="inline-flex justify-center items-center p-4 bg-slate-800 rounded-full mb-6 shadow-xl shadow-green-900/10">
+          <BiSupport size={40} className="text-green-500" />
         </div>
         <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">
           How can we help you?
@@ -49,16 +49,16 @@ function Support() {
           href="https://t.me/DrFullzBot"
           target="_blank"
           rel="noopener noreferrer"
-          className="group relative bg-slate-900 border border-slate-800 hover:border-emerald-500/50 rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-emerald-500/10 flex flex-col items-center text-center overflow-hidden"
+          className="group relative bg-slate-900 border border-slate-800 hover:border-green-500/50 rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-green-500/10 flex flex-col items-center text-center overflow-hidden"
         >
-          <div className="mb-6 p-4 rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-500 text-white shadow-lg shadow-emerald-500/20 group-hover:scale-110 transition-transform duration-300">
+          <div className="mb-6 p-4 rounded-2xl bg-gradient-to-br from-green-600 to-teal-500 text-white shadow-lg shadow-green-500/20 group-hover:scale-110 transition-transform duration-300">
             <FaRobot size={40} />
           </div>
           <h2 className="text-2xl font-bold text-white mb-3">Telegram Bot</h2>
           <p className="text-slate-400 mb-8 leading-relaxed">
             Get instant automated help, check order status, or manage your account 24/7.
           </p>
-          <span className="mt-auto inline-flex items-center justify-center px-6 py-3 text-sm font-semibold text-white transition-all duration-200 bg-slate-800 border border-slate-700 rounded-lg group-hover:bg-emerald-600 group-hover:border-emerald-600 w-full">
+          <span className="mt-auto inline-flex items-center justify-center px-6 py-3 text-sm font-semibold text-white transition-all duration-200 bg-slate-800 border border-slate-700 rounded-lg group-hover:bg-green-600 group-hover:border-green-600 w-full">
             Start Bot
           </span>
         </a> */}
@@ -67,13 +67,13 @@ function Support() {
           href="https://t.me/dr_fullz"
           target="_blank"
           rel="noopener noreferrer"
-          className="group relative bg-slate-900 border border-slate-800 hover:border-emerald-500/50 rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-emerald-500/10 flex flex-col items-center text-center overflow-hidden"
+          className="group relative bg-slate-900 border border-slate-800 hover:border-green-500/50 rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-green-500/10 flex flex-col items-center text-center overflow-hidden"
         >
           {/* Background Glow Effect on Hover */}
-          <div className="absolute inset-0 bg-gradient-to-br from-emerald-500 to-teal-600 opacity-0 group-hover:opacity-5 transition-opacity duration-500"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-green-500 to-teal-600 opacity-0 group-hover:opacity-5 transition-opacity duration-500"></div>
 
           {/* Icon */}
-          <div className="mb-6 p-4 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-lg shadow-emerald-500/20 group-hover:scale-110 transition-transform duration-300">
+          <div className="mb-6 p-4 rounded-2xl bg-gradient-to-br from-green-500 to-teal-600 text-white shadow-lg shadow-green-500/20 group-hover:scale-110 transition-transform duration-300">
             <FaTelegramPlane size={40} />
           </div>
 
@@ -87,7 +87,7 @@ function Support() {
           </p>
 
           {/* Fake Button Visual */}
-          <span className="mt-auto inline-flex items-center justify-center px-6 py-3 text-sm font-semibold text-white transition-all duration-200 bg-slate-800 border border-slate-700 rounded-lg group-hover:bg-emerald-600 group-hover:border-emerald-600 w-full">
+          <span className="mt-auto inline-flex items-center justify-center px-6 py-3 text-sm font-semibold text-white transition-all duration-200 bg-slate-800 border border-slate-700 rounded-lg group-hover:bg-green-600 group-hover:border-green-600 w-full">
             Join Channel
           </span>
         </a>

@@ -5,10 +5,10 @@ function FAQpage() {
   return (
     <div className="bg-slate-900 min-h-screen pb-12">
       <div className="text-white pt-10 text-center mb-10">
-        <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
+        <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-green-400 to-teal-400 bg-clip-text text-transparent">
           Frequently Asked Questions
         </h1>
-        <div className="h-1 w-24 bg-emerald-500 rounded-full mx-auto"></div>
+        <div className="h-1 w-24 bg-green-500 rounded-full mx-auto"></div>
       </div>
       <div className="max-w-4xl mx-auto px-4">
         <FAQ
@@ -33,7 +33,7 @@ function FAQpage() {
         <FAQ
           question="Seller Rules"
           answer={[
-            <p className="text-2xl font-semibold mb-4 text-emerald-400">
+            <p className="text-2xl font-semibold mb-4 text-green-400">
               Seller-to-Buyer Disclosure Terms
             </p>,
             <hr className="border-slate-700 mb-6" />,
@@ -65,7 +65,7 @@ function FAQpage() {
           question="Purchase Rules for SSN/DOB"
           answer={[
             <div className="space-y-4">
-              <p className="text-xl font-medium text-emerald-400">
+              <p className="text-xl font-medium text-green-400">
                 We are not responsible for link success rates or negotiability.
               </p>
 
@@ -93,7 +93,7 @@ function FAQpage() {
               </p>
               <p className="text-slate-300">
                 2. We provide a limited{" "}
-                <span className="text-emerald-400 font-bold">
+                <span className="text-green-400 font-bold">
                   24-hour warranty
                 </span>{" "}
                 from the time of purchase.
@@ -107,7 +107,7 @@ function FAQpage() {
             <div className="space-y-4 text-slate-300">
               <p>
                 1. We provide a limited{" "}
-                <span className="text-emerald-400 font-bold">
+                <span className="text-green-400 font-bold">
                   24-hour warranty
                 </span>{" "}
                 from the time of purchase.

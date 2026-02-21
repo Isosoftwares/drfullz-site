@@ -4,12 +4,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#10b981", // Emerald-500
+        primary: "#10b981", // green-500
         dark: "#0f172a", // Slate-950
         dark2: "#1e293b", // Slate-800
         dark3: "#334155", // Slate-700
         light: "#f8fafc", // Slate-50
-        accent: "#34d399", // Emerald-400
+        accent: "#34d399", // green-400
         secondary: "#475569", // Slate-600
         tertiary: "#020617", // Extra dark
       },

@@ -212,7 +212,7 @@ function Cart() {
             Cancel
           </Button>
           <Button
-            color="emerald"
+            color="green"
             onClick={() => {
               if (userBalance < totalPrice) {
                 navigate(
@@ -233,7 +233,7 @@ function Cart() {
       {/* --- MAIN CONTENT --- */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <h1 className="text-3xl font-bold text-white mb-8 flex items-center gap-3">
-          <div className="p-3 bg-emerald-600/20 rounded-xl text-emerald-500">
+          <div className="p-3 bg-green-600/20 rounded-xl text-green-500">
             <CgShoppingCart />
           </div>
           Your Shopping Cart
@@ -253,7 +253,7 @@ function Cart() {
             </p>
             <Link
               to="/dash/ssn"
-              className="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-3 rounded-lg font-medium transition-all shadow-lg shadow-emerald-900/20 flex items-center gap-2"
+              className="bg-green-600 hover:bg-green-500 text-white px-6 py-3 rounded-lg font-medium transition-all shadow-lg shadow-green-900/20 flex items-center gap-2"
             >
               Start Shopping <FaArrowRight size={14} />
             </Link>
@@ -287,7 +287,7 @@ function Cart() {
                           className="hover:bg-slate-800/50 transition-colors"
                         >
                           <td className="p-4">
-                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-900/30 text-emerald-400 border border-emerald-900/50">
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-900/30 text-green-400 border border-green-900/50">
                               {item.price?.base || "Unknown"}
                             </span>
                           </td>
@@ -364,7 +364,7 @@ function Cart() {
                 ) : (
                   <button
                     onClick={openCheckout}
-                    className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white py-3.5 rounded-lg font-bold shadow-lg shadow-emerald-900/20 transition-all transform hover:scale-[1.02] flex items-center justify-center gap-2"
+                    className="w-full bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-500 hover:to-teal-500 text-white py-3.5 rounded-lg font-bold shadow-lg shadow-green-900/20 transition-all transform hover:scale-[1.02] flex items-center justify-center gap-2"
                   >
                     <FaCreditCard /> Checkout
                   </button>

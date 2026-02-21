@@ -93,7 +93,7 @@ function Register() {
             href="https://t.me/DrFullzBot"
             target="_blank"
             rel="noreferrer"
-            className="absolute top-4 right-4 text-emerald-400 hover:text-emerald-300 transition-colors flex items-center gap-2 text-sm font-medium"
+            className="absolute top-4 right-4 text-green-400 hover:text-green-300 transition-colors flex items-center gap-2 text-sm font-medium"
           >
             <FaTelegramPlane size={18} />
             <span className="hidden sm:inline">Bot</span>
@@ -127,7 +127,7 @@ function Register() {
                 our Telegram BOT
               </p>
               <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-emerald-500 transition-colors">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-green-500 transition-colors">
                   <HiUser size={20} />
                 </div>
 
@@ -136,7 +136,7 @@ function Register() {
                   id="username"
                   type="text"
                   placeholder=" "
-                  className="peer w-full bg-slate-800 text-white pl-10 pr-4 py-3 rounded-lg border border-slate-700 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition-all placeholder-transparent"
+                  className="peer w-full bg-slate-800 text-white pl-10 pr-4 py-3 rounded-lg border border-slate-700 focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none transition-all placeholder-transparent"
                   {...register("username", {
                     required: "Username is required",
                     minLength: { value: 4, message: "Min length is 4" },
@@ -151,9 +151,9 @@ function Register() {
                 {/* 2. The Floating Label */}
                 <label
                   htmlFor="username"
-                  className="absolute left-10 -top-2.5 bg-slate-800 px-1 text-xs text-emerald-500 transition-all 
+                  className="absolute left-10 -top-2.5 bg-slate-800 px-1 text-xs text-green-500 transition-all 
       peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-slate-500 peer-placeholder-shown:bg-transparent
-      peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-emerald-500 peer-focus:bg-slate-800 cursor-text"
+      peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-green-500 peer-focus:bg-slate-800 cursor-text"
                 >
                   Username
                 </label>
@@ -169,7 +169,7 @@ function Register() {
             {/* Password Input */}
             <div className="space-y-1 mt-4">
               <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-emerald-500 transition-colors">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-green-500 transition-colors">
                   <RiLockPasswordFill size={20} />
                 </div>
 
@@ -183,9 +183,9 @@ function Register() {
 
                 <label
                   htmlFor="password"
-                  className="absolute left-10 -top-2.5 bg-slate-800 px-1 text-xs text-emerald-500 transition-all 
+                  className="absolute left-10 -top-2.5 bg-slate-800 px-1 text-xs text-green-500 transition-all 
       peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-slate-500 peer-placeholder-shown:bg-transparent
-      peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-emerald-500 peer-focus:bg-slate-800 cursor-text"
+      peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-green-500 peer-focus:bg-slate-800 cursor-text"
                 >
                   Password
                 </label>
@@ -211,7 +211,7 @@ function Register() {
             {/* Confirm Password Input */}
             <div className="space-y-1 mt-4">
               <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-emerald-500 transition-colors">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-green-500 transition-colors">
                   <RiLockPasswordFill size={20} />
                 </div>
 
@@ -229,9 +229,9 @@ function Register() {
 
                 <label
                   htmlFor="confirmPassword"
-                  className="absolute left-10 -top-2.5 bg-slate-800 px-1 text-xs text-emerald-500 transition-all 
+                  className="absolute left-10 -top-2.5 bg-slate-800 px-1 text-xs text-green-500 transition-all 
       peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-slate-500 peer-placeholder-shown:bg-transparent
-      peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-emerald-500 peer-focus:bg-slate-800 cursor-text"
+      peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-green-500 peer-focus:bg-slate-800 cursor-text"
                 >
                   Confirm Password
                 </label>
@@ -264,7 +264,7 @@ function Register() {
                   <PulseLoader color="#3b82f6" size={10} />
                 </div>
               ) : (
-                <button className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-[1.01] shadow-lg shadow-emerald-900/20">
+                <button className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-[1.01] shadow-lg shadow-green-900/20">
                   Register
                 </button>
               )}
@@ -276,7 +276,7 @@ function Register() {
                 Already have an account?{" "}
                 <Link
                   to="/"
-                  className="text-emerald-500 hover:text-emerald-400 font-medium hover:underline"
+                  className="text-green-500 hover:text-green-400 font-medium hover:underline"
                 >
                   Back to Login
                 </Link>
@@ -290,7 +290,7 @@ function Register() {
       {/* <a
         href="https://t.me/DrFullzBot"
         target="_blank"
-        className="mt-6 lg:hidden flex items-center gap-2 text-slate-400 hover:text-emerald-400 transition-colors"
+        className="mt-6 lg:hidden flex items-center gap-2 text-slate-400 hover:text-green-400 transition-colors"
       >
         <FaTelegramPlane />
         <span>Join us on Telegram</span>

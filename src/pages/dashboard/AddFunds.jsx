@@ -119,7 +119,7 @@ function AddFunds() {
     control: (base, state) => ({
       ...base,
       backgroundColor: "#1e293b", // slate-800
-      borderColor: state.isFocused ? "#10b981" : "#334155", // emerald-500 : slate-700
+      borderColor: state.isFocused ? "#10b981" : "#334155", // green-500 : slate-700
       color: "white",
       padding: "2px",
       borderRadius: "0.5rem",
@@ -170,7 +170,7 @@ function AddFunds() {
         {/* Form Card */}
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
           <div className="flex items-center gap-3 border-b border-slate-800 pb-4 mb-6">
-            <div className="p-2 bg-emerald-600/20 rounded-lg text-emerald-500">
+            <div className="p-2 bg-green-600/20 rounded-lg text-green-500">
               <IconWallet size={24} />
             </div>
             <h1 className="text-xl font-bold text-white">Add Funds</h1>
@@ -201,7 +201,7 @@ function AddFunds() {
               <label className="text-sm font-semibold text-slate-400">
                 Amount (USD)
                 {cryptoCurrency && minAmountData?.data?.data && (
-                  <span className="ml-2 text-xs text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full">
+                  <span className="ml-2 text-xs text-green-400 bg-green-400/10 px-2 py-0.5 rounded-full">
                     Min: ${Math.ceil(minAmountData.data?.data?.fiat_equivalent)}
                   </span>
                 )}
@@ -214,7 +214,7 @@ function AddFunds() {
                 <input
                   type="number"
                   disabled={!cryptoCurrency}
-                  className="w-full bg-slate-800 border border-slate-700 rounded-lg py-2.5 pl-8 pr-4 text-white placeholder-slate-500 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-slate-800 border border-slate-700 rounded-lg py-2.5 pl-8 pr-4 text-white placeholder-slate-500 focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                   placeholder="0.00"
                   step="0.01"
                   {...register("amount", {
@@ -242,7 +242,7 @@ function AddFunds() {
             <button
               type="submit"
               disabled={loadingCreatePayment || !!paymentData?.order_id}
-              className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-700 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-lg transition-all shadow-lg shadow-emerald-900/20 flex justify-center items-center gap-2"
+              className="w-full bg-green-600 hover:bg-green-700 disabled:bg-slate-700 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-lg transition-all shadow-lg shadow-green-900/20 flex justify-center items-center gap-2"
             >
               {loadingCreatePayment ? (
                 <PulseLoader color="white" size={8} />

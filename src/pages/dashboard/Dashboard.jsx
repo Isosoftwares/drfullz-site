@@ -92,7 +92,7 @@ function Dashboard() {
 
     const variants = {
       primary:
-        "bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white shadow-emerald-500/20",
+        "bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-500 hover:to-teal-500 text-white shadow-green-500/20",
       secondary:
         "bg-slate-700 hover:bg-slate-600 text-white border border-slate-600",
       telegram:
@@ -146,7 +146,7 @@ function Dashboard() {
                 alt="Logo"
                 className="w-9 h-9 rounded-lg shadow-sm"
               />
-              <span className="hidden sm:block text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-emerald-600 tracking-tight group-hover:to-white transition-all">
+              <span className="hidden sm:block text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-green-600 tracking-tight group-hover:to-white transition-all">
                 Fullducks
               </span>
             </Link>
@@ -178,21 +178,21 @@ function Dashboard() {
             <div className="flex items-center gap-2">
               <Link
                 to="/dash/support"
-                className="p-2 text-slate-400 hover:text-emerald-400 transition-colors relative"
+                className="p-2 text-slate-400 hover:text-green-400 transition-colors relative"
               >
                 <TbMessageCircle size={24} />
               </Link>
 
               <Link
                 to="cart"
-                className="p-2 text-slate-400 hover:text-emerald-400 transition-colors relative"
+                className="p-2 text-slate-400 hover:text-green-400 transition-colors relative"
               >
                 <Indicator
                   inline
                   disabled={!totalItems}
                   label={totalItems}
                   size={16}
-                  color="emerald"
+                  color="green"
                   offset={4}
                 >
                   <CgShoppingCart size={24} />
@@ -213,7 +213,7 @@ function Dashboard() {
                 </div>
 
                 {/* Avatar Placeholder / Initial */}
-                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-emerald-600 to-teal-700 flex items-center justify-center text-white font-bold shadow-lg shadow-emerald-900/20">
+                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-green-600 to-teal-700 flex items-center justify-center text-white font-bold shadow-lg shadow-green-900/20">
                   {userName.charAt(0).toUpperCase()}
                 </div>
 
@@ -263,7 +263,7 @@ function Dashboard() {
                    flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200 group relative overflow-hidden
                    ${
                      isActive
-                       ? "bg-emerald-600 text-white shadow-lg shadow-emerald-900/40"
+                       ? "bg-green-600 text-white shadow-lg shadow-green-900/40"
                        : "text-slate-400 hover:bg-slate-900 hover:text-white"
                    }
                    ${!isOpen && "justify-center"}
