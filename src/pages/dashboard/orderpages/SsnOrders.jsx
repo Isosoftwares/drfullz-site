@@ -179,14 +179,19 @@ Account Login and Access Instructions
       "base",
     ];
 
+    const toMMDDYYYY = (isoStr) => {
+      if (!isoStr) return "";
+      const [year, month, day] = String(isoStr).split("T")[0].split("-");
+      return `${month}/${day}/${year}`;
+    };
+
     let csv = headers.join(",") + "\n";
     orders.forEach((o) => {
       const row = headers
         .map((h) => {
           let val = o[h] || "";
           if ((h === "DOB" || h === "purchaseDate") && val) {
-            // Trim to YYYY-MM-DD, removing the T… time portion
-            val = String(val).split("T")[0];
+            val = toMMDDYYYY(val);
           }
           return `"${String(val).replace(/"/g, '""')}"`;
         })
