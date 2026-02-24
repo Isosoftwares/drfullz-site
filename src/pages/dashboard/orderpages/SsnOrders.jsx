@@ -91,9 +91,41 @@ function SsnOrders({ ssn = [], onOrdersDeleted }) {
 
   // --- Download Helpers ---
   const instructions = ``;
+  const INSTRUCTIONS_TEXT = `How to log in and secure your account;
+Log in with email and fsaid password. 
+If the fullz you have are mail.tm base, you can log into the email and get the code to confirm your log in activity
+If you are provided with an email alone, go to help me access my account, an option that comes out immediately afte adding email and password. Use the recovery code to access your acc. Remember to save the new backup code and then add in your own email upon successfully logging in. 
+Happy dollar milling
+
+Account Login and Access Instructions
+ 1. Login Credentials
+ • Log in using your email address and FSA ID password.
+ 2. Login Verification
+ • If the credentials you have are mail.tm–based, log in to the email account and retrieve the verification code sent to confirm the login activity.
+ 3. Account Access Using Email Only
+ • If you are provided with an email address only, proceed as follows:
+ • Enter the email and password.
+ • Immediately after submission, select "Help me access my account."
+ • Use the recovery code to gain access to the account.
+ 4. Post-Login Actions
+ • Upon successful login:
+ • Save the new backup/recovery code provided.
+ • Add your own email address to the account for future access and security.`;
+  const downloadInstructions = () => {
+    const blob = new Blob([INSTRUCTIONS_TEXT], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "login-instructions.txt";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
   const generateTxtContent = (orders) => {
-    let content = "SSN/DOB Orders Export\n\n" + instructions + "\n\n";
+    let content =
+      "SSN/DOB Orders Export\n\n" +
+      "Instructions: Find login instructions in the downloaded files as well (login-instructions.txt)." +
+      "\n\n";
     orders.forEach((o, i) => {
       content += `[Order #${i + 1}] --------------------------------\n`;
       content += `Name:              ${o.FName} ${o.LName}\n`;
@@ -121,6 +153,7 @@ function SsnOrders({ ssn = [], onOrdersDeleted }) {
 
   const handleDownloadTxt = (orders) => {
     downloadFile(generateTxtContent(orders), "text/plain", "orders.txt");
+    downloadInstructions();
   };
 
   const handleDownloadCsv = (orders) => {
@@ -156,6 +189,7 @@ function SsnOrders({ ssn = [], onOrdersDeleted }) {
       csv += row + "\n";
     });
     downloadFile(csv, "text/csv;charset=utf-8;", "ssn_orders.csv");
+    downloadInstructions();
   };
 
   // --- Render Table Component ---
