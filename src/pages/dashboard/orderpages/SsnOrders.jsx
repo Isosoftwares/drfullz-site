@@ -175,8 +175,6 @@ Account Login and Access Instructions
       "Description",
       "EnrollmentDetails",
       "EnrollmentStatus",
-      "status",
-      "isPaid",
       "purchaseDate",
       "base",
     ];
@@ -184,7 +182,14 @@ Account Login and Access Instructions
     let csv = headers.join(",") + "\n";
     orders.forEach((o) => {
       const row = headers
-        .map((h) => `"${String(o[h] || "").replace(/"/g, '""')}"`)
+        .map((h) => {
+          let val = o[h] || "";
+          if ((h === "DOB" || h === "purchaseDate") && val) {
+            // Trim to YYYY-MM-DD, removing the T… time portion
+            val = String(val).split("T")[0];
+          }
+          return `"${String(val).replace(/"/g, '""')}"`;
+        })
         .join(",");
       csv += row + "\n";
     });
