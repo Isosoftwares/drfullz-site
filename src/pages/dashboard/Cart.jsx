@@ -26,6 +26,8 @@ function Cart() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
+  const accountType = auth?.user?.accountType || "buyer";
+
   // --- Modal State Management ---
   // 1. Delete Single Item
   const [deleteOpened, { open: openDelete, close: closeDelete }] =
@@ -63,8 +65,9 @@ function Cart() {
   const cartItems = cartData?.cart?.items || [];
   const userBalance = cartData?.cart?.userBalance || 0;
   const totalItems = cartItems.length;
+  // calculate total price according to account type
   const totalPrice = cartItems.reduce(
-    (acc, curr) => acc + parseFloat(curr?.price?.price || 0),
+    (acc, curr) => acc + parseFloat(accountType === "reseller" ? curr?.price?.resellerPrice : curr?.price?.price || 0),
     0,
   );
 
@@ -291,7 +294,7 @@ function Cart() {
                           </td>
 
                           <td className="p-4 text-right font-bold text-green-400">
-                            ${formatCurrency(item.price?.price)}
+                            ${formatCurrency(accountType === "reseller" ? item?.price?.resellerPrice : item?.price?.price)}
                           </td>
                           <td className="p-4 text-center">
                             <button

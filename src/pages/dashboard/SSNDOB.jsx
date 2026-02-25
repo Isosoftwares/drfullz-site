@@ -45,6 +45,8 @@ function SSNDOB() {
     { label: "Withdrawn", value: "Withdrawn" },
   ];
 
+  const accountType = auth?.user?.accountType || "buyer";
+
   // Slider State
   const [minValue, set_minValue] = useState(1910);
   const [maxValue, set_maxValue] = useState(currentYear);
@@ -461,9 +463,9 @@ function SSNDOB() {
                       <td className="px-4 py-3 text-center">
                         <StatusBadge status={item?.Email} />
                       </td>
-
+                      {/* display price according to account type, if no resllerPrice then dispaly base price */}
                       <td className="px-4 py-3 text-green-400 font-bold">
-                        ${item?.price?.price}
+                        ${accountType === "reseller" ? item?.price?.resellerPrice : item?.price?.price}
                       </td>
 
                       <td className="px-4 py-3 text-center">
