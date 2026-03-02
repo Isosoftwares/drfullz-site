@@ -29,6 +29,7 @@ function SSNDOB() {
 
   // Filters
   const [perPage, setPerPage] = useState(50);
+  const [customPerPage, setCustomPerPage] = useState("");
   const [activePage, setPage] = useState(1);
   const [base, setBase] = useState("");
   const [state, setState] = useState("");
@@ -178,6 +179,7 @@ function SSNDOB() {
     setCountry1("");
     setState("");
     setPerPage(50);
+    setCustomPerPage("");
     setZip("");
     setCs("");
     setName("");
@@ -349,7 +351,7 @@ function SSNDOB() {
       <UserGuide />
 
       {/* TABLE CONTROLS */}
-      <div className="flex flex-col md:flex-row justify-between items-center gap-4 bg-slate-900/50 p-4 rounded-xl border border-slate-800">
+      <div className="flex flex-col lg:flex-row justify-between items-center gap-4 bg-slate-900/50 p-4 rounded-xl border border-slate-800">
         <Pagination
           total={totalPages || 0}
           page={activePage}
@@ -361,7 +363,11 @@ function SSNDOB() {
           <span>Show</span>
           <select
             value={perPage}
-            onChange={(e) => setPerPage(Number(e.target.value))}
+            onChange={(e) => {
+              setPerPage(Number(e.target.value));
+              setCustomPerPage("");
+              setPage(1);
+            }}
             className="bg-slate-800 border border-slate-700 text-white rounded px-2 py-1 outline-none"
           >
             <option value={50}>50</option>
@@ -369,7 +375,25 @@ function SSNDOB() {
             <option value={200}>200</option>
             <option value={300}>300</option>
           </select>
-          <span>per page</span>
+          <span className="text-slate-600">or</span>
+          <input
+            type="number"
+            min={1}
+            max={300}
+            value={customPerPage}
+            onChange={(e) => {
+              const raw = e.target.value;
+              setCustomPerPage(raw);
+              const val = Number(raw);
+              if (raw !== "" && val >= 1 && val <= 300) {
+                setPerPage(val);
+                setPage(1);
+              }
+            }}
+            placeholder="Custom"
+            className="w-20 bg-slate-800 border border-slate-700 text-white rounded px-2 py-1 outline-none focus:border-green-500 text-center"
+          />
+          {/* <span className="text-slate-600 text-xs">(max 300)</span> */}
         </div>
       </div>
 
@@ -443,9 +467,7 @@ function SSNDOB() {
                       <td className="px-4 py-3 font-medium text-slate-300">
                         {item?.price?.base}
                       </td>
-                      <td className="px-4 py-3 text-white">
-                        {item?.FName}
-                      </td>
+                      <td className="px-4 py-3 text-white">{item?.FName}</td>
                       <td className="px-4 py-3 text-slate-400">
                         {item?.dobYear}
                       </td>
@@ -465,7 +487,10 @@ function SSNDOB() {
                       </td>
                       {/* display price according to account type, if no resllerPrice then dispaly base price */}
                       <td className="px-4 py-3 text-green-400 font-bold">
-                        ${accountType === "reseller" ? item?.price?.resellerPrice : item?.price?.price}
+                        $
+                        {accountType === "reseller"
+                          ? item?.price?.resellerPrice
+                          : item?.price?.price}
                       </td>
 
                       <td className="px-4 py-3 text-center">

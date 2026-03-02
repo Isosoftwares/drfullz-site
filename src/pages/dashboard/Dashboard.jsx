@@ -140,12 +140,10 @@ function Dashboard() {
             </button>
 
             {/* Logo */}
-            <Link to="/dash" className="flex items-center gap-3 group">
-              <img
-                src={logo}
-                alt="Logo"
-                className="w-9 h-9 rounded-lg shadow-sm"
-              />
+            <Link
+              to="/dash"
+              className="md:flex hidden items-center gap-3 group"
+            >
               <span className="hidden sm:block text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-green-600 tracking-tight group-hover:to-white transition-all">
                 Fullducks
               </span>

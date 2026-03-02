@@ -22,7 +22,6 @@ function SsnOrders({ ssn = [], onOrdersDeleted }) {
   const axios = useAxiosPrivate();
   const queryClient = useQueryClient();
   const { auth } = useAuth();
-
   // --- Sorting Logic ---
   useEffect(() => {
     if (!Array.isArray(ssn)) return;
