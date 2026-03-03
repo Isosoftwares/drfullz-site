@@ -210,7 +210,7 @@ function SSNDOB() {
     <div className="space-y-6 pb-20">
       {/* HEADER & FILTERS */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl shadow-lg overflow-hidden">
-        <div className="flex items-center justify-between px-6 py-4 bg-slate-950 border-b border-slate-800">
+        <div className="flex items-center justify-between px-6 py-2 bg-slate-950 border-b border-slate-800">
           <div className="flex items-center gap-2">
             <h2 className="text-xl font-bold text-white">Fullz / SSN</h2>
             <span className="bg-green-600/20 text-green-400 text-xs px-2 py-0.5 rounded-full border border-green-600/30">
@@ -339,7 +339,7 @@ function SSNDOB() {
             <div className="mt-6 flex justify-end">
               <button
                 onClick={resetFilters}
-                className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-sm transition-colors border border-slate-700"
+                className="flex items-center gap-2 px-2 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-sm transition-colors border border-slate-700"
               >
                 <FaTimes /> Reset Filters
               </button>
@@ -403,7 +403,7 @@ function SSNDOB() {
           <table className="w-full text-sm text-left">
             <thead className="text-xs text-slate-400 uppercase bg-slate-950 border-b border-slate-800">
               <tr>
-                <th className="px-4 py-4 w-10">
+                <th className="px-2 py-2 w-10">
                   <input
                     type="checkbox"
                     className="rounded border-slate-700 bg-slate-800 text-green-600 focus:ring-offset-slate-900"
@@ -414,15 +414,15 @@ function SSNDOB() {
                     }
                   />
                 </th>
-                <th className="px-4 py-4">Base</th>
-                <th className="px-4 py-4">Name</th>
-                <th className="px-4 py-4">Year</th>
-                <th className="px-4 py-4">Loc (State/City/Zip)</th>
-                <th className="px-4 py-4 text-center">SSN</th>
-                <th className="px-4 py-4 text-center">Address</th>
-                <th className="px-4 py-4 text-center">Email</th>
-                <th className="px-4 py-4">Price</th>
-                <th className="px-4 py-4 text-center">Action</th>
+                <th className="px-2 py-2">Base</th>
+                <th className="px-2 py-2">Name</th>
+                <th className="px-2 py-2">Year</th>
+                <th className="px-2 py-2">Loc (State/City/Zip)</th>
+                <th className="px-2 py-2 text-center">SSN</th>
+                <th className="px-2 py-2 text-center">Address</th>
+                <th className="px-2 py-2 text-center">Email</th>
+                <th className="px-2 py-2">Price</th>
+                <th className="px-2 py-2 text-center">Action</th>
               </tr>
             </thead>
 
@@ -455,7 +455,7 @@ function SSNDOB() {
                         isSelected ? "bg-green-900/10" : ""
                       }`}
                     >
-                      <td className="px-4 py-3">
+                      <td className="px-2 py-3">
                         <input
                           type="checkbox"
                           className="rounded border-slate-700 bg-slate-800 text-green-600 focus:ring-offset-slate-900"
@@ -464,36 +464,36 @@ function SSNDOB() {
                           disabled={inCart}
                         />
                       </td>
-                      <td className="px-4 py-3 font-medium text-slate-300">
+                      <td className="px-2 py-3 font-medium text-slate-300">
                         {item?.price?.base}
                       </td>
-                      <td className="px-4 py-3 text-white">{item?.FName}</td>
-                      <td className="px-4 py-3 text-slate-400">
+                      <td className="px-2 py-3 text-white">{item?.FName}</td>
+                      <td className="px-2 py-3 text-slate-400">
                         {item?.dobYear}
                       </td>
-                      <td className="px-4 py-3 text-slate-400">
+                      <td className="px-2 py-3 text-slate-400">
                         {item?.State}, {item?.City}{" "}
                         <span className="text-slate-500">({item?.Zip})</span>
                       </td>
 
-                      <td className="px-4 py-3 text-center">
+                      <td className="px-2 py-3 text-center">
                         <StatusBadge status={item?.SSN} />
                       </td>
-                      <td className="px-4 py-3 text-center">
+                      <td className="px-2 py-3 text-center">
                         <StatusBadge status={item?.DL || item?.Address} />
                       </td>
-                      <td className="px-4 py-3 text-center">
+                      <td className="px-2 py-3 text-center">
                         <StatusBadge status={item?.Email} />
                       </td>
                       {/* display price according to account type, if no resllerPrice then dispaly base price */}
-                      <td className="px-4 py-3 text-green-400 font-bold">
+                      <td className="px-2 py-3 text-green-400 font-bold">
                         $
                         {accountType === "reseller"
                           ? item?.price?.resellerPrice
                           : item?.price?.price}
                       </td>
 
-                      <td className="px-4 py-3 text-center">
+                      <td className="px-2 py-3 text-center">
                         {inCart ? (
                           <span className="text-xs font-bold text-slate-500 flex justify-center items-center gap-1">
                             <FaCheck /> In Cart
@@ -555,7 +555,7 @@ function SSNDOB() {
           <button
             onClick={handleBulkAdd}
             disabled={isBulkAdding}
-            className="flex items-center gap-2 bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg shadow-green-900/20 transition-all hover:scale-105"
+            className="flex items-center gap-2 bg-green-600 hover:bg-green-500 text-white px-2 py-2 rounded-full text-sm font-bold shadow-lg shadow-green-900/20 transition-all hover:scale-105"
           >
             {isBulkAdding ? (
               <PulseLoader size={6} color="white" />

@@ -10,10 +10,24 @@ import {
   FaCalendarDay,
   FaHistory,
   FaClock,
+  FaLayerGroup,
+  FaCalendarAlt,
 } from "react-icons/fa";
 import PulseLoader from "react-spinners/PulseLoader";
+import SsnBatchOrders from "./SsnBatchOrders";
+
+// ─── Tabs ────────────────────────────────────────────────────────────────────
+
+const TABS = [
+  { id: "date", label: "By Date", icon: FaCalendarAlt },
+  { id: "batch", label: "By Batch", icon: FaLayerGroup },
+];
+
+// ─── Main Component ───────────────────────────────────────────────────────────
 
 function SsnOrders({ ssn = [], onOrdersDeleted }) {
+  const [activeTab, setActiveTab] = useState("date");
+
   const [todaysOrders, setTodaysOrders] = useState([]);
   const [yesterdaysOrders, setYesterdaysOrders] = useState([]);
   const [earlierOrders, setEarlierOrders] = useState([]);
@@ -22,6 +36,7 @@ function SsnOrders({ ssn = [], onOrdersDeleted }) {
   const axios = useAxiosPrivate();
   const queryClient = useQueryClient();
   const { auth } = useAuth();
+
   // --- Sorting Logic ---
   useEffect(() => {
     if (!Array.isArray(ssn)) return;
@@ -89,7 +104,6 @@ function SsnOrders({ ssn = [], onOrdersDeleted }) {
   };
 
   // --- Download Helpers ---
-  const instructions = ``;
   const INSTRUCTIONS_TEXT = `How to log in and secure your account;
 Log in with email and fsaid password. 
 If the fullz you have are mail.tm base, you can log into the email and get the code to confirm your log in activity
@@ -110,7 +124,8 @@ Account Login and Access Instructions
  • Upon successful login:
  • Save the new backup/recovery code provided.
  • Add your own email address to the account for future access and security.`;
-  const downloadInstructions = () => {
+
+  const downloadInstructionsFile = () => {
     const blob = new Blob([INSTRUCTIONS_TEXT], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -152,13 +167,12 @@ Account Login and Access Instructions
 
   const handleDownloadTxt = (orders) => {
     downloadFile(generateTxtContent(orders), "text/plain", "orders.txt");
-    downloadInstructions();
+    downloadInstructionsFile();
   };
 
   const handleDownloadCsv = (orders) => {
     if (!orders.length) return;
 
-    // Explicit ordered headers matching new SsnDob schema
     const headers = [
       "FName",
       "LName",
@@ -198,13 +212,12 @@ Account Login and Access Instructions
       csv += row + "\n";
     });
     downloadFile(csv, "text/csv;charset=utf-8;", "ssn_orders.csv");
-    downloadInstructions();
+    downloadInstructionsFile();
   };
 
   // --- Render Table Component ---
   const RenderTable = ({ data, title, icon: Icon }) => {
     if (data.length === 0) return null;
-    const allSelected = data.every((o) => selectedOrders.has(o._id));
 
     return (
       <div className="mb-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -241,16 +254,6 @@ Account Login and Access Instructions
             <table className="w-full text-sm text-left">
               <thead className="text-xs text-slate-400 uppercase bg-slate-950/50 border-b border-slate-800">
                 <tr>
-                  {/* <th className="px-4 py-3 w-10">
-                    <input
-                      type="checkbox"
-                      className="rounded border-slate-700 bg-slate-800 text-blue-600 focus:ring-offset-slate-900"
-                      checked={allSelected}
-                      onChange={(e) =>
-                        handleSelectGroup(data, e.target.checked)
-                      }
-                    />
-                  </th> */}
                   <th className="px-4 py-3">Identity</th>
                   <th className="px-4 py-3">Location</th>
                   <th className="px-4 py-3">Credentials</th>
@@ -267,14 +270,6 @@ Account Login and Access Instructions
                         isSelected ? "bg-green-900/10" : ""
                       }`}
                     >
-                      {/* <td className="px-4 py-3 align-top pt-4">
-                        <input
-                          type="checkbox"
-                          className="rounded border-slate-700 bg-slate-800 text-blue-600 focus:ring-offset-slate-900"
-                          checked={isSelected}
-                          onChange={() => handleOrderSelect(item._id)}
-                        />
-                      </td> */}
                       <td className="px-4 py-3 align-top">
                         <div className="font-bold text-white text-base">
                           {item.FName} {item.LName}
@@ -363,70 +358,105 @@ Account Login and Access Instructions
     todaysOrders.length + yesterdaysOrders.length + earlierOrders.length;
 
   return (
-    <div className="relative min-h-[400px]">
-      {/* Empty State */}
-      {totalOrders === 0 && (
-        <div className="flex flex-col items-center justify-center py-20 bg-slate-800/20 rounded-xl border border-dashed border-slate-700 text-center">
-          <div className="text-slate-600 mb-4 text-4xl">📭</div>
-          <h3 className="text-slate-400 text-lg font-medium">
-            No SSN orders found
-          </h3>
-          <p className="text-slate-500 text-sm">
-            Purchase records will appear here.
-          </p>
-        </div>
+    <div className="relative min-h-screen">
+      {/* ── Tab Switcher ─────────────────────────────────────────────────── */}
+      <p>Sort by: </p>
+      <div className="flex items-center gap-1 mb-6 bg-slate-900/60 border border-slate-800 rounded-xl p-1 w-fit">
+        {TABS.map((tab) => {
+          const Icon = tab.icon;
+          const isActive = activeTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                isActive
+                  ? "bg-green-600 text-white shadow-md shadow-green-900/30"
+                  : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/60"
+              }`}
+            >
+              <Icon size={13} />
+              {tab.label}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* ── Date View ────────────────────────────────────────────────────── */}
+      {activeTab === "date" && (
+        <>
+          {totalOrders === 0 && (
+            <div className="flex flex-col items-center justify-center py-20 bg-slate-800/20 rounded-xl border border-dashed border-slate-700 text-center">
+              <div className="text-slate-600 mb-4 text-4xl">📭</div>
+              <h3 className="text-slate-400 text-lg font-medium">
+                No SSN orders found
+              </h3>
+              <p className="text-slate-500 text-sm">
+                Purchase records will appear here.
+              </p>
+            </div>
+          )}
+
+          <RenderTable
+            data={todaysOrders}
+            title="Purchased Today"
+            icon={FaClock}
+          />
+          <RenderTable
+            data={yesterdaysOrders}
+            title="Yesterday"
+            icon={FaCalendarDay}
+          />
+          <RenderTable
+            data={earlierOrders}
+            title="Order History"
+            icon={FaHistory}
+          />
+        </>
       )}
 
-      {/* Sections */}
-      <RenderTable data={todaysOrders} title="Purchased Today" icon={FaClock} />
-      <RenderTable
-        data={yesterdaysOrders}
-        title="Yesterday"
-        icon={FaCalendarDay}
-      />
-      <RenderTable
-        data={earlierOrders}
-        title="Order History"
-        icon={FaHistory}
-      />
+      {/* ── Batch View ───────────────────────────────────────────────────── */}
+      {activeTab === "batch" && <SsnBatchOrders ssn={ssn} />}
 
-      {/* Floating Action Bar */}
-      <div
-        className={`fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 bg-slate-800 border border-slate-700 text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-6 transition-all duration-300 ${
-          selectedOrders.size > 0
-            ? "translate-y-0 opacity-100"
-            : "translate-y-20 opacity-0 pointer-events-none"
-        }`}
-      >
-        <div className="flex items-center gap-2">
-          <span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-            {selectedOrders.size}
-          </span>
-          <span className="text-sm font-medium">Selected</span>
+      {/* ── Floating Action Bar (date view only) ─────────────────────────── */}
+      {activeTab === "date" && (
+        <div
+          className={`fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 bg-slate-800 border border-slate-700 text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-6 transition-all duration-300 ${
+            selectedOrders.size > 0
+              ? "translate-y-0 opacity-100"
+              : "translate-y-20 opacity-0 pointer-events-none"
+          }`}
+        >
+          <div className="flex items-center gap-2">
+            <span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+              {selectedOrders.size}
+            </span>
+            <span className="text-sm font-medium">Selected</span>
+          </div>
+          <div className="h-6 w-px bg-slate-600"></div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setSelectedOrders(new Set())}
+              className="text-sm text-slate-400 hover:text-white transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={bulkDeleteOrders}
+              disabled={loadingMutate}
+              className="flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg shadow-red-900/20 transition-all hover:scale-105"
+            >
+              {loadingMutate ? (
+                <PulseLoader size={6} color="white" />
+              ) : (
+                <>
+                  <FaTrashAlt size={14} /> Delete
+                </>
+              )}
+            </button>
+          </div>
         </div>
-        <div className="h-6 w-px bg-slate-600"></div>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setSelectedOrders(new Set())}
-            className="text-sm text-slate-400 hover:text-white transition-colors"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={bulkDeleteOrders}
-            disabled={loadingMutate}
-            className="flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg shadow-red-900/20 transition-all hover:scale-105"
-          >
-            {loadingMutate ? (
-              <PulseLoader size={6} color="white" />
-            ) : (
-              <>
-                <FaTrashAlt size={14} /> Delete
-              </>
-            )}
-          </button>
-        </div>
-      </div>
+      )}
     </div>
   );
 }

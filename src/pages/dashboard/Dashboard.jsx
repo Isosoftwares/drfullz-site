@@ -204,7 +204,7 @@ function Dashboard() {
                 onClick={() => setDropdown(!dropdown)}
                 className="flex items-center gap-3 pl-3 pr-2 py-1.5 rounded-full hover:bg-slate-800 transition-colors border border-transparent hover:border-slate-700"
               >
-                <div className=" flex-col items-end hidden sm:flex">
+                <div className=" flex-col items-end  sm:flex">
                   <span className="text-sm font-bold text-green-400 font-mono">
                     ${formatCurrency(paymentsData?.data?.data?.balance)}
                   </span>
