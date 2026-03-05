@@ -9,6 +9,7 @@ import {
   FaList,
   FaChevronDown,
   FaChevronUp,
+  FaCopy
 } from "react-icons/fa";
 
 // ─── Shared Download Helpers ────────────────────────────────────────────────
@@ -60,6 +61,7 @@ const generateTxtContent = (orders) => {
     content += `Address:           ${o.Address}, ${o.City}, ${o.State || ""} ${o.Zip || ""}\n`;
     content += `Username:          ${o.Username}\n`;
     content += `Password:          ${o.Password}\n`;
+    content += `2FA:               ${o.twoFA || "N/A"}\n`;
     content += `Backup Code:       ${o.BackupCode}\n`;
     content += `Description:       ${o.Description || "N/A"}\n`;
     content += `Enrollment Detail: ${o.EnrollmentDetails || "N/A"}\n`;
@@ -88,6 +90,7 @@ const generateCsvContent = (orders) => {
     "Zip",
     "Username",
     "Password",
+    "twoFA",
     "BackupCode",
     "Description",
     "EnrollmentDetails",
@@ -213,7 +216,7 @@ function BatchCard({ batchKey, orders, isSelected, onToggleSelect }) {
 
       {/* Expanded table */}
       {expanded && (
-        <div className="border-t border-slate-800 overflow-x-auto">
+        <div className="border-t border-slate-800 overflow-x-auto overflow-hidden">
           <table className="w-full text-xs text-left">
             <thead className="text-slate-500 uppercase bg-slate-950/60 border-b border-slate-800">
               <tr>
@@ -261,6 +264,22 @@ function BatchCard({ batchKey, orders, isSelected, onToggleSelect }) {
                     <div>
                       <span className="text-slate-600">Pass: </span>
                       {item.Password}
+                    </div>
+                    <div>
+                      <span className="text-slate-600 w-16">2FA: </span>
+                      <span className="text-green-400 truncate max-w-[140px]">{item.twoFA || "N/A"}</span>
+                      {/* add a copy button if they have a 2FA   */}
+                      {item.twoFA && (
+                        <button
+                        title="Copy 2FA"
+                          onClick={() =>
+                            navigator.clipboard.writeText(item.twoFA)
+                          }
+                          className="text-slate-500 hover:text-white"
+                        >
+                          <FaCopy size={12} />
+                        </button>
+                      )}
                     </div>
                     <div>
                       <span className="text-slate-600">BK: </span>

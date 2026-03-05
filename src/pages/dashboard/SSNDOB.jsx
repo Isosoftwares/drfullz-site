@@ -350,52 +350,72 @@ function SSNDOB() {
 
       <UserGuide />
 
-      {/* TABLE CONTROLS */}
-      <div className="flex flex-col lg:flex-row justify-between items-center gap-4 bg-slate-900/50 p-4 rounded-xl border border-slate-800">
-        <Pagination
-          total={totalPages || 0}
-          page={activePage}
-          color="green"
-          onChange={setPage}
-          size="sm"
-        />
-        <div className="flex items-center gap-2 text-sm text-slate-400">
-          <span>Show</span>
-          <select
-            value={perPage}
-            onChange={(e) => {
-              setPerPage(Number(e.target.value));
-              setCustomPerPage("");
-              setPage(1);
-            }}
-            className="bg-slate-800 border border-slate-700 text-white rounded px-2 py-1 outline-none"
-          >
-            <option value={50}>50</option>
-            <option value={100}>100</option>
-            <option value={200}>200</option>
-            <option value={300}>300</option>
-          </select>
-          <span className="text-slate-600">or</span>
-          <input
-            type="number"
-            min={1}
-            max={300}
-            value={customPerPage}
-            onChange={(e) => {
-              const raw = e.target.value;
-              setCustomPerPage(raw);
-              const val = Number(raw);
-              if (raw !== "" && val >= 1 && val <= 300) {
-                setPerPage(val);
-                setPage(1);
-              }
-            }}
-            placeholder="Custom"
-            className="w-20 bg-slate-800 border border-slate-700 text-white rounded px-2 py-1 outline-none focus:border-green-500 text-center"
-          />
-          {/* <span className="text-slate-600 text-xs">(max 300)</span> */}
-        </div>
-      </div>
+     {/* TABLE CONTROLS */}
+<div className="flex flex-col md:flex-row justify-between items-center gap-6 bg-slate-900/80 p-5 rounded-2xl border border-slate-800 shadow-xl">
+  
+  {/* Left Side: Pagination */}
+  <div className="flex items-center gap-4">
+    <Pagination
+      total={totalPages || 0}
+      page={activePage}
+      color="green"
+      onChange={setPage}
+      size="sm"
+      className="bg-slate-800/40 p-1 rounded-lg"
+    />
+  </div>
+
+  {/* Right Side: Rows per page controls */}
+  <div className="flex items-center flex-wrap justify-center gap-4">
+    <div className="flex items-center gap-3 bg-slate-800/50 px-4 py-2 rounded-xl border border-slate-700/50">
+      <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">Rows</span>
+      
+      {/* Quick Select Dropdown */}
+      <select
+        value={perPage}
+        onChange={(e) => {
+          setPerPage(Number(e.target.value));
+          setCustomPerPage("");
+          setPage(1);
+        }}
+        className="bg-slate-900 border border-slate-700 text-green-400 font-medium rounded-lg px-3 py-1.5 outline-none focus:ring-2 focus:ring-green-500/50 transition-all cursor-pointer hover:border-slate-600"
+      >
+        {[50, 100, 200, 300].map(val => (
+          <option key={val} value={val}>{val}</option>
+        ))}
+      </select>
+
+      <div className="h-4 w-px bg-slate-700 mx-1" />
+
+      {/* Custom Input Group */}
+      <div className="relative flex items-center group">
+  <input
+    type="number"
+    min={1}
+    max={300}
+    value={customPerPage}
+    onChange={(e) => {
+      const raw = e.target.value;
+      setCustomPerPage(raw);
+      const val = Number(raw);
+      if (raw !== "" && val >= 1 && val <= 300) {
+        setPerPage(val);
+        setPage(1);
+      }
+    }}
+    placeholder="Custom"
+    className="no-spinner w-24 bg-slate-900 border border-slate-700 text-white rounded-lg px-3 py-1.5 text-sm text-center outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all placeholder:text-slate-600 hover:border-slate-600"
+  />
+  
+  {customPerPage && (
+    <div className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-green-500 text-[10px] text-slate-900 font-bold animate-in zoom-in">
+      ✓
+    </div>
+  )}
+</div>
+    </div>
+  </div>
+</div>
 
       {/* DATA TABLE */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl shadow-lg overflow-hidden min-h-[500px]">
@@ -421,6 +441,7 @@ function SSNDOB() {
                 <th className="px-2 py-2 text-center">SSN</th>
                 <th className="px-2 py-2 text-center">Address</th>
                 <th className="px-2 py-2 text-center">Email</th>
+                <th className="px-2 py-2 text-center">2FA</th>
                 <th className="px-2 py-2">Price</th>
                 <th className="px-2 py-2 text-center">Action</th>
               </tr>
@@ -484,6 +505,9 @@ function SSNDOB() {
                       </td>
                       <td className="px-2 py-3 text-center">
                         <StatusBadge status={item?.Email} />
+                      </td>
+                      <td className="px-2 py-3 text-center">
+                        <StatusBadge status={item?.twoFA} />
                       </td>
                       {/* display price according to account type, if no resllerPrice then dispaly base price */}
                       <td className="px-2 py-3 text-green-400 font-bold">

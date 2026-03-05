@@ -18,6 +18,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { Indicator } from "@mantine/core";
 import { MdMessage } from "react-icons/md";
+import { FaKey } from "react-icons/fa";
 
 function Dashboard() {
   const axiosPrivate = useAxiosPrivate();
@@ -76,6 +77,7 @@ function Dashboard() {
       icon: <FaCartArrowDown size={22} />,
     },
     { path: "support", name: "Contact", icon: <MdMessage size={22} /> },
+    { path: "2fa", name: "2FA", icon: <FaKey size={22} /> },
   ];
 
   // CTA Button Component

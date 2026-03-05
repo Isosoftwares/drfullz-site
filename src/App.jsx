@@ -22,6 +22,8 @@ import RequireAuth from './components/RequireAuth'
 import RegisterSeller from './pages/RegisterSeller'
 import RefundRequestPage from './pages/dashboard/orderpages/RefundRequestPage'
 import AddDeficitFunds from './pages/dashboard/AddDeficitFunds'
+import TwoFaAuthPage from './pages/dashboard/TwoFaAuthPage'
+import TwoFaPage from './pages/dashboard/TwoFaPage'
 
 
 function App() {
@@ -50,6 +52,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/registerSeller" element={<RegisterSeller />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
+          <Route path="/2fa" element={<TwoFaPage />} />
           <Route path="/*" element={<Missing />} />
 
           {/* persist login */}
@@ -66,8 +69,8 @@ function App() {
                 <Route path="add-deficit-funds" element={<AddDeficitFunds />} />
                 <Route path="news" element={<News />} />
                 <Route path="ssn" element={<SSNDOB />} />
-
                 <Route path="change-password" element={<ChangePassword />} />
+                <Route path="2fa" element={<TwoFaAuthPage />} />
 
                 <Route path="my-orders" element={<MyOrders />} />
                 <Route path="faq" element={<FAQpage />} />

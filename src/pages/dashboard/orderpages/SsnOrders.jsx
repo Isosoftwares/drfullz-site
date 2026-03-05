@@ -12,6 +12,7 @@ import {
   FaClock,
   FaLayerGroup,
   FaCalendarAlt,
+  FaCopy
 } from "react-icons/fa";
 import PulseLoader from "react-spinners/PulseLoader";
 import SsnBatchOrders from "./SsnBatchOrders";
@@ -148,6 +149,7 @@ Account Login and Access Instructions
       content += `Address:           ${o.Address}, ${o.City}, ${o.State || ""} ${o.Zip || ""}\n`;
       content += `Username:          ${o.Username}\n`;
       content += `Password:          ${o.Password}\n`;
+      content += `2Fa:          ${o.twoFA || "N/A"}\n`;
       content += `Backup Code:       ${o.BackupCode}\n`;
       content += `Description:       ${o.Description || "N/A"}\n`;
       content += `Enrollment Detail: ${o.EnrollmentDetails || "N/A"}\n`;
@@ -185,6 +187,7 @@ Account Login and Access Instructions
       "Username",
       "Password",
       "BackupCode",
+      "twoFA",
       "Description",
       "EnrollmentDetails",
       "EnrollmentStatus",
@@ -319,6 +322,24 @@ Account Login and Access Instructions
                           <span className="truncate max-w-[140px] text-yellow-400">
                             {item.BackupCode}
                           </span>
+                        </div>
+                        <div className="flex gap-2">
+                          <span className="text-slate-600 w-16">2FA:</span>
+                          <span className="truncate max-w-[140px] text-green-400">
+                            {item.twoFA || "N/A"}
+                          </span>
+                          {/* add a copy button if they have a 2FA   */}
+                          {item.twoFA && (
+                            <button
+                            title="Copy 2FA"
+                              onClick={() =>
+                                navigator.clipboard.writeText(item.twoFA)
+                              }
+                              className="text-slate-500 hover:text-white"
+                          >
+                            <FaCopy size={12} />
+                          </button>
+                        )}
                         </div>
                         {item.EnrollmentStatus &&
                           item.EnrollmentStatus !== "N/A" && (

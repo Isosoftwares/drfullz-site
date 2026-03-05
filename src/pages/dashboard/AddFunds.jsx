@@ -306,7 +306,7 @@ function AddFunds() {
                     <td className="px-6 py-4">
                       <span
                         className={`px-2 py-1 rounded-full text-xs font-bold ${
-                          item.status?.toLowerCase() === "confirmed" ||
+                          item.status?.toLowerCase() === "finished" ||
                           item.status === "Approved"
                             ? "bg-green-500/10 text-green-400"
                             : item.status?.toLowerCase() === "waiting"
@@ -326,7 +326,7 @@ function AddFunds() {
                     >
                       {item.payAddress}
                     </td>
-                    <td className="px-6 py-4 uppercase">{item.network}</td>
+                    <td className="px-6 py-4 uppercase">{item.network || "N/A"}</td>
                     <td className="px-6 py-4 text-right font-medium text-white">
                       ${item.priceAmount}
                     </td>

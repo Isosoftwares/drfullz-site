@@ -47,6 +47,9 @@ importers:
       multi-range-slider-react:
         specifier: ^2.0.2
         version: 2.0.7
+      otplib:
+        specifier: ^13.3.0
+        version: 13.3.0
       qrcode.react:
         specifier: ^3.1.0
         version: 3.2.0(react@18.3.1)
@@ -408,6 +411,10 @@ packages:
   '@motionone/utils@10.18.0':
     resolution: {integrity: sha512-3XVF7sgyTSI2KWvTf6uLlBJ5iAgRgmvp3bpuOiQJvInd4nZ19ET8lX5unn30SlmRH7hXbBbH+Gxd0m0klJ3Xtw==}
 
+  '@noble/hashes@2.0.1':
+    resolution: {integrity: sha512-XlOlEbQcE9fmuXxrVTXCTlG2nlRXa9Rj3rr5Ue/+tX+nmkgbX720YHh0VR3hBF9xDvwnb8D2shVGOwNx+ulArw==}
+    engines: {node: '>= 20.19.0'}
+
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
     engines: {node: '>= 8'}
@@ -419,6 +426,24 @@ packages:
   '@nodelib/fs.walk@1.2.8':
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
+
+  '@otplib/core@13.3.0':
+    resolution: {integrity: sha512-pnQDOuCmFVeF/XnboJq9TOJgLoo2idNPJKMymOF8vGqJJ+ReKRYM9bUGjNPRWC0tHjMwu1TXbnzyBp494JgRag==}
+
+  '@otplib/hotp@13.3.0':
+    resolution: {integrity: sha512-XJMZGz2bg4QJwK7ulvl1GUI2VMn/flaIk/E/BTKAejHsX2kUtPF1bRhlZ2+elq8uU5Fs9Z9FHcQK2CPZNQbbUQ==}
+
+  '@otplib/plugin-base32-scure@13.3.0':
+    resolution: {integrity: sha512-/jYbL5S6GB0Ie3XGEWtLIr9s5ZICl/BfmNL7+8/W7usZaUU4GiyLd2S+JGsNCslPyqNekSudD864nDAvRI0s8w==}
+
+  '@otplib/plugin-crypto-noble@13.3.0':
+    resolution: {integrity: sha512-wmV+jBVncepgwv99G7Plrdzd0tHfbpXk2U+OD7MO7DzpDqOYEgOPi+IIneksJSTL8QvWdfi+uQEuhnER4fKouA==}
+
+  '@otplib/totp@13.3.0':
+    resolution: {integrity: sha512-XfjGNoN8d9S3Ove2j7AwkVV7+QDFsV7Lm7YwSiezNaHffkWtJ60aJYpmf+01dARdPST71U2ptueMsRJso4sq4A==}
+
+  '@otplib/uri@13.3.0':
+    resolution: {integrity: sha512-3oh6nBXy+cm3UX9cxEAGZiDrfxHU2gfelYFV+XNCx+8dq39VaQVymwlU2yjPZiMAi/3agaUeEftf2RwM5F+Cyg==}
 
   '@popperjs/core@2.11.8':
     resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
@@ -480,6 +505,9 @@ packages:
   '@remix-run/router@1.23.1':
     resolution: {integrity: sha512-vDbaOzF7yT2Qs4vO6XV1MHcJv+3dgR1sT+l3B8xxOVhUC336prMvqrvsLL/9Dnw2xr6Qhz4J0dmS0llNAbnUmQ==}
     engines: {node: '>=14.0.0'}
+
+  '@scure/base@2.0.0':
+    resolution: {integrity: sha512-3E1kpuZginKkek01ovG8krQ0Z44E3DHPjc5S2rjJw9lZn3KSQOs8S7wqikF/AH7iRanHypj85uGyxk0XAyC37w==}
 
   '@tabler/icons-react@2.47.0':
     resolution: {integrity: sha512-iqly2FvCF/qUbgmvS8E40rVeYY7laltc5GUjRxQj59DuX0x/6CpKHTXt86YlI2whg4czvd/c8Ce8YR08uEku0g==}
@@ -1167,6 +1195,9 @@ packages:
   object-hash@3.0.0:
     resolution: {integrity: sha512-RSn9F68PjH9HqtltsSnqYC1XXoWe9Bju5+213R98cNGttag9q9yAOTzdbsqvIa7aNm5WffBZFpWYr2aWrklWAw==}
     engines: {node: '>= 6'}
+
+  otplib@13.3.0:
+    resolution: {integrity: sha512-VYMKyyDG8yt2q+z58sz54/EIyTh7+tyMrjeemR44iVh5+dkKtIs57irTqxjH+IkAL1uMmG1JIFhG5CxTpqdU5g==}
 
   parent-module@1.0.1:
     resolution: {integrity: sha512-GQ2EWRpQV8/o+Aw8YqtfZZPfNRWZYkbidE9k5rpl/hC3vtHHBfGm2Ifi6qWV+coDGkrUKZAxE3Lot5kcsRlh+g==}
@@ -2021,6 +2052,8 @@ snapshots:
       hey-listen: 1.0.8
       tslib: 2.8.1
 
+  '@noble/hashes@2.0.1': {}
+
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
       '@nodelib/fs.stat': 2.0.5
@@ -2032,6 +2065,33 @@ snapshots:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.19.1
+
+  '@otplib/core@13.3.0': {}
+
+  '@otplib/hotp@13.3.0':
+    dependencies:
+      '@otplib/core': 13.3.0
+      '@otplib/uri': 13.3.0
+
+  '@otplib/plugin-base32-scure@13.3.0':
+    dependencies:
+      '@otplib/core': 13.3.0
+      '@scure/base': 2.0.0
+
+  '@otplib/plugin-crypto-noble@13.3.0':
+    dependencies:
+      '@noble/hashes': 2.0.1
+      '@otplib/core': 13.3.0
+
+  '@otplib/totp@13.3.0':
+    dependencies:
+      '@otplib/core': 13.3.0
+      '@otplib/hotp': 13.3.0
+      '@otplib/uri': 13.3.0
+
+  '@otplib/uri@13.3.0':
+    dependencies:
+      '@otplib/core': 13.3.0
 
   '@popperjs/core@2.11.8': {}
 
@@ -2105,6 +2165,8 @@ snapshots:
       react: 18.3.1
 
   '@remix-run/router@1.23.1': {}
+
+  '@scure/base@2.0.0': {}
 
   '@tabler/icons-react@2.47.0(react@18.3.1)':
     dependencies:
@@ -2634,6 +2696,15 @@ snapshots:
   object-assign@4.1.1: {}
 
   object-hash@3.0.0: {}
+
+  otplib@13.3.0:
+    dependencies:
+      '@otplib/core': 13.3.0
+      '@otplib/hotp': 13.3.0
+      '@otplib/plugin-base32-scure': 13.3.0
+      '@otplib/plugin-crypto-noble': 13.3.0
+      '@otplib/totp': 13.3.0
+      '@otplib/uri': 13.3.0
 
   parent-module@1.0.1:
     dependencies:
