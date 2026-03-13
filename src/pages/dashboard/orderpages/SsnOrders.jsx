@@ -27,7 +27,7 @@ const TABS = [
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 function SsnOrders({ ssn = [], onOrdersDeleted }) {
-  const [activeTab, setActiveTab] = useState("date");
+  const [activeTab, setActiveTab] = useState("batch");
 
   const [todaysOrders, setTodaysOrders] = useState([]);
   const [yesterdaysOrders, setYesterdaysOrders] = useState([]);
