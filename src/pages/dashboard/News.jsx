@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const INSTRUCTIONS_TEXT = `How to log in and secure your account;
 Log in with email and fsaid password. 
@@ -12,10 +13,11 @@ Account Login and Access Instructions
  2. Login Verification
  • If the credentials you have are mail.tm–based, log in to the email account and retrieve the verification code sent to confirm the login activity.
  3. Account Access Using Email Only
- • If you are provided with an email address only, proceed as follows:
- • Enter the email and password.
+ • If you are provided with an email or username and password alone, proceed as follows:
+ • Enter the email or username and password.
  • Immediately after submission, select "Help me access my account."
  • Use the recovery code to gain access to the account.
+ • If you are provided with 2FA, visit https://fullducks.com/2fa to get the code. By pasting the code, you will be able to access the account.
  4. Post-Login Actions
  • Upon successful login:
  • Save the new backup/recovery code provided.
@@ -78,11 +80,16 @@ function News() {
             and get the code to confirm your log in activity
           </p>
           <p className="text-gray-300 mb-2">
-            If you are provided with an email alone, go to help me access my
-            account, an option that comes out immediately afte adding email and
+            If you are provided with an email/username and password alone, go to help me access my
+            account, an option that comes out immediately after adding email/username and
             password. Use the recovery code to access your acc. Remember to save
             the new backup code and then add in your own email upon successfully
             logging in.
+          </p>
+
+          {/* use Link */}
+          <p className="text-gray-300 mb-2">
+            If you are provided with 2FA, click <Link to="/dash/2fa" className="text-green-400 font-semibold">here</Link> to get the code. By pasting the code, you will be able to access the account.
           </p>
           <p className="text-green-400 font-semibold mt-3">
             Happy dollar milling
@@ -161,6 +168,12 @@ function News() {
             <li className="flex items-start gap-2 text-gray-300">
               <span className="text-green-400 mt-1">•</span>
               <span>Use the recovery code to gain access to the account.</span>
+            </li>
+            <li className="flex items-start gap-2 text-gray-300">
+              <span className="text-green-400 mt-1">•</span>
+              <span>
+                If you are provided with 2FA, click <Link to="/dash/2fa" className="text-green-400 font-semibold">here</Link> to get the code. By pasting the code, you will be able to access the account.
+              </span>
             </li>
           </ul>
         </section>
