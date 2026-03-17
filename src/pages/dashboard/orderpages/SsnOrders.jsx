@@ -192,7 +192,6 @@ Account Login and Access Instructions
       "EnrollmentDetails",
       "EnrollmentStatus",
       "purchaseDate",
-      "base",
     ];
 
     const toMMDDYYYY = (isoStr) => {

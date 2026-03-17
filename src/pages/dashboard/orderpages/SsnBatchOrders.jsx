@@ -7,10 +7,10 @@ import {
   FaCheckSquare,
   FaRegSquare,
   FaChevronDown,
-   FaCopy,
+  FaCopy,
   FaUser,
   FaMapMarkerAlt,
-  FaKey
+  FaKey,
 } from "react-icons/fa";
 
 // --- Shared Download Helpers ---
@@ -50,24 +50,66 @@ const downloadInstructions = () => {
 };
 
 const generateTxtContent = (orders) => {
-  let content = "SSN/DOB Orders Export\n\nInstructions: Find login instructions in the downloaded files (login-instructions.txt).\n\n";
+  let content =
+    "SSN/DOB Orders Export\n\nInstructions: Find login instructions in the downloaded files (login-instructions.txt).\n\n";
   orders.forEach((o, i) => {
     content += `[Order #${i + 1}] --------------------------------\n`;
-    content += `Name: ${o.FName} ${o.LName}\nSSN: ${o.SSN}\nDOB: ${o.DOB ? new Date(o.DOB).toLocaleDateString() : "N/A"}\nAddress: ${o.Address}, ${o.City}, ${o.State || ""} ${o.Zip || ""}\nUsername: ${o.Username}\nPassword: ${o.Password}\n2FA: ${o.twoFA || "N/A"}\nBackup Code: ${o.BackupCode}\n\n`;
+    content += `Name: ${o.FName} ${o.LName}\nSSN: ${o.SSN}\nDOB: ${
+      o.DOB ? new Date(o.DOB).toLocaleDateString() : "N/A"
+    }\nAddress: ${o.Address}, ${o.City}, ${o.State || ""} ${o.Zip || ""}\nUsername: 
+      ${o.Username}\nPassword: ${o.Password}\n2FA: ${o.twoFA || "N/A"}\nBackup Code: ${o.BackupCode}\n\n Description: ${o.Description || "N/A"}\n
+      Enrollment Details: ${o.EnrollmentDetails || "N/A"}\nEnrollment Status: ${o.EnrollmentStatus || "N/A"}\n
+      Purchase Date: ${new Date(o.purchaseDate).toLocaleString()}\n\n`;
   });
   return content;
 };
 
 const generateCsvContent = (orders) => {
-  const headers = ["FName", "LName", "DOB", "SSN", "Address", "City", "State", "Zip", "Username", "Password", "twoFA", "BackupCode"];
+  const headers = [
+    "FName",
+    "LName",
+    "DOB",
+    "SSN",
+    "Address",
+    "City",
+    "State",
+    "Zip",
+    "Username",
+    "Password",
+    "twoFA",
+    "BackupCode",
+    "Description",
+    "EnrollmentDetails",
+    "EnrollmentStatus",
+    "purchaseDate",
+  ];
   let csv = headers.join(",") + "\n";
+
   orders.forEach((o) => {
-    const row = headers.map((h) => {
-      let val = o[h] || "";
-      return `"${String(val).replace(/"/g, '""')}"`;
-    }).join(",");
+    const row = headers
+      .map((h) => {
+        let val = o[h] || "";
+
+        // Format DOB as mm/dd/yyyy
+        if (h === "DOB" && val) {
+          const date = new Date(val);
+          // Check if the date is valid before trying to format
+          if (!isNaN(date.getTime())) {
+            // padStart ensures single digits get a leading zero
+            const mm = String(date.getUTCMonth() + 1).padStart(2, "0");
+            const dd = String(date.getUTCDate()).padStart(2, "0");
+            const yyyy = date.getUTCFullYear();
+
+            val = `${mm}/${dd}/${yyyy}`;
+          }
+        }
+
+        return `"${String(val).replace(/"/g, '""')}"`;
+      })
+      .join(",");
     csv += row + "\n";
   });
+
   return csv;
 };
 
@@ -76,7 +118,9 @@ const OrderMobileCard = ({ item }) => (
   <div className="p-4 border-b border-slate-800 bg-slate-900/30 space-y-3">
     <div className="flex justify-between items-start">
       <div>
-        <div className="text-white font-bold text-sm">{item.FName} {item.LName}</div>
+        <div className="text-white font-bold text-sm">
+          {item.FName} {item.LName}
+        </div>
         <div className="text-[10px] text-green-400 font-medium bg-green-900/20 px-1.5 py-0.5 rounded mt-1 inline-block">
           {item.base}
         </div>
@@ -85,34 +129,49 @@ const OrderMobileCard = ({ item }) => (
         {new Date(item.purchaseDate).toLocaleDateString()}
       </div>
     </div>
-    
+
     <div className="grid grid-cols-2 gap-4 text-[11px]">
       <div className="space-y-1">
-        <div className="text-slate-500 flex items-center gap-1 uppercase tracking-wider font-bold"><FaUser size={8}/> Identity</div>
+        <div className="text-slate-500 flex items-center gap-1 uppercase tracking-wider font-bold">
+          <FaUser size={8} /> Identity
+        </div>
         <div className="text-slate-300 font-mono">SSN: {item.SSN}</div>
-        <div className="text-slate-300 font-mono">DOB: {item.DOB ? new Date(item.DOB).toLocaleDateString() : "N/A"}</div>
+        <div className="text-slate-300 font-mono">
+          DOB: {item.DOB ? new Date(item.DOB).toLocaleDateString() : "N/A"}
+        </div>
       </div>
       <div className="space-y-1">
-        <div className="text-slate-500 flex items-center gap-1 uppercase tracking-wider font-bold"><FaMapMarkerAlt size={8}/> Location</div>
-        <div className="text-slate-300">{item.City}, {item.State}</div>
+        <div className="text-slate-500 flex items-center gap-1 uppercase tracking-wider font-bold">
+          <FaMapMarkerAlt size={8} /> Location
+        </div>
+        <div className="text-slate-300">
+          {item.City}, {item.State}
+        </div>
         <div className="text-slate-400 font-mono">{item.Zip}</div>
       </div>
     </div>
 
     <div className="bg-slate-950/50 p-2 rounded border border-slate-800 space-y-1">
-       <div className="text-slate-500 flex items-center gap-1 uppercase tracking-wider font-bold text-[9px] mb-1"><FaKey size={8}/> Credentials</div>
-       <div className="flex justify-between font-mono text-[11px]">
-          <span className="text-slate-500 truncate mr-2">U: {item.Username}</span>
-          <span className="text-slate-500 truncate">P: {item.Password}</span>
-       </div>
-       <div className="flex justify-between items-center font-mono text-[11px]">
-          <span className="text-green-400 truncate pr-2">2FA: {item.twoFA || "N/A"}</span>
-          {item.twoFA && (
-            <button onClick={() => navigator.clipboard.writeText(item.twoFA)} className="text-slate-500 active:text-white p-1">
-              <FaCopy size={12} />
-            </button>
-          )}
-       </div>
+      <div className="text-slate-500 flex items-center gap-1 uppercase tracking-wider font-bold text-[9px] mb-1">
+        <FaKey size={8} /> Credentials
+      </div>
+      <div className="flex justify-between font-mono text-[11px]">
+        <span className="text-slate-500 truncate mr-2">U: {item.Username}</span>
+        <span className="text-slate-500 truncate">P: {item.Password}</span>
+      </div>
+      <div className="flex justify-between items-center font-mono text-[11px]">
+        <span className="text-green-400 truncate pr-2">
+          2FA: {item.twoFA || "N/A"}
+        </span>
+        {item.twoFA && (
+          <button
+            onClick={() => navigator.clipboard.writeText(item.twoFA)}
+            className="text-slate-500 active:text-white p-1"
+          >
+            <FaCopy size={12} />
+          </button>
+        )}
+      </div>
     </div>
   </div>
 );
@@ -131,20 +190,31 @@ function BatchCard({ batchKey, orders, isSelected, onToggleSelect }) {
 
   const handleDownloadCsv = (e) => {
     e.stopPropagation();
-    downloadFile(generateCsvContent(orders), "text/csv;charset=utf-8;", `${label}.csv`);
+    downloadFile(
+      generateCsvContent(orders),
+      "text/csv;charset=utf-8;",
+      `${label}.csv`,
+    );
     downloadInstructions();
   };
 
   return (
-    <div className={`rounded-xl border transition-all duration-200 overflow-hidden ${
-      isSelected ? "border-green-500/60 bg-green-900/10" : "border-slate-700/60 bg-slate-900/60"
-    }`}>
-      <div 
+    <div
+      className={`rounded-xl border transition-all duration-200 overflow-hidden ${
+        isSelected
+          ? "border-green-500/60 bg-green-900/10"
+          : "border-slate-700/60 bg-slate-900/60"
+      }`}
+    >
+      <div
         className="flex items-center gap-3 px-4 py-4 cursor-pointer hover:bg-slate-800/30"
         onClick={() => setExpanded(!expanded)}
       >
         <button
-          onClick={(e) => { e.stopPropagation(); onToggleSelect(batchKey); }}
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggleSelect(batchKey);
+          }}
           className={`flex-shrink-0 text-xl ${isSelected ? "text-green-400" : "text-slate-600"}`}
         >
           {isSelected ? <FaCheckSquare /> : <FaRegSquare />}
@@ -152,24 +222,41 @@ function BatchCard({ batchKey, orders, isSelected, onToggleSelect }) {
 
         <div className="flex flex-col flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <FaLayerGroup className={isSolo ? "text-slate-500" : "text-green-400"} size={14} />
-            <span className={`font-mono font-bold text-sm truncate ${isSolo ? "text-slate-400 italic" : "text-slate-200"}`}>
+            <FaLayerGroup
+              className={isSolo ? "text-slate-500" : "text-green-400"}
+              size={14}
+            />
+            <span
+              className={`font-mono font-bold text-sm truncate ${isSolo ? "text-slate-400 italic" : "text-slate-200"}`}
+            >
               {label}
             </span>
           </div>
-          <span className="text-[10px] text-slate-500 mt-0.5">{orders.length} Orders</span>
+          <span className="text-[10px] text-slate-500 mt-0.5">
+            {orders.length} Orders
+          </span>
         </div>
 
         <div className="flex items-center gap-1.5 sm:gap-2">
-            <button onClick={handleDownloadTxt} className="p-2 text-slate-400 hover:text-white bg-slate-800 rounded-lg" title="TXT">
-                <FaDownload size={13} />
-            </button>
-            <button onClick={handleDownloadCsv} className="p-2 text-slate-400 hover:text-white bg-slate-800 rounded-lg" title="CSV">
-                <FaFileCsv size={13} />
-            </button>
-            <div className={`ml-1 transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}>
-                <FaChevronDown className="text-slate-600" size={14} />
-            </div>
+          <button
+            onClick={handleDownloadTxt}
+            className="p-2 text-slate-400 hover:text-white bg-slate-800 rounded-lg"
+            title="TXT"
+          >
+            <FaDownload size={13} />
+          </button>
+          <button
+            onClick={handleDownloadCsv}
+            className="p-2 text-slate-400 hover:text-white bg-slate-800 rounded-lg"
+            title="CSV"
+          >
+            <FaFileCsv size={13} />
+          </button>
+          <div
+            className={`ml-1 transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}
+          >
+            <FaChevronDown className="text-slate-600" size={14} />
+          </div>
         </div>
       </div>
 
@@ -177,36 +264,55 @@ function BatchCard({ batchKey, orders, isSelected, onToggleSelect }) {
         <div className="border-t border-slate-800">
           <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-xs text-left">
-                <thead className="text-slate-500 uppercase bg-slate-950/60 border-b border-slate-800">
-                    <tr>
-                        <th className="px-4 py-2">Identity</th>
-                        <th className="px-4 py-2">Location</th>
-                        <th className="px-4 py-2">Credentials</th>
-                        <th className="px-4 py-2 text-right">Date</th>
-                    </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-800/60">
-                    {orders.map(item => (
-                        <tr key={item._id} className="hover:bg-slate-800/40">
-                            <td className="px-4 py-2.5">
-                                <div className="font-bold text-white">{item.FName} {item.LName}</div>
-                                <div className="text-slate-500 font-mono text-[10px]">SSN: {item.SSN} | DOB: {item.DOB ? new Date(item.DOB).toLocaleDateString() : "N/A"}</div>
-                            </td>
-                            <td className="px-4 py-2.5 text-slate-300">
-                                {item.City}, {item.State} <br/> <span className="text-slate-500 font-mono text-[10px]">{item.Zip}</span>
-                            </td>
-                            <td className="px-4 py-2.5 font-mono text-slate-400">
-                                <div className="flex gap-2"><span>U: {item.Username}</span> <span>P: {item.Password}</span></div>
-                                <div className="text-green-400 text-[10px]">2FA: {item.twoFA || "N/A"}</div>
-                            </td>
-                            <td className="px-4 py-2.5 text-right text-slate-500">{new Date(item.purchaseDate).toLocaleDateString()}</td>
-                        </tr>
-                    ))}
-                </tbody>
+              <thead className="text-slate-500 uppercase bg-slate-950/60 border-b border-slate-800">
+                <tr>
+                  <th className="px-4 py-2">Identity</th>
+                  <th className="px-4 py-2">Location</th>
+                  <th className="px-4 py-2">Credentials</th>
+                  <th className="px-4 py-2 text-right">Date</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-800/60">
+                {orders.map((item) => (
+                  <tr key={item._id} className="hover:bg-slate-800/40">
+                    <td className="px-4 py-2.5">
+                      <div className="font-bold text-white">
+                        {item.FName} {item.LName}
+                      </div>
+                      <div className="text-slate-500 font-mono text-[10px]">
+                        SSN: {item.SSN} | DOB:{" "}
+                        {item.DOB
+                          ? new Date(item.DOB).toLocaleDateString()
+                          : "N/A"}
+                      </div>
+                    </td>
+                    <td className="px-4 py-2.5 text-slate-300">
+                      {item.City}, {item.State} <br />{" "}
+                      <span className="text-slate-500 font-mono text-[10px]">
+                        {item.Zip}
+                      </span>
+                    </td>
+                    <td className="px-4 py-2.5 font-mono text-slate-400">
+                      <div className="flex gap-2">
+                        <span>U: {item.Username}</span>{" "}
+                        <span>P: {item.Password}</span>
+                      </div>
+                      <div className="text-green-400 text-[10px]">
+                        2FA: {item.twoFA || "N/A"}
+                      </div>
+                    </td>
+                    <td className="px-4 py-2.5 text-right text-slate-500">
+                      {new Date(item.purchaseDate).toLocaleDateString()}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
             </table>
           </div>
           <div className="md:hidden">
-            {orders.map(item => <OrderMobileCard key={item._id} item={item} />)}
+            {orders.map((item) => (
+              <OrderMobileCard key={item._id} item={item} />
+            ))}
           </div>
         </div>
       )}
@@ -220,27 +326,36 @@ function SsnBatchOrders({ ssn = [] }) {
 
   const { batches, batchKeys } = useMemo(() => {
     const map = {};
-    (Array.isArray(ssn) ? ssn : []).filter(o => !o.isDeleted).forEach(o => {
-      const key = o.purchaseBatchNumber?.trim() || "__solo__";
-      if (!map[key]) map[key] = [];
-      map[key].push(o);
-    });
-    const keys = Object.keys(map).sort((a, b) => a === "__solo__" ? 1 : b === "__solo__" ? -1 : a.localeCompare(b));
+    (Array.isArray(ssn) ? ssn : [])
+      .filter((o) => !o.isDeleted)
+      .forEach((o) => {
+        const key = o.purchaseBatchNumber?.trim() || "__solo__";
+        if (!map[key]) map[key] = [];
+        map[key].push(o);
+      });
+    const keys = Object.keys(map).sort((a, b) =>
+      a === "__solo__" ? 1 : b === "__solo__" ? -1 : a.localeCompare(b),
+    );
     return { batches: map, batchKeys: keys };
   }, [ssn]);
 
   const toggleBatch = (key) => {
-    setSelectedBatches(prev => {
+    setSelectedBatches((prev) => {
       const next = new Set(prev);
       next.has(key) ? next.delete(key) : next.add(key);
       return next;
     });
   };
 
-  const getSelectedOrders = () => Array.from(selectedBatches).flatMap(k => batches[k]);
+  const getSelectedOrders = () =>
+    Array.from(selectedBatches).flatMap((k) => batches[k]);
 
   if (batchKeys.length === 0) {
-    return <div className="py-20 text-center border-2 border-dashed border-slate-800 rounded-xl text-slate-500">No batches available.</div>;
+    return (
+      <div className="py-20 text-center border-2 border-dashed border-slate-800 rounded-xl text-slate-500">
+        No batches available.
+      </div>
+    );
   }
 
   return (
@@ -248,38 +363,52 @@ function SsnBatchOrders({ ssn = [] }) {
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-3 sm:p-4 sticky top-0 z-10 shadow-xl">
         <div className="flex flex-col gap-3">
           <div className="flex items-center justify-between">
-             <div className="flex items-center gap-2 text-sm text-white font-medium">
-                <FaBoxOpen className="text-green-500" />
-                <span>{batchKeys.length} Batches</span>
-             </div>
-             <button 
-                onClick={() => selectedBatches.size === batchKeys.length ? setSelectedBatches(new Set()) : setSelectedBatches(new Set(batchKeys))}
-                className="text-xs text-indigo-400 font-semibold uppercase tracking-tight"
-             >
-                {selectedBatches.size === batchKeys.length ? "Deselect All" : "Select All"}
-             </button>
+            <div className="flex items-center gap-2 text-sm text-white font-medium">
+              <FaBoxOpen className="text-green-500" />
+              <span>{batchKeys.length} Batches</span>
+            </div>
+            <button
+              onClick={() =>
+                selectedBatches.size === batchKeys.length
+                  ? setSelectedBatches(new Set())
+                  : setSelectedBatches(new Set(batchKeys))
+              }
+              className="text-xs text-indigo-400 font-semibold uppercase tracking-tight"
+            >
+              {selectedBatches.size === batchKeys.length
+                ? "Deselect All"
+                : "Select All"}
+            </button>
           </div>
 
           {selectedBatches.size > 0 && (
             <div className="flex flex-wrap gap-2">
-                <button 
-                  onClick={() => {
-                    downloadFile(generateTxtContent(getSelectedOrders()), "text/plain", "combined.txt");
-                    downloadInstructions();
-                  }}
-                  className="flex-1 min-w-[120px] flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white py-2 rounded-lg text-[11px] font-bold transition-colors"
-                >
-                  <FaDownload size={12}/> TXT ({selectedBatches.size})
-                </button>
-                <button 
-                  onClick={() => {
-                    downloadFile(generateCsvContent(getSelectedOrders()), "text/csv;charset=utf-8;", "combined.csv");
-                    downloadInstructions();
-                  }}
-                  className="flex-1 min-w-[120px] flex items-center justify-center gap-2 bg-slate-700 hover:bg-slate-600 text-white py-2 rounded-lg text-[11px] font-bold transition-colors"
-                >
-                  <FaFileCsv size={12}/> CSV ({selectedBatches.size})
-                </button>
+              <button
+                onClick={() => {
+                  downloadFile(
+                    generateTxtContent(getSelectedOrders()),
+                    "text/plain",
+                    "combined.txt",
+                  );
+                  downloadInstructions();
+                }}
+                className="flex-1 min-w-[120px] flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white py-2 rounded-lg text-[11px] font-bold transition-colors"
+              >
+                <FaDownload size={12} /> TXT ({selectedBatches.size})
+              </button>
+              <button
+                onClick={() => {
+                  downloadFile(
+                    generateCsvContent(getSelectedOrders()),
+                    "text/csv;charset=utf-8;",
+                    "combined.csv",
+                  );
+                  downloadInstructions();
+                }}
+                className="flex-1 min-w-[120px] flex items-center justify-center gap-2 bg-slate-700 hover:bg-slate-600 text-white py-2 rounded-lg text-[11px] font-bold transition-colors"
+              >
+                <FaFileCsv size={12} /> CSV ({selectedBatches.size})
+              </button>
             </div>
           )}
         </div>
