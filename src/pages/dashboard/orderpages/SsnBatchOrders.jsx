@@ -51,15 +51,23 @@ const downloadInstructions = () => {
 
 const generateTxtContent = (orders) => {
   let content =
-    "SSN/DOB Orders Export\n\nInstructions: Find login instructions in the downloaded files (login-instructions.txt).\n\n";
+    "SSN/DOB Orders Export\n\n" +
+    "Instructions: Find login instructions in the downloaded files as well (login-instructions.txt)." +
+    "\n\n";
   orders.forEach((o, i) => {
     content += `[Order #${i + 1}] --------------------------------\n`;
-    content += `Name: ${o.FName} ${o.LName}\nSSN: ${o.SSN}\nDOB: ${
-      o.DOB ? new Date(o.DOB).toLocaleDateString() : "N/A"
-    }\nAddress: ${o.Address}, ${o.City}, ${o.State || ""} ${o.Zip || ""}\nUsername: 
-      ${o.Username}\nPassword: ${o.Password}\n2FA: ${o.twoFA || "N/A"}\nBackup Code: ${o.BackupCode}\n\n Description: ${o.Description || "N/A"}\n
-      Enrollment Details: ${o.EnrollmentDetails || "N/A"}\nEnrollment Status: ${o.EnrollmentStatus || "N/A"}\n
-      Purchase Date: ${new Date(o.purchaseDate).toLocaleString()}\n\n`;
+    content += `Name:              ${o.FName} ${o.LName}\n`;
+    content += `SSN:               ${o.SSN}\n`;
+    content += `DOB:               ${o.DOB ? new Date(o.DOB).toLocaleDateString() : "N/A"}\n`;
+    content += `Address:           ${o.Address}, ${o.City}, ${o.State || ""} ${o.Zip || ""}\n`;
+    content += `Username:          ${o.Username}\n`;
+    content += `Password:          ${o.Password}\n`;
+    content += `2Fa:          ${o.twoFA || "N/A"}\n`;
+    content += `Backup Code:       ${o.BackupCode}\n`;
+    content += `Description:       ${o.Description || "N/A"}\n`;
+    content += `Enrollment Detail: ${o.EnrollmentDetails || "N/A"}\n`;
+    content += `Enrollment Status: ${o.EnrollmentStatus || "N/A"}\n`;
+    content += `Purchased:         ${o.purchaseDate ? new Date(o.purchaseDate).toLocaleString() : "N/A"}\n\n`;
   });
   return content;
 };
