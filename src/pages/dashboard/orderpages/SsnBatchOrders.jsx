@@ -187,7 +187,6 @@ const OrderMobileCard = ({ item }) => (
   </div>
 );
 
-// --- BatchCard ---
 function BatchCard({ batchKey, orders, isSelected, onToggleSelect }) {
   const [expanded, setExpanded] = useState(false);
   const isSolo = batchKey === "__solo__";
@@ -195,23 +194,6 @@ function BatchCard({ batchKey, orders, isSelected, onToggleSelect }) {
   let label = batchKey;
   if (isSolo) {
     label = "No Batch";
-  } else {
-    // If batchKey is a timestamp (e.g. BATCH-1710756781234) we extract and format it
-    const timestampStr = batchKey.startsWith("BATCH-") ? batchKey.replace("BATCH-", "") : batchKey;
-    if (!isNaN(timestampStr) && timestampStr.trim() !== "" && timestampStr.length >= 10) {
-      const timestamp = parseInt(timestampStr, 10);
-      const dateObj = new Date(timestamp);
-      if (!isNaN(dateObj.getTime())) {
-        label = `Batch: ${dateObj.toLocaleString('en-US', {
-          month: 'short',
-          day: 'numeric',
-          year: 'numeric',
-          hour: 'numeric',
-          minute: '2-digit',
-          hour12: true
-        })}`;
-      }
-    }
   }
 
   const handleDownloadTxt = (e) => {
@@ -366,18 +348,15 @@ function SsnBatchOrders({ ssn = [] }) {
         map[key].push(o);
       });
     
-    // Optimized descending sort using the integer timestamps inside the string keys
+    // Reliable descending sort using the actual purchaseDate of the first order in the batch
     const keys = Object.keys(map).sort((a, b) => {
       if (a === "__solo__") return 1;
       if (b === "__solo__") return -1;
       
-      const tsA = parseInt(a.replace("BATCH-", ""), 10);
-      const tsB = parseInt(b.replace("BATCH-", ""), 10);
+      const dateA = map[a][0]?.purchaseDate ? new Date(map[a][0].purchaseDate).getTime() : 0;
+      const dateB = map[b][0]?.purchaseDate ? new Date(map[b][0].purchaseDate).getTime() : 0;
       
-      if (!isNaN(tsA) && !isNaN(tsB)) {
-        return tsB - tsA; // Most recent on top
-      }
-      return b.localeCompare(a); // Fallback to descending alphabetical
+      return dateB - dateA; // Most recent on top
     });
     return { batches: map, batchKeys: keys };
   }, [ssn]);
