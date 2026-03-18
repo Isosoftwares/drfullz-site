@@ -95,6 +95,11 @@ function LoginPage() {
     // }
   };
 
+  // add a link to the 2fa page
+  const handle2fa = () => {
+    navigate("/2fa");
+  };
+
   return (
     // MAIN BACKGROUND
     <div className="min-h-screen w-full bg-slate-950 flex flex-col justify-center items-center p-4 md:p-6">
@@ -282,6 +287,18 @@ function LoginPage() {
               </p>
             </div>
           </form>
+
+          {/* 2FA Quick Link Button */}
+          <div className="mt-8 border-t border-slate-800 pt-8 w-full">
+            <button 
+              onClick={handle2fa}
+              type="button"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3.5 px-4 rounded-lg transition-all duration-200 border border-slate-700/50 hover:border-slate-600 shadow-sm flex items-center justify-center gap-3 group"
+            >
+              <GiStarKey className="text-green-500 group-hover:text-green-400 transition-colors" size={20} />
+              <span className="tracking-wide text-lg">Use 2FA Authenticator</span>
+            </button>
+          </div>
         </div>
       </div>
 
