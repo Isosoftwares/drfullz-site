@@ -194,11 +194,28 @@ function BatchCard({ batchKey, orders, isSelected, onToggleSelect }) {
   let label = batchKey;
   if (isSolo) {
     label = "No Batch";
+  } else {
+    // Instead of reverse engineering the ambiguous string, we extract the exact true date 
+    // from the first order within the batch, bypassing any string formatting issues.
+    const dateObj = orders[0]?.purchaseDate ? new Date(orders[0].purchaseDate) : null;
+    if (dateObj && !isNaN(dateObj.getTime())) {
+      label = `Batch: ${dateObj.toLocaleString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+      })}`;
+    }
   }
+
+  // Ensure filename doesn't contain characters like ':' which are invalid on some OSs
+  const safeFilename = label.replace(/[:,\/]/g, "").replace(/\s+/g, "_");
 
   const handleDownloadTxt = (e) => {
     e.stopPropagation();
-    downloadFile(generateTxtContent(orders), "text/plain", `${label}.txt`);
+    downloadFile(generateTxtContent(orders), "text/plain", `${safeFilename}.txt`);
     downloadInstructions();
   };
 
@@ -207,7 +224,7 @@ function BatchCard({ batchKey, orders, isSelected, onToggleSelect }) {
     downloadFile(
       generateCsvContent(orders),
       "text/csv;charset=utf-8;",
-      `${label}.csv`,
+      `${safeFilename}.csv`,
     );
     downloadInstructions();
   };
