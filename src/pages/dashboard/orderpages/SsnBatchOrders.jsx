@@ -50,26 +50,28 @@ const downloadInstructions = () => {
 };
 
 const generateTxtContent = (orders) => {
-  let content =
+  const lines = [
     "SSN/DOB Orders Export\n\n" +
-    "Instructions: Find login instructions in the downloaded files as well (login-instructions.txt)." +
-    "\n\n";
+    "Instructions: Find login instructions in the downloaded files as well (login-instructions.txt).\n\n"
+  ];
   orders.forEach((o, i) => {
-    content += `[Order #${i + 1}] --------------------------------\n`;
-    content += `Name:              ${o.FName} ${o.LName}\n`;
-    content += `SSN:               ${o.SSN}\n`;
-    content += `DOB:               ${o.DOB ? new Date(o.DOB).toLocaleDateString() : "N/A"}\n`;
-    content += `Address:           ${o.Address}, ${o.City}, ${o.State || ""} ${o.Zip || ""}\n`;
-    content += `Username:          ${o.Username}\n`;
-    content += `Password:          ${o.Password}\n`;
-    content += `2Fa:          ${o.twoFA || "N/A"}\n`;
-    content += `Backup Code:       ${o.BackupCode}\n`;
-    content += `Description:       ${o.Description || "N/A"}\n`;
-    content += `Enrollment Detail: ${o.EnrollmentDetails || "N/A"}\n`;
-    content += `Enrollment Status: ${o.EnrollmentStatus || "N/A"}\n`;
-    content += `Purchased:         ${o.purchaseDate ? new Date(o.purchaseDate).toLocaleString() : "N/A"}\n\n`;
+    lines.push(
+      `[Order #${i + 1}] --------------------------------\n` +
+      `Name:              ${o.FName} ${o.LName}\n` +
+      `SSN:               ${o.SSN}\n` +
+      `DOB:               ${o.DOB ? new Date(o.DOB).toLocaleDateString() : "N/A"}\n` +
+      `Address:           ${o.Address}, ${o.City}, ${o.State || ""} ${o.Zip || ""}\n` +
+      `Username:          ${o.Username}\n` +
+      `Password:          ${o.Password}\n` +
+      `2Fa:          ${o.twoFA || "N/A"}\n` +
+      `Backup Code:       ${o.BackupCode}\n` +
+      `Description:       ${o.Description || "N/A"}\n` +
+      `Enrollment Detail: ${o.EnrollmentDetails || "N/A"}\n` +
+      `Enrollment Status: ${o.EnrollmentStatus || "N/A"}\n` +
+      `Purchased:         ${o.purchaseDate ? new Date(o.purchaseDate).toLocaleString() : "N/A"}\n\n`
+    );
   });
-  return content;
+  return lines.join("");
 };
 
 const generateCsvContent = (orders) => {
@@ -91,7 +93,8 @@ const generateCsvContent = (orders) => {
     "EnrollmentStatus",
     "purchaseDate",
   ];
-  let csv = headers.join(",") + "\n";
+  
+  const rows = [headers.join(",")];
 
   orders.forEach((o) => {
     const row = headers
@@ -115,10 +118,10 @@ const generateCsvContent = (orders) => {
         return `"${String(val).replace(/"/g, '""')}"`;
       })
       .join(",");
-    csv += row + "\n";
+    rows.push(row);
   });
 
-  return csv;
+  return rows.join("\n") + "\n";
 };
 
 // --- Mobile Order Row ---
@@ -188,7 +191,28 @@ const OrderMobileCard = ({ item }) => (
 function BatchCard({ batchKey, orders, isSelected, onToggleSelect }) {
   const [expanded, setExpanded] = useState(false);
   const isSolo = batchKey === "__solo__";
-  const label = isSolo ? "No Batch" : batchKey;
+  
+  let label = batchKey;
+  if (isSolo) {
+    label = "No Batch";
+  } else {
+    // If batchKey is a timestamp (e.g. BATCH-1710756781234) we extract and format it
+    const timestampStr = batchKey.startsWith("BATCH-") ? batchKey.replace("BATCH-", "") : batchKey;
+    if (!isNaN(timestampStr) && timestampStr.trim() !== "" && timestampStr.length >= 10) {
+      const timestamp = parseInt(timestampStr, 10);
+      const dateObj = new Date(timestamp);
+      if (!isNaN(dateObj.getTime())) {
+        label = `Batch: ${dateObj.toLocaleString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+          hour: 'numeric',
+          minute: '2-digit',
+          hour12: true
+        })}`;
+      }
+    }
+  }
 
   const handleDownloadTxt = (e) => {
     e.stopPropagation();
@@ -341,9 +365,20 @@ function SsnBatchOrders({ ssn = [] }) {
         if (!map[key]) map[key] = [];
         map[key].push(o);
       });
-    const keys = Object.keys(map).sort((a, b) =>
-      a === "__solo__" ? 1 : b === "__solo__" ? -1 : a.localeCompare(b),
-    );
+    
+    // Optimized descending sort using the integer timestamps inside the string keys
+    const keys = Object.keys(map).sort((a, b) => {
+      if (a === "__solo__") return 1;
+      if (b === "__solo__") return -1;
+      
+      const tsA = parseInt(a.replace("BATCH-", ""), 10);
+      const tsB = parseInt(b.replace("BATCH-", ""), 10);
+      
+      if (!isNaN(tsA) && !isNaN(tsB)) {
+        return tsB - tsA; // Most recent on top
+      }
+      return b.localeCompare(a); // Fallback to descending alphabetical
+    });
     return { batches: map, batchKeys: keys };
   }, [ssn]);
 
