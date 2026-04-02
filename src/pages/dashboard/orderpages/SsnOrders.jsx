@@ -12,7 +12,7 @@ import {
   FaClock,
   FaLayerGroup,
   FaCalendarAlt,
-  FaCopy
+  FaCopy,
 } from "react-icons/fa";
 import PulseLoader from "react-spinners/PulseLoader";
 import SsnBatchOrders from "./SsnBatchOrders";
@@ -23,6 +23,16 @@ const TABS = [
   { id: "date", label: "By Date", icon: FaCalendarAlt },
   { id: "batch", label: "By Batch", icon: FaLayerGroup },
 ];
+
+export const toMMDDYYYY = (isoStr) => {
+  if (!isoStr) return "";
+  const parts = String(isoStr).split("T")[0].split("-");
+  if (parts.length === 3) {
+    const [year, month, day] = parts;
+    return `${month}/${day}/${year}`;
+  }
+  return String(isoStr);
+};
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
@@ -119,6 +129,7 @@ Account Login and Access Instructions
  3. Account Access Using Email Only
  • If you are provided with an email address only, proceed as follows:
  • Enter the email and password.
+ • If you are provided with 2FA, visit 2FA on the sidebar or https://fullducks.com/2fa to get the code. By pasting the code, you will be able to access the account.
  • Immediately after submission, select "Help me access my account."
  • Use the recovery code to gain access to the account.
  4. Post-Login Actions
@@ -145,7 +156,7 @@ Account Login and Access Instructions
       content += `[Order #${i + 1}] --------------------------------\n`;
       content += `Name:              ${o.FName} ${o.LName}\n`;
       content += `SSN:               ${o.SSN}\n`;
-      content += `DOB:               ${o.DOB ? new Date(o.DOB).toLocaleDateString() : "N/A"}\n`;
+      content += `DOB:               ${o.DOB ? toMMDDYYYY(o.DOB) : "N/A"}\n`;
       content += `Address:           ${o.Address}, ${o.City}, ${o.State || ""} ${o.Zip || ""}\n`;
       content += `Username:          ${o.Username}\n`;
       content += `Password:          ${o.Password}\n`;
@@ -193,12 +204,6 @@ Account Login and Access Instructions
       "EnrollmentStatus",
       "purchaseDate",
     ];
-
-    const toMMDDYYYY = (isoStr) => {
-      if (!isoStr) return "";
-      const [year, month, day] = String(isoStr).split("T")[0].split("-");
-      return `${month}/${day}/${year}`;
-    };
 
     let csv = headers.join(",") + "\n";
     orders.forEach((o) => {
@@ -281,9 +286,7 @@ Account Login and Access Instructions
                           {item.SSN}
                           <span className="mx-2 text-slate-700">|</span>
                           <span className="text-slate-500">DOB:</span>{" "}
-                          {item.DOB
-                            ? new Date(item.DOB).toLocaleDateString()
-                            : "N/A"}
+                          {item.DOB ? toMMDDYYYY(item.DOB) : "N/A"}
                         </div>
                         <div className="text-xs text-green-400 mt-1 font-medium bg-green-900/20 inline-block px-1.5 py-0.5 rounded">
                           {item.base}
@@ -330,15 +333,15 @@ Account Login and Access Instructions
                           {/* add a copy button if they have a 2FA   */}
                           {item.twoFA && (
                             <button
-                            title="Copy 2FA"
+                              title="Copy 2FA"
                               onClick={() =>
                                 navigator.clipboard.writeText(item.twoFA)
                               }
                               className="text-slate-500 hover:text-white"
-                          >
-                            <FaCopy size={12} />
-                          </button>
-                        )}
+                            >
+                              <FaCopy size={12} />
+                            </button>
+                          )}
                         </div>
                         {item.EnrollmentStatus &&
                           item.EnrollmentStatus !== "N/A" && (

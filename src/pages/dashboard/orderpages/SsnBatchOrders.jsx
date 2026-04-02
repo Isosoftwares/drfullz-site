@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import { toMMDDYYYY } from "./SsnOrders";
 import {
   FaDownload,
   FaFileCsv,
@@ -59,7 +60,7 @@ const generateTxtContent = (orders) => {
       `[Order #${i + 1}] --------------------------------\n` +
       `Name:              ${o.FName} ${o.LName}\n` +
       `SSN:               ${o.SSN}\n` +
-      `DOB:               ${o.DOB ? new Date(o.DOB).toLocaleDateString() : "N/A"}\n` +
+      `DOB:               ${o.DOB ? toMMDDYYYY(o.DOB) : "N/A"}\n` +
       `Address:           ${o.Address}, ${o.City}, ${o.State || ""} ${o.Zip || ""}\n` +
       `Username:          ${o.Username}\n` +
       `Password:          ${o.Password}\n` +
@@ -103,16 +104,7 @@ const generateCsvContent = (orders) => {
 
         // Format DOB as mm/dd/yyyy
         if (h === "DOB" && val) {
-          const date = new Date(val);
-          // Check if the date is valid before trying to format
-          if (!isNaN(date.getTime())) {
-            // padStart ensures single digits get a leading zero
-            const mm = String(date.getUTCMonth() + 1).padStart(2, "0");
-            const dd = String(date.getUTCDate()).padStart(2, "0");
-            const yyyy = date.getUTCFullYear();
-
-            val = `${mm}/${dd}/${yyyy}`;
-          }
+          val = toMMDDYYYY(val);
         }
 
         return `"${String(val).replace(/"/g, '""')}"`;
@@ -148,7 +140,7 @@ const OrderMobileCard = ({ item }) => (
         </div>
         <div className="text-slate-300 font-mono">SSN: {item.SSN}</div>
         <div className="text-slate-300 font-mono">
-          DOB: {item.DOB ? new Date(item.DOB).toLocaleDateString() : "N/A"}
+          DOB: {item.DOB ? toMMDDYYYY(item.DOB) : "N/A"}
         </div>
       </div>
       <div className="space-y-1">
@@ -313,7 +305,7 @@ function BatchCard({ batchKey, orders, isSelected, onToggleSelect }) {
                       <div className="text-slate-500 font-mono text-[10px]">
                         SSN: {item.SSN} | DOB:{" "}
                         {item.DOB
-                          ? new Date(item.DOB).toLocaleDateString()
+                          ? toMMDDYYYY(item.DOB)
                           : "N/A"}
                       </div>
                     </td>
