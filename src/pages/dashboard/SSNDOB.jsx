@@ -324,7 +324,7 @@ function SSNDOB() {
                 <Select
                   options={levelOptions}
                   styles={darkSelectStyles}
-                  value={level}
+                  value={level && { label: level, value: level }}
                   onChange={(opt) => setLevel(opt?.value)}
                   placeholder="Select Level..."
                 />
