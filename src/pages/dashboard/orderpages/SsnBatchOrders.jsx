@@ -24,9 +24,7 @@ Happy dollar milling
 Account Login and Access Instructions
  1. Login Credentials
  • Log in using your email or username and FSA ID password.
- 2. Login Verification
- • If the credentials you have are mail.tm–based, log in to the email account and retrieve the verification code sent to confirm the login activity.
- 3. Account Access Using Email Only
+ 2. Account Access Using Email/Username
  • If you are provided with an email or username and password alone, proceed as follows:
  • Enter the email or username and password.
  • Immediately after submission, select "Help me access my account."
@@ -69,6 +67,8 @@ const generateTxtContent = (orders) => {
       `Description:       ${o.Description || "N/A"}\n` +
       `Enrollment Detail: ${o.EnrollmentDetails || "N/A"}\n` +
       `Enrollment Status: ${o.EnrollmentStatus || "N/A"}\n` +
+      `Level:             ${o.level || "N/A"}\n` +
+      `Programs:          ${o.programs || "N/A"}\n` +
       `Purchased:         ${o.purchaseDate ? new Date(o.purchaseDate).toLocaleString() : "N/A"}\n\n`
     );
   });
@@ -92,6 +92,8 @@ const generateCsvContent = (orders) => {
     "Description",
     "EnrollmentDetails",
     "EnrollmentStatus",
+    "level",
+    "programs",
     "purchaseDate",
   ];
   

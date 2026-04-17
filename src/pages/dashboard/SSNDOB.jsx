@@ -39,6 +39,7 @@ function SSNDOB() {
   const [cs, setCs] = useState("");
   const [name, setName] = useState("");
   const [status, setStatus] = useState("");
+  const [level, setLevel] = useState("");
 
   const statusOptions = [
     { label: "Enrolled", value: "Enrolled" },
@@ -57,7 +58,7 @@ function SSNDOB() {
     return axios.get(
       `/ssn?page=${activePage}&perPage=${perPage}&base=${
         base?.id || ""
-      }&city=${city}&zip=${zip}&country=${country1}&dob=${minValue}&dobMax=${maxValue}&cs=${cs}&name=${name}&state=${state}&fStatus=${status}`,
+      }&city=${city}&zip=${zip}&country=${country1}&dob=${minValue}&dobMax=${maxValue}&cs=${cs}&name=${name}&state=${state}&fStatus=${status}&level=${level}`,
     );
   };
 
@@ -89,6 +90,7 @@ function SSNDOB() {
     maxValue,
     name,
     status,
+    level,
   ]);
 
   const getBases = () => axios.get(`/base`);
@@ -186,6 +188,7 @@ function SSNDOB() {
     set_minValue(1910);
     set_maxValue(currentYear);
     setStatus("");
+    setLevel("");
   };
 
   const darkSelectStyles = {
@@ -205,6 +208,13 @@ function SSNDOB() {
     singleValue: (base) => ({ ...base, color: "white" }),
     input: (base) => ({ ...base, color: "white" }),
   };
+
+  const levelOptions = [
+    { label: "College", value: "College" },
+    { label: "University", value: "University" },
+    { label: "University Withdrawn", value: "University Withdrawn" },
+    { label: "College Withdrawn", value: "College Withdrawn" },
+  ]
 
   return (
     <div className="space-y-6 pb-20">
@@ -308,6 +318,18 @@ function SSNDOB() {
                   placeholder="Search by name"
                 />
               </div>
+              {/* level dropdown select */}
+              <div className="space-y-1">
+                <label className="text-xs text-slate-400">Level</label>
+                <Select
+                  options={levelOptions}
+                  styles={darkSelectStyles}
+                  value={level}
+                  onChange={(opt) => setLevel(opt?.value)}
+                  placeholder="Select Level..."
+                />
+              </div>
+
 
               <div className="col-span-1 md:col-span-2 space-y-1">
                 <label className="text-xs text-slate-400 mb-2 block">

@@ -123,16 +123,13 @@ Happy dollar milling
 
 Account Login and Access Instructions
  1. Login Credentials
- • Log in using your email address and FSA ID password.
- 2. Login Verification
- • If the credentials you have are mail.tm–based, log in to the email account and retrieve the verification code sent to confirm the login activity.
- 3. Account Access Using Email Only
- • If you are provided with an email address only, proceed as follows:
- • Enter the email and password.
+ • Log in using your email/username and FSA ID password.
+ 2. Account Access Using Email/Username 
+ • Enter the email/username and password.
  • If you are provided with 2FA, visit 2FA on the sidebar or https://fullducks.com/2fa to get the code. By pasting the code, you will be able to access the account.
- • Immediately after submission, select "Help me access my account."
+ • If you are not provided with 2FA, immediately after submission, select "Help me access my account."
  • Use the recovery code to gain access to the account.
- 4. Post-Login Actions
+ 3. Post-Login Actions
  • Upon successful login:
  • Save the new backup/recovery code provided.
  • Add your own email address to the account for future access and security.`;
@@ -165,6 +162,8 @@ Account Login and Access Instructions
       content += `Description:       ${o.Description || "N/A"}\n`;
       content += `Enrollment Detail: ${o.EnrollmentDetails || "N/A"}\n`;
       content += `Enrollment Status: ${o.EnrollmentStatus || "N/A"}\n`;
+      content += `Level:             ${o.level || "N/A"}\n`;
+      content += `Programs:          ${o.programs || "N/A"}\n`;
       content += `Purchased:         ${o.purchaseDate ? new Date(o.purchaseDate).toLocaleString() : "N/A"}\n\n`;
     });
     return content;
@@ -203,6 +202,8 @@ Account Login and Access Instructions
       "EnrollmentDetails",
       "EnrollmentStatus",
       "purchaseDate",
+      "level",
+      "programs",
     ];
 
     let csv = headers.join(",") + "\n";
